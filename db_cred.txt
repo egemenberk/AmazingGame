@@ -1,0 +1,4 @@
+Address : 144.122.71.144:8084
+Database Name : db_group_17
+Username : group_17
+Password : EaAQqiefdyHV
