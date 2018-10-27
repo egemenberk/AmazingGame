@@ -1,8 +1,9 @@
 package com.ceng453.Server;
 
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
-
-public interface UserRepository extends CrudRepository<User, Integer> {
-
+@Repository
+public interface UserRepository extends CrudRepository<User, Integer>, UserRepositoryCustom {
 }
+

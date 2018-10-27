@@ -1,21 +1,26 @@
 package com.ceng453.Server;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import javax.persistence.*;
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Map;
 
 @Entity
 public class User {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
+    @Column(nullable=false,name="id")
     private Integer id;
-    @Column(nullable=false)
-    private String username;
-    @Column(nullable=false)
-    private String email;
-    @Column(nullable=false)
-    private String password_encrypted; // password that will be stored as encrypted
 
+    @Column(nullable=false,name="username")
+    private String username;
+
+    @Column(nullable=false,name="email")
+    private String email;
+
+    @Column(nullable=false,name="password_encrypted")
+    private String password_encrypted; // password that will be stored as encrypted
 
     public Integer getId() {
         return id;
@@ -47,15 +52,10 @@ public class User {
 
     public void setPassword_encrypted(String password_encrypted) {
         try {
-            MessageDigest message_digest = MessageDigest.getInstance("SHA");
-            byte[] digested_bytes = message_digest.digest(password_encrypted.getBytes());
-            StringBuffer hex_string = new StringBuffer();
-            for(int i=0; i<digested_bytes.length; i++){
-                hex_string.append(Integer.toHexString(0xff & digested_bytes[i]));
-            }
-            this.password_encrypted = hex_string.toString();
+            this.password_encrypted = EncryptionHelper.encrypt(password_encrypted);
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
     }
+
 }
