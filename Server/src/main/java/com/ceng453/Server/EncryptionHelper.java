@@ -2,6 +2,7 @@ package com.ceng453.Server;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.UUID;
 
 public class EncryptionHelper {
 
@@ -13,5 +14,10 @@ public class EncryptionHelper {
             hex_string.append(Integer.toHexString(0xff & digested_bytes[i]));
         }
         return hex_string.toString();
+    }
+
+    public static String generateToken() throws NoSuchAlgorithmException {
+        String uuid = UUID.randomUUID().toString();
+        return encrypt(uuid);
     }
 }

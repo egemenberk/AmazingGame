@@ -13,14 +13,17 @@ public class User {
     @Column(nullable=false,name="id")
     private Integer id;
 
-    @Column(nullable=false,name="username")
+    @Column(nullable=false,name="username", unique=true, length = 32)
     private String username;
 
-    @Column(nullable=false,name="email")
+    @Column(nullable=false,name="email", unique=true, length = 32)
     private String email;
 
     @Column(nullable=false,name="password_encrypted")
     private String password_encrypted; // password that will be stored as encrypted
+
+    @Column(name="token")
+    private String token; // password that will be stored as encrypted
 
     public Integer getId() {
         return id;
@@ -58,4 +61,11 @@ public class User {
         }
     }
 
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
 }

@@ -32,7 +32,6 @@ public class APIResponser {
 
     @GetMapping(path="/login")
     public String login(@RequestParam String username, @RequestParam String password) throws NoSuchAlgorithmException {
-
         return userRepository.authenticate( username, password ).toString();
     }
 }
