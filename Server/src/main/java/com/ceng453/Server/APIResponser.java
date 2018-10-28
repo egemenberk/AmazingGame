@@ -13,6 +13,8 @@ public class APIResponser {
     @Autowired
     private UserRepository userRepository;
 
+    private GameService gameService;
+
     @GetMapping(path="/add")
     public String addNewUser (@RequestParam String username, @RequestParam String email, @RequestParam String password) {
 
@@ -21,6 +23,12 @@ public class APIResponser {
         n.setEmail(email);
         n.setPassword_encrypted(password);
         userRepository.save(n);
+        return "Success";
+    }
+
+    @GetMapping(path="/start_game")
+    public String startNewGame() {
+        gameService.createNewInstance();
         return "Success";
     }
 
