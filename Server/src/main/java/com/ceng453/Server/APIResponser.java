@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.PostConstruct;
 import java.security.NoSuchAlgorithmException;
 
 
@@ -14,6 +15,11 @@ public class APIResponser {
     private UserRepository userRepository;
 
     private GameService gameService;
+
+    @PostConstruct
+    public void init() {
+        gameService = new GameService();
+    }
 
     @GetMapping(path="/add")
     public String addNewUser (@RequestParam String username, @RequestParam String email, @RequestParam String password) {
@@ -27,8 +33,9 @@ public class APIResponser {
     }
 
     @GetMapping(path="/start_game")
-    public String startNewGame() {
-        gameService.createNewInstance();
+    public String startNewGame(@RequestParam String token) {
+        if( userRepository.findByToken(token).size() > 0 )
+            gameService.CreateNewInstance( token );
         return "Success";
     }
 

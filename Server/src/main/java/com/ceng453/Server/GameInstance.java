@@ -1,4 +1,5 @@
 package com.ceng453.Server;
 
-public interface GameInstance extends Runnable {
+public interface GameInstance extends Runnable{
+    void StartGame();
 }
