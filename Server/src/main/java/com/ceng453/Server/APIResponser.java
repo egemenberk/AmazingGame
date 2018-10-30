@@ -1,5 +1,7 @@
 package com.ceng453.Server;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,9 +18,12 @@ public class APIResponser {
 
     private GameService gameService;
 
+    private Gson gson;
+
     @PostConstruct
     public void init() {
         gameService = new GameService();
+        gson = new GsonBuilder().create();
     }
 
     @GetMapping(path="/add")
@@ -29,14 +34,14 @@ public class APIResponser {
         n.setEmail(email);
         n.setPassword_encrypted(password);
         userRepository.save(n);
-        return "Success";
+        return gson.toJson("Success");
     }
 
     @GetMapping(path="/start_game")
     public String startNewGame(@RequestParam String token) {
         if( userRepository.findByToken(token).size() > 0 )
             gameService.CreateNewInstance( token );
-        return "Success";
+        return gson.toJson("Success");
     }
 
     @GetMapping(path="/all")
@@ -47,6 +52,6 @@ public class APIResponser {
 
     @GetMapping(path="/login")
     public String login(@RequestParam String username, @RequestParam String password) throws NoSuchAlgorithmException {
-        return userRepository.authenticate( username, password ).toString();
+        return gson.toJson( userRepository.authenticate( username, password ) );
     }
 }
