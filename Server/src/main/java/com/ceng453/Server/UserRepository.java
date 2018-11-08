@@ -1,12 +1,12 @@
 package com.ceng453.Server;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public interface UserRepository extends CrudRepository<User, Integer>, UserRepositoryCustom {
+public interface UserRepository extends JpaRepository<User, Integer>, UserRepositoryCustom {
 
     List<User> findByToken(String token);
 }

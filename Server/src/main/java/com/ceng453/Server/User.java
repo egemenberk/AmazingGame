@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 import java.security.NoSuchAlgorithmException;
-import java.util.Map;
 
 @Entity
 public class User {
