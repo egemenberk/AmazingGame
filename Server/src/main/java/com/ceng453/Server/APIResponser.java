@@ -12,7 +12,7 @@ import java.security.NoSuchAlgorithmException;
 
 
 @RestController
-public class APIResponser {
+public class APIResponser { // delete, login, get_board, use mappings other than get, test :(, documentation
     @Autowired
     private UserRepository userRepository;
 
