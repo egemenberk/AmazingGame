@@ -3,9 +3,7 @@ package com.ceng453.Server;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
 import java.security.NoSuchAlgorithmException;
@@ -26,20 +24,20 @@ public class APIResponser { // delete, login, get_board, use mappings other than
         gson = new GsonBuilder().create();
     }
 
-    @GetMapping(path="/add")
-    public String addNewUser (@RequestParam String username, @RequestParam String email, @RequestParam String password) {
+    @PostMapping(path="/signup")
+    public User addNewUser (@RequestBody User user) throws NoSuchAlgorithmException {
+        userRepository.save(user);
+        return user;
+    }
 
-        User n = new User();
-        n.setUsername(username);
-        n.setEmail(email);
-        n.setPassword_encrypted(password);
-        userRepository.save(n);
-        return gson.toJson("Success");
+    @DeleteMapping(path="/user")
+    public void deleteUser(@RequestBody User user) {
+       userRepository.deleteBySession(user.getSession());
     }
 
     @GetMapping(path="/start_game")
     public String startNewGame(@RequestParam String token) {
-        if( userRepository.findByToken(token).size() > 0 )
+        if( userRepository.findBySession(token).size() > 0 )
             gameService.CreateNewInstance( token );
         return gson.toJson("Success");
     }
