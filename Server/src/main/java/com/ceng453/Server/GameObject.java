@@ -1,9 +1,7 @@
 package com.ceng453.Server;
 
-import lombok.Getter;
 
 
-@Getter
 public abstract class GameObject extends Object{
     private int pos_x, pos_y;
     private int velocity_x, velocity_y;

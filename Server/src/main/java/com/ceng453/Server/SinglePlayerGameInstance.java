@@ -1,7 +1,5 @@
 package com.ceng453.Server;
 
-
-import javax.json.Json;
 import java.util.ArrayList;
 
 public class SinglePlayerGameInstance implements GameInstance {
@@ -57,7 +55,7 @@ public class SinglePlayerGameInstance implements GameInstance {
 
     private String serialize(){
         synchronized (responseGenerationLock) {
-            String responseAsJson = Json.createObjectBuilder().add("key", "value").build().toString();
+            String responseAsJson = "asd";//Json.createObjectBuilder().add("key", "value").build().toString();
 
             return responseAsJson;
         }
