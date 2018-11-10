@@ -34,10 +34,10 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
             return dictionary;
         }
 
-        if( result.getPassword_encrypted().equals( EncryptionHelper.encrypt(password) ) ) {
+        if( result.getPassword().equals( EncryptionHelper.encrypt(password) ) ) {
             String generated_token = EncryptionHelper.generateToken();
             User real_user = entityManager.getReference(User.class, result.getId());
-            real_user.setToken(generated_token);
+            real_user.setSession(generated_token);
             entityManager.merge(real_user);
             dictionary.put("Success", "1");
             dictionary.put("Token", generated_token);

@@ -8,6 +8,7 @@ import java.util.List;
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer>, UserRepositoryCustom {
 
-    List<User> findByToken(String token);
+    List<User> findBySession(String token);
+    void deleteBySession(String session);
 }
 

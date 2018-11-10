@@ -1,6 +1,5 @@
 package com.ceng453.Server;
 
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 import java.security.NoSuchAlgorithmException;
@@ -18,11 +17,19 @@ public class User {
     @Column(nullable=false,name="email", unique=true, length = 32)
     private String email;
 
-    @Column(nullable=false,name="password_encrypted")
-    private String password_encrypted; // password that will be stored as encrypted
+    @Column(nullable=false,name="password")
+    private String password; // password that will be stored as encrypted
 
-    @Column(name="token")
-    private String token; // password that will be stored as encrypted
+    @Column(name="sesion")
+    private String session; // password that will be stored as encrypted
+
+    public User() {}
+
+    public User(java.lang.String username, java.lang.String email, java.lang.String password) {
+        this.username = username;
+        this.email = email;
+        this.setPassword(password);
+    }
 
     public Integer getId() {
         return id;
@@ -48,23 +55,23 @@ public class User {
         this.email = email;
     }
 
-    public String getPassword_encrypted() {
-        return password_encrypted;
+    public String getPassword() {
+        return password;
     }
 
-    public void setPassword_encrypted(String password_encrypted) {
+    public void setPassword(String password) {
         try {
-            this.password_encrypted = EncryptionHelper.encrypt(password_encrypted);
+            this.password = EncryptionHelper.encrypt(password);
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
     }
 
-    public String getToken() {
-        return token;
+    public String getSession() {
+        return session;
     }
 
-    public void setToken(String token) {
-        this.token = token;
+    public void setSession(String session) {
+        this.session = session;
     }
 }
