@@ -1,8 +1,12 @@
 package com.ceng453.Server;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.security.NoSuchAlgorithmException;
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 public class User {
@@ -17,15 +21,26 @@ public class User {
     @Column(nullable=false,name="email", unique=true, length = 32)
     private String email;
 
-    @Column(nullable=false,name="password")
+    @Column(nullable=false,name="password_encrypted")
     private String password; // password that will be stored as encrypted
 
-    @Column(name="sesion")
+    @Column(name="sesion_id")
     private String session; // password that will be stored as encrypted
+
+    @Column
+    @CreationTimestamp
+    private LocalDateTime createDateTime;
+
+    @Column
+    @UpdateTimestamp
+    private LocalDateTime updateDateTime;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    private List<Score> scoreLogs;
 
     public User() {}
 
-    public User(java.lang.String username, java.lang.String email, java.lang.String password) {
+    public User(String username, String email, String password) {
         this.username = username;
         this.email = email;
         this.setPassword(password);

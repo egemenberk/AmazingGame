@@ -1,5 +1,6 @@
 package com.ceng453.Server;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.NoResultException;
@@ -13,6 +14,7 @@ import java.util.Map;
 
 @Transactional
 public class UserRepositoryCustomImpl implements UserRepositoryCustom {
+
 
     @PersistenceContext
     private EntityManager entityManager;
