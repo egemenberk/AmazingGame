@@ -15,6 +15,9 @@ public class APIResponser { // delete, login, get_board, use mappings other than
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private ScoreRepository scoreRepository;
+
     private GameService gameService;
 
     @PostConstruct
@@ -50,4 +53,12 @@ public class APIResponser { // delete, login, get_board, use mappings other than
     public Map<String, String> login(@RequestParam String username, @RequestParam String password) throws NoSuchAlgorithmException {
         return userRepository.authenticate( username, password );
     }
+
+    @GetMapping(path="/allscores")
+    public Iterable<Score> getAllScores() {
+        return scoreRepository.findAll();
+    }
+
+
+
 }
