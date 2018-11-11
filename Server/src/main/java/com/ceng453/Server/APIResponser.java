@@ -2,10 +2,13 @@ package com.ceng453.Server;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
 import java.security.NoSuchAlgorithmException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Map;
 
 
@@ -43,7 +46,7 @@ public class APIResponser { // delete, login, get_board, use mappings other than
         return "Good good";
     }
 
-    @GetMapping(path="/all")
+    @GetMapping(path="/allUsers")
     public Iterable<User> getAllUsers() {
         // This returns a JSON or XML with the users
         return userRepository.findAll();
@@ -54,11 +57,15 @@ public class APIResponser { // delete, login, get_board, use mappings other than
         return userRepository.authenticate( username, password );
     }
 
-    @GetMapping(path="/allscores")
+    @GetMapping(path="/allScores")
     public Iterable<Score> getAllScores() {
         return scoreRepository.findAll();
     }
 
+    @PostMapping(path="/score")
+    public Score addNewScore(@RequestBody Score score) {
+        return scoreRepository.save(score);
+    }
 
 
 }
