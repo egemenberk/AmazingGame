@@ -40,7 +40,7 @@ public class User {
     }
 
     // With orphanRemoval when we delete Score from the list It is deleted from database as well
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", orphanRemoval = true)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", orphanRemoval = true, cascade = CascadeType.PERSIST)
     private List<Score> scoreLogs;
 
     public User() {}
