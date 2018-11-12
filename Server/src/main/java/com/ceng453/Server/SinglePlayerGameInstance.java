@@ -21,7 +21,6 @@ public class SinglePlayerGameInstance implements GameInstance {
         workerThread = new Thread( this );
 
         currentGameCycle = 0;
-
     }
 
     @Override

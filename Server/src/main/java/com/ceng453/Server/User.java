@@ -35,7 +35,12 @@ public class User {
     @UpdateTimestamp
     private LocalDateTime updateDateTime;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    public LocalDateTime getCreateDateTime() {
+        return createDateTime;
+    }
+
+    // With orphanRemoval when we delete Score from the list It is deleted from database as well
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", orphanRemoval = true, cascade = CascadeType.PERSIST)
     private List<Score> scoreLogs;
 
     public User() {}
@@ -86,7 +91,24 @@ public class User {
         return session;
     }
 
+    public void setCreateDateTime(LocalDateTime createDateTime) {
+        this.createDateTime = createDateTime;
+    }
+
+    public LocalDateTime getUpdateDateTime() {
+        return updateDateTime;
+    }
+
+    public void setUpdateDateTime(LocalDateTime updateDateTime) {
+        this.updateDateTime = updateDateTime;
+    }
+
     public void setSession(String session) {
         this.session = session;
     }
+/*
+    public List<Score> getScoreLogs() {
+        return scoreLogs;
+    }
+*/
 }
