@@ -12,3 +12,6 @@ This repository will include the files of an interactive multiplayer video game 
 ##### Meeting agenda of our group(Might not be up to date):
 
 https://docs.google.com/document/d/1Yzq4HwFckbgsnHESoSFBUl5fOv8kAMfpTr2_BZCD3cg/edit?usp=sharing
+
+
+##### Postman collection is named as Ceng453.postman_collection.json !
