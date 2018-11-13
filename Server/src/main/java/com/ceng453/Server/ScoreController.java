@@ -1,9 +1,11 @@
 package com.ceng453.Server;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class ScoreController {
@@ -13,11 +15,8 @@ public class ScoreController {
 
     @Autowired
     private ScoreRepository scoreRepository;
-
-    @GetMapping(path="/allScores")
-    public Iterable<Score> getAllScores() {
-        return scoreRepository.findAll();
-    }
+    @Autowired
+    private UserRepository userRepository;
 
     @GetMapping(path="/userScores")
     public List<Score> getUserScores(@RequestBody User user) {
@@ -25,14 +24,30 @@ public class ScoreController {
     }
 
     @PostMapping(path="/score")
-    public Score addNewScore(@RequestBody Score score) {
-        // TODO Do we need to update the user's Score list ?
-       return scoreRepository.save(score);
+    public Score addNewScore(@RequestBody Map<String, String> payload) {
+        Score s = new Score();
+        s.setScore( Integer.parseInt(payload.get("score")) );
+        s.setUser( userRepository.findBySession( payload.get("token") ).get(0) );
+        return scoreRepository.save(s);
     }
 
-    @DeleteMapping(path="/score")
+    @GetMapping(path="/leaderboard/all_time")
+    public List<Map<String,String>> getAllTimeLeaders(){
+        return userRepository.getLeaderboardforAllTime();
+    }
+
+    @GetMapping(path="/leaderboard/7_days") // This can easily extendible to N days
+    public List<Map<String,String>> get7DaysLeaderboard(){
+        return userRepository.getLeaderboardfor7days();
+    }
+
+    @DeleteMapping(path="/score") // ONLY FOR DEBUG PURPOSES
     public void deleteScore(@RequestBody Score score ) {
-        // TODO Anyone can delete a score without being a user
         scoreRepository.deleteById(score.getScore_id());
+    }
+
+    @GetMapping(path="/allScores") // ONLY FOR DEBUG PURPOSES
+    public Iterable<Score> getAllScores() {
+        return scoreRepository.findAll();
     }
 }

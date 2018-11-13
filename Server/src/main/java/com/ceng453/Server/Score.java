@@ -65,4 +65,5 @@ public class Score {
     public void setScore(Integer score) {
         this.score = score;
     }
+
 }

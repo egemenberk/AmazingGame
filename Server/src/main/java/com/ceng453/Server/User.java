@@ -6,7 +6,9 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class User {
@@ -40,15 +42,26 @@ public class User {
     }
 
     // With orphanRemoval when we delete Score from the list It is deleted from database as well
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", orphanRemoval = true, cascade = CascadeType.PERSIST)
-    private List<Score> scoreLogs;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", orphanRemoval = true, cascade = CascadeType.ALL)
+    private Set<Score> scoreLogs = new HashSet<Score>();
 
-    public User() {}
+    public User() {
+        try {
+            this.session = EncryptionHelper.generateToken();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+    }
 
     public User(String username, String email, String password) {
         this.username = username;
         this.email = email;
         this.setPassword(password);
+        try {
+            this.session = EncryptionHelper.generateToken();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
     }
 
     public Integer getId() {
@@ -106,9 +119,4 @@ public class User {
     public void setSession(String session) {
         this.session = session;
     }
-/*
-    public List<Score> getScoreLogs() {
-        return scoreLogs;
-    }
-*/
 }

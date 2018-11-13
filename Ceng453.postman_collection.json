@@ -1,0 +1,265 @@
+{
+	"info": {
+		"_postman_id": "4315c43d-2f57-442e-9804-7e791e3d98a8",
+		"name": "Ceng453",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Register",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\":\"egemen\",\n\t\"password\":\"1234\",\n\t\"email\":\"egemenberkgalatali@gmail.com\"\n}"
+				},
+				"url": {
+					"raw": "localhost:8080/signup",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete User",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "\n    {\n        \"id\": 61,\n        \"username\": \"boncuk\",\n        \"email\": \"incik@gmail.com\",\n        \"password\": \"df73f0ae983b2e35de9c1a2a3728fc70\",\n        \"session\": null,\n        \"createDateTime\": \"2018-11-13T10:40:31\",\n        \"updateDateTime\": \"2018-11-13T11:07:15\"\n    }\n"
+				},
+				"url": {
+					"raw": "localhost:8080/user",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update User",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\":\"boncuk\",\n\t\"password\":\"panestennes\",\n\t\"email\":\"incik@gmail.com\",\n\t\"token\":\"639d961bbae533804094efc148725e\"\n}"
+				},
+				"url": {
+					"raw": "localhost:8080/user",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List All",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\":\"mmmeeedddsss\",\n\t\"password\":\"panestennes\",\n\t\"email\":\"mmmeeedddsss@gmail.com\"\n}"
+				},
+				"url": {
+					"raw": "localhost:8080/allUsers",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"allUsers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\":\"mmmeeedddsss\",\n\t\"password\":\"panestennes\"\n}"
+				},
+				"url": {
+					"raw": "localhost:8080/login",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "All Scores",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:8080/allScores",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"allScores"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Score",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"token\":\"639d961bbae533804094efc148725e\",\n\t\"score\":\"98765\"\n}"
+				},
+				"url": {
+					"raw": "localhost:8080/score",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"score"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "All Time Leaderboard",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\n}"
+				},
+				"url": {
+					"raw": "localhost:8080/leaderboard/all_time",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"leaderboard",
+						"all_time"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "7days Leaderboard",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\n}"
+				},
+				"url": {
+					"raw": "localhost:8080/leaderboard/7_days",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"leaderboard",
+						"7_days"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

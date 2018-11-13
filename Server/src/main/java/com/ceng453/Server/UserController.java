@@ -3,6 +3,7 @@ package com.ceng453.Server;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 
@@ -14,14 +15,22 @@ public class UserController {
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private ScoreRepository scoreRepository;
 
     @PostMapping(path="/signup")
-    public User addNewUser (@RequestBody User user) throws NoSuchAlgorithmException {
-        return userRepository.save(user);
+    public User addNewUser (@Valid @RequestBody User user) {
+        User u = userRepository.save(user);
+        // Adding an empty score entity for that user to be able to list him/her on leaderboards when score=0 too
+        Score s = new Score();
+        s.setUser(u);
+        s.setScore(0);
+        scoreRepository.save(s);
+        return u;
     }
 
     @DeleteMapping(path="/user")
-    public void deleteUser(@RequestBody User user) {
+    public void deleteUser(@Valid @RequestBody User user) {
        userRepository.deleteBySession(user.getSession());
     }
 
@@ -31,19 +40,20 @@ public class UserController {
         return userRepository.findAll();
     }
 
-    @GetMapping(path="/login")
-    public Map<String, String> login(@RequestParam String username, @RequestParam String password) throws NoSuchAlgorithmException {
-        return userRepository.authenticate( username, password );
+    @PostMapping(path="/login")
+    public Map<String, String> login( @RequestBody Map<String, String> payload) throws NoSuchAlgorithmException {
+        return userRepository.authenticate( payload.get("username"), payload.get("password") );
     }
 
-    /*
-    @GetMapping(path="/start_game")
-    public String startNewGame(@RequestParam String token) {
-        if( userRepository.findBySession(token).size() > 0 )
-            gameService.CreateNewInstance( token );
-        return "Good good";
-    }
-    */
+    @PutMapping("/user")
+    public User updateUser(@RequestBody Map<String, String> payload) throws NoSuchAlgorithmException {
 
+        User user = userRepository.findBySession(payload.get("token")).get(0);
+        user.setPassword( payload.get("password") );
+        user.setUsername( payload.get("username") );
+        user.setEmail( payload.get("email") );
+
+        return userRepository.save(user);
+    }
 
 }
