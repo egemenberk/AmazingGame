@@ -1,10 +1,14 @@
 package com.ceng453.Server;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -41,17 +45,43 @@ public class UserController {
     }
 
     @PostMapping(path="/login")
-    public Map<String, String> login( @RequestBody Map<String, String> payload) throws NoSuchAlgorithmException {
-        return userRepository.authenticate( payload.get("username"), payload.get("password") );
+    public Object/*Map<String, String>*/ login( @RequestBody Map<String, String> payload) throws NoSuchAlgorithmException {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/json; charset=utf-8");
+
+        if(payload.get("username") != null && payload.get("password") != null)
+            return userRepository.authenticate( payload.get("username"), payload.get("password") );
+        else
+            return new ResponseEntity<String>("You did not provide username or password" +
+                    " field, Please try again later", headers, HttpStatus.BAD_REQUEST);
     }
 
     @PutMapping("/user")
-    public User updateUser(@RequestBody Map<String, String> payload) throws NoSuchAlgorithmException {
+    public Object updateUser(@RequestBody Map<String, String> payload) throws NoSuchAlgorithmException {
 
-        User user = userRepository.findBySession(payload.get("token")).get(0);
-        user.setPassword( payload.get("password") );
-        user.setUsername( payload.get("username") );
-        user.setEmail( payload.get("email") );
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/json; charset=utf-8");
+
+        List<User> userList = userRepository.findBySession(payload.get("token"));
+
+        if(userList.size() == 0)
+            return new ResponseEntity<String>("Your token is wrong, Please try again later", headers, HttpStatus.BAD_REQUEST);
+
+        User user = userList.get(0);
+
+        if(payload.get("password") != null)
+            user.setPassword( payload.get("password") );
+        else
+            return new ResponseEntity<String>("You did not provide password field", headers, HttpStatus.BAD_REQUEST);
+
+        if(payload.get("username") != null)
+            user.setUsername( payload.get("username") );
+        else
+            return new ResponseEntity<>("You did not provide username field", HttpStatus.BAD_REQUEST);
+        if(payload.get("email") != null)
+            user.setEmail( payload.get("email") );
+        else
+            return new ResponseEntity<>("You did not provide email field", HttpStatus.BAD_REQUEST);
 
         return userRepository.save(user);
     }
