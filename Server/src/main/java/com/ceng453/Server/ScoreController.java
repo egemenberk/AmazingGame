@@ -1,7 +1,9 @@
 package com.ceng453.Server;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,10 +26,26 @@ public class ScoreController {
     }
 
     @PostMapping(path="/score")
-    public Score addNewScore(@RequestBody Map<String, String> payload) {
+    public Object addNewScore(@RequestBody Map<String, String> payload) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/json; charset=utf-8");
         Score s = new Score();
-        s.setScore( Integer.parseInt(payload.get("score")) );
-        s.setUser( userRepository.findBySession( payload.get("token") ).get(0) );
+
+        if(payload.get("score") != null)
+            s.setScore( Integer.parseInt(payload.get("score")) );
+        else
+            return new ResponseEntity<String>("Your score entity cannot be found", headers, HttpStatus.BAD_REQUEST);
+
+        if(payload.get("token") != null){
+            List<User> userList = userRepository.findBySession( payload.get("token") );
+            if(userList.size() == 0)
+                return new ResponseEntity<String>("Your token is incorrect, Please try again later", headers, HttpStatus.BAD_REQUEST);
+
+            s.setUser(userList.get(0));
+        }
+        else
+            return new ResponseEntity<String>("Your token entity cannot be found", headers, HttpStatus.BAD_REQUEST);
+
         return scoreRepository.save(s);
     }
 
