@@ -34,18 +34,25 @@ public class UserController {
     }
 
     @DeleteMapping(path="/user")
-    public void deleteUser(@Valid @RequestBody User user) {
-       userRepository.deleteBySession(user.getSession());
+    public Object deleteUser(@Valid @RequestBody User user) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/json; charset=utf-8");
+        List<User> userList = userRepository.findBySession(user.getSession());
+        if(userList.isEmpty())
+            return new ResponseEntity<String>("There is no such user, check Your token", headers, HttpStatus.BAD_REQUEST);
+
+        userRepository.deleteBySession(user.getSession());
+        return new ResponseEntity<String>("User with username: " + user.getUsername() + "is succesfully deleted", headers, HttpStatus.OK);
     }
 
-    @GetMapping(path="/allUsers")
+    @GetMapping(path="/allUsers") // ONLY FOR DEBUG PURPOSES
     public Iterable<User> getAllUsers() {
         // This returns a JSON or XML with the users
         return userRepository.findAll();
     }
 
     @PostMapping(path="/login")
-    public Object/*Map<String, String>*/ login( @RequestBody Map<String, String> payload) throws NoSuchAlgorithmException {
+    public Object login( @RequestBody Map<String, String> payload) throws NoSuchAlgorithmException {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json; charset=utf-8");
 
