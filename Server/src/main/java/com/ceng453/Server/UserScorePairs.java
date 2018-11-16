@@ -1,5 +1,9 @@
 package com.ceng453.Server;
 
+
+/*
+ * A class for converting Leaderboard raw data to an object which will be serialized to json
+ */
 public class UserScorePairs{
 
     String user_id,username,score;

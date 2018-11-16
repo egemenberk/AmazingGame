@@ -24,10 +24,11 @@ public class Score {
     private LocalDateTime createDateTime;
 
     @Column(nullable=false,name="score")
-    private Integer score; // password that will be stored as encrypted
+    private Integer score;
 
     public Score() {}
 
+    // Constructor for contructing a score instance from @Requestbody data
     public Score(User user, LocalDateTime createDateTime, Integer score) {
         this.user = user;
         this.createDateTime = createDateTime;

@@ -20,11 +20,10 @@ public class ScoreController {
     @Autowired
     private UserRepository userRepository;
 
-    @GetMapping(path="/userScores")
-    public List<Score> getUserScores(@RequestBody User user) {
-        return scoreRepository.findByUser(user);
-    }
-
+    /*
+     * A method that adds score log to the db
+     * Will be called by frontend for reporting gained scores
+     */
     @PostMapping(path="/score")
     public Object addNewScore(@RequestBody Map<String, String> payload) {
         HttpHeaders headers = new HttpHeaders();
@@ -49,11 +48,17 @@ public class ScoreController {
         return scoreRepository.save(s);
     }
 
+    /*
+     * An endpoint for getting the leaderboard data for all time
+     */
     @GetMapping(path="/leaderboard/all_time")
     public List<Map<String,String>> getAllTimeLeaders(){
         return userRepository.getLeaderboardforAllTime();
     }
 
+    /*
+     * An endpoint for getting the leaderboard data for past 7 days
+     */
     @GetMapping(path="/leaderboard/7_days") // This can easily extendible to N days
     public List<Map<String,String>> get7DaysLeaderboard(){
         return userRepository.getLeaderboardfor7days();
@@ -68,6 +73,7 @@ public class ScoreController {
         if(scoresList.isEmpty())
             return new ResponseEntity<String>("There is no such score", headers, HttpStatus.BAD_REQUEST);
 
+
         scoreRepository.deleteById(score.getScore_id());
         return new ResponseEntity<String>("Score with Id: " + score.getScore_id() + "is succesfully deleted", headers, HttpStatus.OK);
     }
@@ -75,5 +81,14 @@ public class ScoreController {
     @GetMapping(path="/allScores") // ONLY FOR DEBUG PURPOSES
     public Iterable<Score> getAllScores() {
         return scoreRepository.findAll();
+    }
+
+    /*
+     * An endpoint that returns all hşstory of gathered points of user
+     * Will probably used for debug purposes
+     */
+    @GetMapping(path="/userScores")
+    public List<Score> getUserScores(@RequestBody User user) {
+        return scoreRepository.findByUser(user);
     }
 }

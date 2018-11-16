@@ -22,6 +22,10 @@ public class UserController {
     @Autowired
     private ScoreRepository scoreRepository;
 
+    /*
+     * A method for saving a new user to the db,
+     * Will be called by frontend when creating a new user
+     */
     @PostMapping(path="/signup")
     public User addNewUser (@Valid @RequestBody User user) {
         User u = userRepository.save(user);
@@ -33,6 +37,11 @@ public class UserController {
         return u;
     }
 
+    /*
+     * A method for deleting an existing user from the db,
+     * Will be called by frontend when deleting an existing user
+     * Authentication will be done using session_token
+     */
     @DeleteMapping(path="/user")
     public Object deleteUser(@Valid @RequestBody User user) {
         HttpHeaders headers = new HttpHeaders();
@@ -45,12 +54,11 @@ public class UserController {
         return new ResponseEntity<String>("User with username: " + user.getUsername() + "is succesfully deleted", headers, HttpStatus.OK);
     }
 
-    @GetMapping(path="/allUsers") // ONLY FOR DEBUG PURPOSES
-    public Iterable<User> getAllUsers() {
-        // This returns a JSON or XML with the users
-        return userRepository.findAll();
-    }
-
+    /*
+     * A method for user to login. Login operation will generate a session_token
+     * for the user, which will be used as identifier for that user on every other operations
+     * until the user is logged again
+     */
     @PostMapping(path="/login")
     public Object login( @RequestBody Map<String, String> payload) throws NoSuchAlgorithmException {
         HttpHeaders headers = new HttpHeaders();
@@ -63,6 +71,11 @@ public class UserController {
                     " field, Please try again later", headers, HttpStatus.BAD_REQUEST);
     }
 
+    /*
+     * A method for updating an existing user on the db,
+     * Will be called by frontend when updating an existing user
+     * Authentication will be done using session_token
+     */
     @PutMapping("/user")
     public Object updateUser(@RequestBody Map<String, String> payload) throws NoSuchAlgorithmException {
 
@@ -76,21 +89,22 @@ public class UserController {
 
         User user = userList.get(0);
 
+        // Dont raise an error, user might want not to change every field of its
         if(payload.get("password") != null)
             user.setPassword( payload.get("password") );
-        else
-            return new ResponseEntity<String>("You did not provide password field", headers, HttpStatus.BAD_REQUEST);
-
         if(payload.get("username") != null)
             user.setUsername( payload.get("username") );
-        else
-            return new ResponseEntity<>("You did not provide username field", HttpStatus.BAD_REQUEST);
         if(payload.get("email") != null)
             user.setEmail( payload.get("email") );
-        else
-            return new ResponseEntity<>("You did not provide email field", HttpStatus.BAD_REQUEST);
 
         return userRepository.save(user);
+    }
+
+    // ONLY FOR DEBUG PURPOSES
+    @GetMapping(path="/allUsers")
+    public Iterable<User> getAllUsers() {
+        // This returns a JSON or XML with the users
+        return userRepository.findAll();
     }
 
 }

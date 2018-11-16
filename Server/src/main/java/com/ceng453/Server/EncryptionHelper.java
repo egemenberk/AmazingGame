@@ -6,6 +6,9 @@ import java.util.UUID;
 
 public class EncryptionHelper {
 
+    /*
+     * Standart encrpytion method, for storing user password in hashed form.
+     */
     public static String encrypt( String s ) throws NoSuchAlgorithmException {
         MessageDigest message_digest = MessageDigest.getInstance("MD5");
         byte[] digested_bytes = message_digest.digest(s.getBytes());
@@ -16,6 +19,9 @@ public class EncryptionHelper {
         return hex_string.toString();
     }
 
+    /*
+     * A random token generator code, for generation session_tokens for users
+     */
     public static String generateToken() throws NoSuchAlgorithmException {
         String uuid = UUID.randomUUID().toString();
         return encrypt(uuid);

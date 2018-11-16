@@ -7,7 +7,6 @@ import javax.persistence.*;
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDateTime;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -24,11 +23,11 @@ public class User {
     private String email;
 
     @Column(nullable=false,name="password_encrypted")
-    private String password; // password that will be stored as encrypted
+    private String password; // password that will be stored as encrypted string
 
     @Column(name="sesion_id")
-    private String session; // password that will be stored as encrypted
-
+    private String session; // a session_token, randomlu generated per new login.
+                            // Authotantication will be done using this token in every user based request
     @Column
     @CreationTimestamp
     private LocalDateTime createDateTime;
@@ -37,14 +36,12 @@ public class User {
     @UpdateTimestamp
     private LocalDateTime updateDateTime;
 
-    public LocalDateTime getCreateDateTime() {
-        return createDateTime;
-    }
-
     // With orphanRemoval when we delete Score from the list It is deleted from database as well
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", orphanRemoval = true, cascade = CascadeType.ALL)
     private Set<Score> scoreLogs = new HashSet<Score>();
 
+    // Empty constructor, to create a token for newly registering users.
+    // Other attributes will be set from UserController
     public User() {
         try {
             this.session = EncryptionHelper.generateToken();
@@ -53,12 +50,22 @@ public class User {
         }
     }
 
+    // Constructor for contructing an user instance from @Requestbody data
     public User(String username, String email, String password) {
         this.username = username;
         this.email = email;
         this.setPassword(password);
         try {
             this.session = EncryptionHelper.generateToken();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Custom setter for password to set user's password as encrypted
+    public void setPassword(String password) {
+        try {
+            this.password = EncryptionHelper.encrypt(password);
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
@@ -92,14 +99,6 @@ public class User {
         return password;
     }
 
-    public void setPassword(String password) {
-        try {
-            this.password = EncryptionHelper.encrypt(password);
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-    }
-
     public String getSession() {
         return session;
     }
@@ -118,5 +117,9 @@ public class User {
 
     public void setSession(String session) {
         this.session = session;
+    }
+
+    public LocalDateTime getCreateDateTime() {
+        return createDateTime;
     }
 }
