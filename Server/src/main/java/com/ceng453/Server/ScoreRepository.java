@@ -8,5 +8,4 @@ import java.util.List;
 @Repository
 public interface ScoreRepository extends JpaRepository<Score, Integer> {
     List<Score> findByUser(User user);
-
 }

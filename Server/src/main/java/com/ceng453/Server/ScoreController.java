@@ -59,9 +59,17 @@ public class ScoreController {
         return userRepository.getLeaderboardfor7days();
     }
 
-    @DeleteMapping(path="/score") // ONLY FOR DEBUG PURPOSES
-    public void deleteScore(@RequestBody Score score ) {
+    @DeleteMapping(path="/score") // ONLY FOR DEBUG PURPOSES User cannot delete its score
+    public Object deleteScore(@RequestBody Score score ) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/json; charset=utf-8");
+
+        List<Score> scoresList = scoreRepository.findByUser(score.getUser());
+        if(scoresList.isEmpty())
+            return new ResponseEntity<String>("There is no such score", headers, HttpStatus.BAD_REQUEST);
+
         scoreRepository.deleteById(score.getScore_id());
+        return new ResponseEntity<String>("Score with Id: " + score.getScore_id() + "is succesfully deleted", headers, HttpStatus.OK);
     }
 
     @GetMapping(path="/allScores") // ONLY FOR DEBUG PURPOSES
