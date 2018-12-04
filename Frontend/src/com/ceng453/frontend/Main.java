@@ -1,36 +1,25 @@
 package com.ceng453.frontend;
 
 import javafx.animation.AnimationTimer;
-import javafx.animation.RotateTransition;
-import javafx.animation.TranslateTransition;
 import javafx.application.Application;
 import javafx.event.EventHandler;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.*;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.Collection;
 import java.util.LinkedList;
-import java.util.List;
 
 public class Main extends Application {
 
     Collection<GameObject> alienShips;
+    GameObject userShip;
 
     @Override
     public void init() throws Exception {
@@ -38,18 +27,30 @@ public class Main extends Application {
         alienShips = new LinkedList<>();
     }
 
-    public void generateAliens(Group root) throws FileNotFoundException {
+    private FileInputStream getResourceFromAssets( String filename ) throws FileNotFoundException {
+        System.out.println(System.getProperty("user.dir") + "/assets/" + filename);
+        return new FileInputStream(System.getProperty("user.dir") + "/assets/" + filename);
+    }
+
+    public void generateAliens() throws FileNotFoundException {
         //Creating an image
-        Image image = new Image(new FileInputStream(System.getProperty("user.dir") + "/assets/alien4.png"));
+        Image image = new Image(getResourceFromAssets("alien4.png"));
 
         for( int i=0; i<9; i++ )
         {
-            EasyEnemy alienShip = new EasyEnemy(image, 50,130);
-            alienShip.initialize(i,2,2);
-            alienShip.setPosition(150*(i%3+1),130*(i/3+1));
+            EasyEnemy alienShip = new EasyEnemy(image, 50,80);
+            alienShip.initialize(i+1,2,2);
+            alienShip.setPosition(50 +150*(i%3),50+130*(i/3));
 
             alienShips.add(alienShip);
         }
+    }
+
+    public void generateUserShip() throws FileNotFoundException {
+        Image image = new Image(getResourceFromAssets("user_ship_5sided.png"));
+        userShip = new EasyEnemy(image, 100,100);
+        userShip.initialize(0,2,2);
+        userShip.setPosition(500,250);
     }
 
     @Override
@@ -63,9 +64,17 @@ public class Main extends Application {
         stage.setScene(scene);
 
 
+        canvas.setOnMouseMoved(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                userShip.setPosition( mouseEvent.getX()-userShip.getWidth()/2, mouseEvent.getY()-userShip.getHeight()/2 );
+            }
+        });
+
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
-        generateAliens(root);
+        generateAliens();
+        generateUserShip();
 
         final long[] outsideWorldData = {System.nanoTime(), 0L}; // Make a class or something xd
         new AnimationTimer()
@@ -80,7 +89,7 @@ public class Main extends Application {
 
                 update(elapsedTime, outsideWorldData[1]);
 
-                colision_detection();
+                collision_detection();
 
                 // render
 
@@ -95,11 +104,14 @@ public class Main extends Application {
 
     private void draw(GraphicsContext gc) {
         gc.clearRect(0, 0, 800,600);
+
+        userShip.render(gc);
+
         for( GameObject alien : alienShips )
             alien.render(gc);
     }
 
-    private void colision_detection() {
+    private void collision_detection() {
 
     }
 

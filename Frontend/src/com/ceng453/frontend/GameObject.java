@@ -11,8 +11,16 @@ public interface GameObject{
     // Returns a game object in case it generates a thing, like a bullet or another ship
     GameObject update(double elapsedTime, long currentCycleNumber );
 
-    void setPosition( int x, int y );
+    void setPosition( double x, double y );
 
     void render( GraphicsContext context );
+
+    int getWidth();
+
+    int getHeight();
+
+    double getX();
+
+    double getY();
 
 }

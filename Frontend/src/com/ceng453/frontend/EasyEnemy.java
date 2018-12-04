@@ -35,7 +35,7 @@ public class EasyEnemy implements GameObject {
     }
 
     @Override
-    public void setPosition(int x, int y) {
+    public void setPosition(double x, double y) {
         this.pos_x = x;
         this.pos_y = y;
     }
@@ -43,6 +43,26 @@ public class EasyEnemy implements GameObject {
     @Override
     public void render(GraphicsContext context) {
         context.drawImage( sprite, pos_x, pos_y, width, height );
+    }
+
+    @Override
+    public int getWidth() {
+        return width;
+    }
+
+    @Override
+    public int getHeight() {
+        return height;
+    }
+
+    @Override
+    public double getX() {
+        return pos_x;
+    }
+
+    @Override
+    public double getY() {
+        return pos_y;
     }
 
     @Override
