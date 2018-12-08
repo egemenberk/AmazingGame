@@ -1,26 +1,95 @@
 package com.ceng453.frontend;
 
-
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 
-public interface GameObject{
+public abstract class GameObject {
 
-    // Init method
-    void initialize( int id, int hitPointsLeft, int damage );
+    private double pos_x, pos_y;
+    private double velocity_x, velocity_y;
+    private int id;
+    private int hitPointsLeft;
+    private int damage;
+    private int width, height;
 
-    // Returns a game object in case it generates a thing, like a bullet or another ship
-    GameObject update(double elapsedTime, long currentCycleNumber );
+    private Image sprite;
 
-    void setPosition( double x, double y );
+    public GameObject(Image sprite, int width, int height) {
+        this.sprite = sprite;
+        this.pos_x = 0;
+        this.pos_y = 0;
+        this.velocity_x = 0;
+        this.velocity_y = 0;
+        this.id = 0;
+        this.hitPointsLeft = 0;
+        this.damage = 0;
+        this.width = width;
+        this.height = height;
+    }
 
-    void render( GraphicsContext context );
+    public void initialize( int id, int hitPointsLeft, int damage ) {
+        this.id = id;
+        this.hitPointsLeft = hitPointsLeft;
+        this.damage = damage;
+    }
 
-    int getWidth();
+    public void setPosition(double x, double y) {
+        this.pos_x = x;
+        this.pos_y = y;
+    }
 
-    int getHeight();
+    public void render(GraphicsContext context) {
+        context.drawImage( sprite, pos_x, pos_y, width, height );
+    }
 
-    double getX();
+    public int getWidth() {
+        return width;
+    }
 
-    double getY();
+    public int getHeight() {
+        return height;
+    }
 
+    public abstract GameObject update(double elapsedTime, long currentCycleNumber);
+
+
+    public double getPositionX() {
+        return pos_x;
+    }
+
+    public void setPositionX(double pos_x) {
+        this.pos_x = pos_x;
+    }
+
+    public double getPositionY() {
+        return pos_y;
+    }
+
+    public void setPositionY(double pos_y) {
+        this.pos_y = pos_y;
+    }
+
+    public double getVelocityX() {
+        return velocity_x;
+    }
+
+    public void setVelocityX(double velocity_x) {
+        this.velocity_x = velocity_x;
+    }
+
+    public double getVelocityY() {
+        return velocity_y;
+    }
+
+    public void setVelocityY(double velocity_y) {
+        this.velocity_y = velocity_y;
+    }
+
+    public int getHitPointsLeft() {
+        return hitPointsLeft;
+    }
+
+    public void setHitPointsLeft(int hitPointsLeft) {
+        this.hitPointsLeft = hitPointsLeft;
+    }
 }

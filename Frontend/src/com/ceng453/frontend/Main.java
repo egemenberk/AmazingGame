@@ -18,6 +18,13 @@ import java.util.LinkedList;
 
 public class Main extends Application {
 
+    final int ScreenWidth = 600;
+    final int ScreenHeight = 1000;
+
+    double lastMousePositionX = 500;
+    double lastMousePositionY = 500;
+
+
     Collection<GameObject> alienShips;
     GameObject userShip;
 
@@ -35,12 +42,16 @@ public class Main extends Application {
     public void generateAliens() throws FileNotFoundException {
         //Creating an image
         Image image = new Image(getResourceFromAssets("alien4.png"));
+        int OffsetX = 50, OffsetY = 30;
+        int StepX = 60, StepY = 100;
+        int alienCountInRow = 9;
+        int rowCount = 3;
 
-        for( int i=0; i<9; i++ )
+        for( int i=0; i<alienCountInRow*rowCount; i++ )
         {
-            EasyEnemy alienShip = new EasyEnemy(image, 50,80);
+            EasyEnemyShip alienShip = new EasyEnemyShip(image, 40,70);
             alienShip.initialize(i+1,2,2);
-            alienShip.setPosition(50 +150*(i%3),50+130*(i/3));
+            alienShip.setPosition(OffsetX + StepX*(i%alienCountInRow),OffsetY+StepY*(i/alienCountInRow));
 
             alienShips.add(alienShip);
         }
@@ -48,9 +59,10 @@ public class Main extends Application {
 
     public void generateUserShip() throws FileNotFoundException {
         Image image = new Image(getResourceFromAssets("user_ship_5sided.png"));
-        userShip = new EasyEnemy(image, 100,100);
+        int userShipWidth = 100, userShipHeight = 100;
+        userShip = new UserShip(image, userShipWidth,userShipHeight);
         userShip.initialize(0,2,2);
-        userShip.setPosition(500,250);
+        userShip.setPosition(200,2*ScreenHeight/3 );
     }
 
     @Override
@@ -58,8 +70,8 @@ public class Main extends Application {
         stage.setTitle("Game Level 1");
 
         Group root = new Group();
-        Scene scene = new Scene(root, 800, 600);
-        Canvas canvas = new Canvas( 800, 600 );
+        Scene scene = new Scene(root, ScreenWidth, ScreenHeight);
+        Canvas canvas = new Canvas( ScreenWidth, ScreenHeight);
         root.getChildren().add(canvas);
         stage.setScene(scene);
 
@@ -67,7 +79,9 @@ public class Main extends Application {
         canvas.setOnMouseMoved(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                userShip.setPosition( mouseEvent.getX()-userShip.getWidth()/2, mouseEvent.getY()-userShip.getHeight()/2 );
+                lastMousePositionX = mouseEvent.getX();
+                lastMousePositionY = mouseEvent.getY() > 3*ScreenHeight/5.0? mouseEvent.getY() : 3*ScreenHeight/5.0;
+                //userShip.setPosition( mouseEvent.getX()-userShip.getWidth()/2, mouseEvent.getY() > 2*ScreenHeight/3? mouseEvent.getY()-userShip.getHeight()/2 : 600   );
             }
         });
 
@@ -76,7 +90,8 @@ public class Main extends Application {
         generateAliens();
         generateUserShip();
 
-        final long[] outsideWorldData = {System.nanoTime(), 0L}; // Make a class or something xd
+        final long[] outsideWorldData = {System.nanoTime(), 0L}; // TODO Make a class or something xd
+
         new AnimationTimer()
         {
             public void handle(long currentNanoTime)
@@ -91,8 +106,6 @@ public class Main extends Application {
 
                 collision_detection();
 
-                // render
-
                 draw(gc);
 
                 outsideWorldData[1]++;
@@ -103,7 +116,7 @@ public class Main extends Application {
     }
 
     private void draw(GraphicsContext gc) {
-        gc.clearRect(0, 0, 800,600);
+        gc.clearRect(0, 0, ScreenWidth,ScreenHeight);
 
         userShip.render(gc);
 
@@ -116,12 +129,16 @@ public class Main extends Application {
     }
 
     private void update(double elapsedTime, long cycleCount) {
+
+        userShip.update(elapsedTime, cycleCount);
+
         for( GameObject alien : alienShips )
             alien.update( elapsedTime, cycleCount );
     }
 
     private void process_input() {
-
+        userShip.setVelocityX( -5*(userShip.getPositionX() - lastMousePositionX+userShip.getWidth()/2 ) );
+        userShip.setVelocityY( -5*(userShip.getPositionY() - lastMousePositionY+userShip.getHeight()/2 ) );
     }
 
 
