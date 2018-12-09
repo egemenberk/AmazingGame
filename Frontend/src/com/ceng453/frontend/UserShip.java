@@ -14,4 +14,8 @@ public class UserShip extends GameObject {
         setPositionY( getVelocityY()*elapsedTime + getPositionY() );
         return null;
     }
+
+    public GameObject shoot(){
+        return new UserBullet(getPositionX() + getWidth()/2, getPositionY());
+    }
 }

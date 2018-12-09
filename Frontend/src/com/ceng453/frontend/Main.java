@@ -18,30 +18,23 @@ import java.util.LinkedList;
 
 public class Main extends Application {
 
-    final int ScreenWidth = 600;
-    final int ScreenHeight = 1000;
-
     double lastMousePositionX = 500;
     double lastMousePositionY = 500;
 
 
     Collection<GameObject> alienShips;
-    GameObject userShip;
+    Collection<GameObject> bullets;
+    UserShip userShip;
 
     @Override
     public void init() throws Exception {
         super.init();
         alienShips = new LinkedList<>();
-    }
-
-    private FileInputStream getResourceFromAssets( String filename ) throws FileNotFoundException {
-        System.out.println(System.getProperty("user.dir") + "/assets/" + filename);
-        return new FileInputStream(System.getProperty("user.dir") + "/assets/" + filename);
+        bullets = new LinkedList<>();
     }
 
     public void generateAliens() throws FileNotFoundException {
         //Creating an image
-        Image image = new Image(getResourceFromAssets("alien4.png"));
         int OffsetX = 50, OffsetY = 30;
         int StepX = 60, StepY = 100;
         int alienCountInRow = 9;
@@ -49,7 +42,7 @@ public class Main extends Application {
 
         for( int i=0; i<alienCountInRow*rowCount; i++ )
         {
-            EasyEnemyShip alienShip = new EasyEnemyShip(image, 40,70);
+            EasyEnemyShip alienShip = new EasyEnemyShip(ApplicationConstants.AlienShipImage, 40,70);
             alienShip.initialize(i+1,2,2);
             alienShip.setPosition(OffsetX + StepX*(i%alienCountInRow),OffsetY+StepY*(i/alienCountInRow));
 
@@ -58,11 +51,10 @@ public class Main extends Application {
     }
 
     public void generateUserShip() throws FileNotFoundException {
-        Image image = new Image(getResourceFromAssets("user_ship_5sided.png"));
         int userShipWidth = 100, userShipHeight = 100;
-        userShip = new UserShip(image, userShipWidth,userShipHeight);
+        userShip = new UserShip(ApplicationConstants.UserShipImage, userShipWidth,userShipHeight);
         userShip.initialize(0,2,2);
-        userShip.setPosition(200,2*ScreenHeight/3 );
+        userShip.setPosition(200,2*ApplicationConstants.ScreenHeight/3 );
     }
 
     @Override
@@ -70,8 +62,8 @@ public class Main extends Application {
         stage.setTitle("Game Level 1");
 
         Group root = new Group();
-        Scene scene = new Scene(root, ScreenWidth, ScreenHeight);
-        Canvas canvas = new Canvas( ScreenWidth, ScreenHeight);
+        Scene scene = new Scene(root, ApplicationConstants.ScreenWidth, ApplicationConstants.ScreenHeight);
+        Canvas canvas = new Canvas( ApplicationConstants.ScreenWidth, ApplicationConstants.ScreenHeight);
         root.getChildren().add(canvas);
         stage.setScene(scene);
 
@@ -80,8 +72,17 @@ public class Main extends Application {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 lastMousePositionX = mouseEvent.getX();
-                lastMousePositionY = mouseEvent.getY() > 3*ScreenHeight/5.0? mouseEvent.getY() : 3*ScreenHeight/5.0;
+                lastMousePositionY = mouseEvent.getY() > 3*ApplicationConstants.ScreenHeight/5.0? mouseEvent.getY() : 3*ApplicationConstants.ScreenHeight/5.0;
                 //userShip.setPosition( mouseEvent.getX()-userShip.getWidth()/2, mouseEvent.getY() > 2*ScreenHeight/3? mouseEvent.getY()-userShip.getHeight()/2 : 600   );
+            }
+        });
+
+        canvas.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                bullets.add(userShip.shoot());
+
+                System.out.println(bullets.size());
             }
         });
 
@@ -116,16 +117,24 @@ public class Main extends Application {
     }
 
     private void draw(GraphicsContext gc) {
-        gc.clearRect(0, 0, ScreenWidth,ScreenHeight);
+        gc.drawImage(ApplicationConstants.BackGroundImage, 0,0, ApplicationConstants.ScreenWidth, ApplicationConstants.ScreenHeight);
 
         userShip.render(gc);
 
         for( GameObject alien : alienShips )
             alien.render(gc);
+
+        for( GameObject bullet : bullets )
+            bullet.render(gc);
     }
 
     private void collision_detection() {
-
+        for( GameObject alienShip : alienShips )
+            for( GameObject bullet: bullets  )
+                if( StaticHelpers.intersects( alienShip, bullet ) )
+                {
+                    alienShip.setHitBy( bullet );
+                }
     }
 
     private void update(double elapsedTime, long cycleCount) {
@@ -134,6 +143,9 @@ public class Main extends Application {
 
         for( GameObject alien : alienShips )
             alien.update( elapsedTime, cycleCount );
+
+        for( GameObject bullet : bullets )
+            bullet.update(elapsedTime,cycleCount);
     }
 
     private void process_input() {
