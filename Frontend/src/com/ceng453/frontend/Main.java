@@ -55,7 +55,7 @@ public class Main extends Application {
     public void generateUserShip() throws FileNotFoundException {
         int userShipWidth = 100, userShipHeight = 100;
         userShip = new UserShip(ApplicationConstants.UserShipImage, userShipWidth,userShipHeight);
-        userShip.initialize(3,2);
+        userShip.initialize(30,2);
         userShip.setPosition(200,2*ApplicationConstants.ScreenHeight/3 );
     }
 
