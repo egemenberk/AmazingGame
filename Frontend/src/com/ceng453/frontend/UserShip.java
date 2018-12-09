@@ -16,6 +16,8 @@ public class UserShip extends GameObject {
     }
 
     public GameObject shoot(){
-        return new UserBullet(getPositionX() + getWidth()/2, getPositionY());
+        Bullet bullet = BulletFactory.create(Bullet.UserBullet, getDamage());
+        bullet.setPosition(getPositionX() + getWidth() / 2.0, getPositionY());
+        return bullet;
     }
 }

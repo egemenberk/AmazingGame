@@ -11,6 +11,7 @@ public abstract class GameObject {
     private int hitPointsLeft;
     private int damage;
     private int width, height;
+    private boolean isCleared;
 
     private Image sprite;
 
@@ -25,12 +26,23 @@ public abstract class GameObject {
         this.damage = 0;
         this.width = width;
         this.height = height;
+        this.isCleared = false;
     }
 
-    public void initialize( int id, int hitPointsLeft, int damage ) {
-        this.id = id;
+    public void initialize( int hitPointsLeft, int damage ) {
         this.hitPointsLeft = hitPointsLeft;
         this.damage = damage;
+    }
+
+    public GameObject hitBy(GameObject hitter )
+    {
+        hitPointsLeft -= hitter.getDamage();
+        hitter.setCleared(true);
+        if( hitPointsLeft <= 0 ) {
+            isCleared = true;
+            return EffectFactory.create(this instanceof Bullet?Effect.BulletExplosion:Effect.ShipExplosion, getPositionX()+getWidth()/2.0,getPositionY()+getWidth()/2.0);
+        }
+        return null;
     }
 
     public void setPosition(double x, double y) {
@@ -51,7 +63,6 @@ public abstract class GameObject {
     }
 
     public abstract GameObject update(double elapsedTime, long currentCycleNumber);
-
 
     public double getPositionX() {
         return pos_x;
@@ -91,5 +102,17 @@ public abstract class GameObject {
 
     public void setHitPointsLeft(int hitPointsLeft) {
         this.hitPointsLeft = hitPointsLeft;
+    }
+
+    public boolean isCleared() {
+        return isCleared;
+    }
+
+    public void setCleared(boolean cleared) {
+        isCleared = cleared;
+    }
+
+    public int getDamage() {
+        return damage;
     }
 }

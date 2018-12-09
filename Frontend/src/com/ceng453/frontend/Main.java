@@ -7,11 +7,9 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.Collection;
 import java.util.LinkedList;
@@ -22,15 +20,19 @@ public class Main extends Application {
     double lastMousePositionY = 500;
 
 
+    Collection<GameObject> effects;
     Collection<GameObject> alienShips;
-    Collection<GameObject> bullets;
+    Collection<GameObject> userBullets;
+    Collection<GameObject> alienBullets;
     UserShip userShip;
 
     @Override
     public void init() throws Exception {
         super.init();
         alienShips = new LinkedList<>();
-        bullets = new LinkedList<>();
+        userBullets = new LinkedList<>();
+        effects = new LinkedList<>();
+        alienBullets = new LinkedList<>();
     }
 
     public void generateAliens() throws FileNotFoundException {
@@ -43,7 +45,7 @@ public class Main extends Application {
         for( int i=0; i<alienCountInRow*rowCount; i++ )
         {
             EasyEnemyShip alienShip = new EasyEnemyShip(ApplicationConstants.AlienShipImage, 40,70);
-            alienShip.initialize(i+1,2,2);
+            alienShip.initialize(2,2);
             alienShip.setPosition(OffsetX + StepX*(i%alienCountInRow),OffsetY+StepY*(i/alienCountInRow));
 
             alienShips.add(alienShip);
@@ -53,7 +55,7 @@ public class Main extends Application {
     public void generateUserShip() throws FileNotFoundException {
         int userShipWidth = 100, userShipHeight = 100;
         userShip = new UserShip(ApplicationConstants.UserShipImage, userShipWidth,userShipHeight);
-        userShip.initialize(0,2,2);
+        userShip.initialize(3,2);
         userShip.setPosition(200,2*ApplicationConstants.ScreenHeight/3 );
     }
 
@@ -80,9 +82,7 @@ public class Main extends Application {
         canvas.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                bullets.add(userShip.shoot());
-
-                System.out.println(bullets.size());
+                userBullets.add(userShip.shoot());
             }
         });
 
@@ -124,28 +124,81 @@ public class Main extends Application {
         for( GameObject alien : alienShips )
             alien.render(gc);
 
-        for( GameObject bullet : bullets )
+        for( GameObject bullet : userBullets)
             bullet.render(gc);
+
+        for( GameObject bullet : alienBullets)
+            bullet.render(gc);
+
+        for( GameObject effect : effects )
+            effect.render(gc);
     }
 
     private void collision_detection() {
-        for( GameObject alienShip : alienShips )
-            for( GameObject bullet: bullets  )
-                if( StaticHelpers.intersects( alienShip, bullet ) )
-                {
-                    alienShip.setHitBy( bullet );
+
+        for( GameObject userBullet: userBullets) {
+            for (GameObject  alienBullet: alienBullets)
+                if (StaticHelpers.intersects(userBullet, alienBullet)) {
+                    GameObject effect = alienBullet.hitBy(userBullet);
+                    if( effect != null )
+                        effects.add(effect);
                 }
+        }
+
+        for( GameObject bullet: userBullets) {
+            for (GameObject alienShip : alienShips)
+                if ( !bullet.isCleared() &&  StaticHelpers.intersects(alienShip, bullet)) {
+                    GameObject effect = alienShip.hitBy(bullet);
+                    if( effect != null )
+                        effects.add(effect);
+                }
+        }
+        for( GameObject bullet: alienBullets) {
+            if ( !bullet.isCleared() && StaticHelpers.intersects(userShip, bullet)) {
+                GameObject effect = userShip.hitBy(bullet);
+                if (effect != null)
+                    effects.add(effect);
+            }
+
+        }
     }
 
     private void update(double elapsedTime, long cycleCount) {
 
-        userShip.update(elapsedTime, cycleCount);
+        if( !userShip.isCleared() )
+            userShip.update(elapsedTime, cycleCount);
 
-        for( GameObject alien : alienShips )
-            alien.update( elapsedTime, cycleCount );
+        for( GameObject alien : alienShips ) {
+            if( alien.isCleared() )
+                alienShips.remove(alien);
+            else {
+                GameObject possibleNewBullet = alien.update(elapsedTime, cycleCount);
+                if( possibleNewBullet != null )
+                    alienBullets.add(possibleNewBullet);
+            }
+        }
 
-        for( GameObject bullet : bullets )
-            bullet.update(elapsedTime,cycleCount);
+        for( GameObject bullet : userBullets){
+            if( bullet.isCleared() )
+                userBullets.remove(bullet);
+            else
+                bullet.update(elapsedTime,cycleCount);
+        }
+
+        for( GameObject bullet : alienBullets ){
+            if( bullet.isCleared() )
+                alienBullets.remove(bullet);
+            else
+                bullet.update(elapsedTime,cycleCount);
+        }
+
+        for( GameObject effect : effects){
+            if( effect.isCleared() )
+                effects.remove(effect);
+            else
+                effect.update(elapsedTime,cycleCount);
+        }
+
     }
 
     private void process_input() {
