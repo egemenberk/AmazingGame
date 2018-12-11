@@ -6,7 +6,12 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
 import javafx.stage.Stage;
+
+import java.io.File;
 import java.util.LinkedList;
 
 public class Main extends Application {
@@ -26,14 +31,23 @@ public class Main extends Application {
     public void start(Stage stage) {
         stage.setTitle("Amazing Game");
 
+        String musicFile = ApplicationConstants.GameMusicFilename;     // For example
+
+        Media sound = new Media(new File(System.getProperty("user.dir") + "/assets/" + musicFile).toURI().toString());
+        MediaPlayer mediaPlayer = new MediaPlayer(sound);
+        MediaView mediaView = new MediaView(mediaPlayer);
+
+
         Group root = new Group();
         Scene scene = new Scene(root, ApplicationConstants.ScreenWidth, ApplicationConstants.ScreenHeight);
         Canvas canvas = new Canvas( ApplicationConstants.ScreenWidth, ApplicationConstants.ScreenHeight);
         GraphicsContext gc = canvas.getGraphicsContext2D();
         root.getChildren().add(canvas);
+        root.getChildren().add(mediaView);
         stage.setScene(scene);
 
         stage.show();
+        mediaPlayer.play();
 
         updateCurrentLevel(canvas);
 

@@ -26,6 +26,8 @@ public final class ApplicationConstants {
     static final String MediumAlienShipImagename = "alien2.png";
     static final String ExplosionImagename = "explosion.png";
 
+    public static final String GameMusicFilename = "NecroDancer_OST_Portabellohead.mp3";
+
     public static final Image UserBulletImage = new Image( StaticHelpers.getResourceFromAssets(UserBulletImagename) );
     public static final Image BackGroundImage = new Image( StaticHelpers.getResourceFromAssets(BackgroundImagename) );
     public static final Image UserShipImage = new Image( StaticHelpers.getResourceFromAssets(UserShipImagename) );
