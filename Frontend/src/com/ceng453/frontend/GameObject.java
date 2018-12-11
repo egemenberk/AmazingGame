@@ -12,6 +12,7 @@ public abstract class GameObject {
     private int damage;
     private int width, height;
     private boolean isCleared;
+    private int bounty;
 
     private Image sprite;
 
@@ -42,7 +43,8 @@ public abstract class GameObject {
             isCleared = true;
             return EffectFactory.create(this instanceof Bullet?Effect.BulletExplosion:Effect.ShipExplosion, getPositionX()+getWidth()/2.0,getPositionY()+getWidth()/2.0);
         }
-        return null;
+        else
+            return EffectFactory.create(this instanceof Bullet?Effect.BulletExplosion:Effect.ShipExplosion, hitter.getPositionX()+hitter.getWidth()/2.0,hitter.getPositionY()+hitter.getWidth()/2.0);
     }
 
     public void setPosition(double x, double y) {
@@ -114,5 +116,13 @@ public abstract class GameObject {
 
     public int getDamage() {
         return damage;
+    }
+
+    public int getBounty() {
+        return bounty;
+    }
+
+    protected void setBounty(int bounty) {
+        this.bounty = bounty;
     }
 }

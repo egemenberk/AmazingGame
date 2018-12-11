@@ -10,7 +10,7 @@ public class BulletFactory {
                 bullet.initialize( 1, damage);
                 break;
             case Bullet.AlienBullet:
-                bullet = new Bullet(ApplicationConstants.AlienBulletImage, ApplicationConstants.AlienBulletWidth, ApplicationConstants.AlienBulletHeight);
+                bullet = new Bullet(ApplicationConstants.AlienBulletImage, ApplicationConstants.AlienBulletWidth*damage, ApplicationConstants.AlienBulletHeight*damage);
                 bullet.setVelocityY( ApplicationConstants.AlienBulletVelocity );
                 bullet.initialize( 1, damage );
                 break;
