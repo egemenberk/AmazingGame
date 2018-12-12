@@ -2,11 +2,11 @@ package com.ceng453.frontend;
 
 import javafx.scene.image.Image;
 
-public class MediumEnemyShip extends GameObject {
+public class HardEnemyShip extends GameObject {
 
-    public MediumEnemyShip(Image sprite, int width, int height) {
+    public HardEnemyShip(Image sprite, int width, int height) {
         super(sprite, width, height);
-        setBounty(ApplicationConstants.AlienShip2Bounty);
+        setBounty(ApplicationConstants.AlienShip3Bounty);
     }
 
     @Override
@@ -24,7 +24,7 @@ public class MediumEnemyShip extends GameObject {
         setPositionX( getVelocityX() * elapsedTime + getPositionX());
         setPositionY( getVelocityY() * elapsedTime + getPositionY());
 
-        if( ApplicationConstants.numberGenerator.nextDouble() > 1.0 -  ApplicationConstants.MediumAlienShootPercentage )
+        if( ApplicationConstants.numberGenerator.nextDouble() > (1.0 -  ApplicationConstants.HardAlienShootPercentage) )
             return shoot();
 
         return null;

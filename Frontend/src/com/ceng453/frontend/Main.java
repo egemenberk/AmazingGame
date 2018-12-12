@@ -9,33 +9,36 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.stage.Stage;
 import java.util.LinkedList;
 
+import static java.lang.Thread.sleep;
+
 public class Main extends Application {
 
     LinkedList<GameLevel> levels;
     GameLevel currentLevel;
-
+    GraphicsContext gc;
     @Override
     public void init() throws Exception {
         super.init();
         levels = new LinkedList<>();
+        levels.push(new GameLevel3());
         levels.push(new GameLevel2());
         levels.push(new GameLevel1());
     }
 
     @Override
-    public void start(Stage stage) {
+    public void start(Stage stage) throws Exception {
         stage.setTitle("Amazing Game");
 
         Group root = new Group();
         Scene scene = new Scene(root, ApplicationConstants.ScreenWidth, ApplicationConstants.ScreenHeight);
         Canvas canvas = new Canvas( ApplicationConstants.ScreenWidth, ApplicationConstants.ScreenHeight);
-        GraphicsContext gc = canvas.getGraphicsContext2D();
+        gc = canvas.getGraphicsContext2D();
         root.getChildren().add(canvas);
         stage.setScene(scene);
 
         stage.show();
 
-        updateCurrentLevel(canvas);
+        updateCurrentLevel(canvas, false);
 
         final GameStateInfo gameStateInfo = new GameStateInfo(System.nanoTime());
 
@@ -48,8 +51,13 @@ public class Main extends Application {
 
                 currentLevel.gameLoop(gameStateInfo, gc);
 
-                if( currentLevel.isOver() )
-                    updateCurrentLevel(canvas);
+                if( currentLevel.levelPassed() || currentLevel.isOver()) {
+                    try {
+                        updateCurrentLevel(canvas, currentLevel.isOver());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
 
                 gameStateInfo.incrementCurrentCycleCount();
             }
@@ -57,15 +65,19 @@ public class Main extends Application {
         currentTimer.start();
     }
 
-    private void updateCurrentLevel(Canvas canvas) {
-        if( !levels.isEmpty() ) {
-            currentLevel = levels.pop();
+    private void updateCurrentLevel(Canvas canvas, boolean isOver) throws Exception {
 
+        if(isOver){
+            gc.drawImage(ApplicationConstants.GameOverImage, 0,0, ApplicationConstants.ScreenWidth, ApplicationConstants.ScreenHeight);
+            stop();
+        }
+
+        else if( !levels.isEmpty() ) {
+            currentLevel = levels.pop();
             canvas.setOnMouseMoved(currentLevel.getCustomizedMouseMoveEventHandler());
             canvas.setOnMouseClicked(currentLevel.getCustomizedMouseClickEventHandler());
         }
-        else
-            ; // TODO What to do when game is over?
+
     }
 
 
