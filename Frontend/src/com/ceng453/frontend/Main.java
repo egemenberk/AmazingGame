@@ -14,21 +14,24 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.util.LinkedList;
 
+import static java.lang.Thread.sleep;
+
 public class Main extends Application {
 
     LinkedList<GameLevel> levels;
     GameLevel currentLevel;
-
+    GraphicsContext gc;
     @Override
     public void init() throws Exception {
         super.init();
         levels = new LinkedList<>();
+        levels.push(new GameLevel3());
         levels.push(new GameLevel2());
         levels.push(new GameLevel1());
     }
 
     @Override
-    public void start(Stage stage) {
+    public void start(Stage stage) throws Exception {
         stage.setTitle("Amazing Game");
 
         String musicFile = ApplicationConstants.GameMusicFilename;     // For example
@@ -41,7 +44,7 @@ public class Main extends Application {
         Group root = new Group();
         Scene scene = new Scene(root, ApplicationConstants.ScreenWidth, ApplicationConstants.ScreenHeight);
         Canvas canvas = new Canvas( ApplicationConstants.ScreenWidth, ApplicationConstants.ScreenHeight);
-        GraphicsContext gc = canvas.getGraphicsContext2D();
+        gc = canvas.getGraphicsContext2D();
         root.getChildren().add(canvas);
         root.getChildren().add(mediaView);
         stage.setScene(scene);
@@ -49,7 +52,7 @@ public class Main extends Application {
         stage.show();
         mediaPlayer.play();
 
-        updateCurrentLevel(canvas);
+        updateCurrentLevel(canvas, false);
 
         final GameStateInfo gameStateInfo = new GameStateInfo(System.nanoTime());
 
@@ -62,8 +65,13 @@ public class Main extends Application {
 
                 currentLevel.gameLoop(gameStateInfo, gc);
 
-                if( currentLevel.isOver() )
-                    updateCurrentLevel(canvas);
+                if( currentLevel.levelPassed() || currentLevel.isOver()) {
+                    try {
+                        updateCurrentLevel(canvas, currentLevel.isOver());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
 
                 gameStateInfo.incrementCurrentCycleCount();
             }
@@ -71,15 +79,19 @@ public class Main extends Application {
         currentTimer.start();
     }
 
-    private void updateCurrentLevel(Canvas canvas) {
-        if( !levels.isEmpty() ) {
-            currentLevel = levels.pop();
+    private void updateCurrentLevel(Canvas canvas, boolean isOver) throws Exception {
 
+        if(isOver){
+            gc.drawImage(ApplicationConstants.GameOverImage, 0,0, ApplicationConstants.ScreenWidth, ApplicationConstants.ScreenHeight);
+            stop();
+        }
+
+        else if( !levels.isEmpty() ) {
+            currentLevel = levels.pop();
             canvas.setOnMouseMoved(currentLevel.getCustomizedMouseMoveEventHandler());
             canvas.setOnMouseClicked(currentLevel.getCustomizedMouseClickEventHandler());
         }
-        else
-            ; // TODO What to do when game is over?
+
     }
 
 

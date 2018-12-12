@@ -15,6 +15,7 @@ abstract class GameLevel {
     protected ArrayList<GameObject> alienBullets;
     protected UserShip userShip;
     protected boolean isOver;
+    protected boolean levelPassed;
 
     MouseMoveEventHandler customizedMouseMoveEventHandler;
     MouseClickEventHandler customizedMouseClickEventHandler;
@@ -101,8 +102,11 @@ abstract class GameLevel {
         double elapsedTime = gameStateInfo.getElapsedTime();
         long cycleCount = gameStateInfo.getCurrentCycleCounter();
 
-        if( userShip.isCleared() || alienShips.size() == 0) {
+        if(userShip.getHitPointsLeft() <= 0)
             isOver = true;
+
+        if( userShip.isCleared() || alienShips.size() == 0) {
+            levelPassed = true;
             return;
         }
 
@@ -189,4 +193,6 @@ abstract class GameLevel {
     public boolean isOver() {
         return isOver;
     }
+
+    public boolean levelPassed() { return levelPassed; }
 }
