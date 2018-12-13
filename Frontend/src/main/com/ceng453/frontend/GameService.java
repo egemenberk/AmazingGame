@@ -7,10 +7,20 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextArea;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.stage.Stage;
+import org.json.JSONObject;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestTemplate;
 
 import java.io.File;
 import java.util.LinkedList;
@@ -21,6 +31,8 @@ public class GameService {
     GameLevel currentLevel;
     GraphicsContext gc;
     String userAuthToken;
+    AnimationTimer gameLoop;
+    final GameStateInfo gameStateInfo = new GameStateInfo(System.nanoTime());
 
 
     public GameService(String userAuthToken) {
@@ -54,10 +66,9 @@ public class GameService {
         mediaPlayer.play();
 
         updateCurrentLevel(canvas, false);
+        gameStateInfo.setPreviousLoopTime(System.nanoTime());
 
-        final GameStateInfo gameStateInfo = new GameStateInfo(System.nanoTime());
-
-        AnimationTimer currentTimer = new AnimationTimer() {
+        gameLoop = new AnimationTimer() {
             public void handle(long currentNanoTime) {
                 // calculate time since last update.
                 double elapsedTime = (currentNanoTime - gameStateInfo.getPreviousLoopTime()) / 1000000000.0; // in secs
@@ -77,7 +88,7 @@ public class GameService {
                 gameStateInfo.incrementCurrentCycleCount();
             }
         };
-        currentTimer.start();
+        gameLoop.start();
 
     }
 
@@ -85,7 +96,10 @@ public class GameService {
 
         if(isOver){
             gc.drawImage(ApplicationConstants.GameOverImage, 0,0, ApplicationConstants.ScreenWidth, ApplicationConstants.ScreenHeight);
+            gameLoop.stop();
+            sendCurrentScoreLog();
 
+            //TODO that will be leaderboard screen
         }
 
         else if( !levels.isEmpty() ) {
@@ -94,5 +108,29 @@ public class GameService {
             canvas.setOnMouseClicked(currentLevel.getCustomizedMouseClickEventHandler());
         }
 
+    }
+
+    private void sendCurrentScoreLog(){
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        JSONObject params = new JSONObject();
+        params.put("token", userAuthToken );
+        params.put("score", gameStateInfo.getCurrentGameScore());
+
+        HttpEntity<String> request = new HttpEntity<>(params.toString(), headers);
+        RestTemplate restTemplate = new RestTemplate();
+        try {
+            ResponseEntity<String> response = restTemplate.postForEntity(ApplicationConstants.ServerBaseAdress+"/score", request, String.class);
+            System.out.println(response.getBody());
+
+        } catch (HttpClientErrorException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("An exception occurred!");
+            alert.getDialogPane().setExpandableContent(new ScrollPane(new TextArea("Error while sending scores to the server, params : "+params.toString())));
+            alert.showAndWait();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

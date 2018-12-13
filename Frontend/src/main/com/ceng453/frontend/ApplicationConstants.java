@@ -18,6 +18,7 @@ public final class ApplicationConstants {
     public static final int UserShipHealth = 6;
     public static final int AlienShip2Bounty = 15;
     public static final int AlienShip3Bounty = 20;
+    public static final String ServerBaseAdress = "http://localhost:8080";
     static final int ScreenWidth = 600;
     static final int ScreenHeight = 768;
 
