@@ -3,6 +3,7 @@ package main.com.ceng453.frontend;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -28,6 +29,9 @@ public class LeaderBoardController extends PageController{
 
     @FXML
     private TableView table;
+
+    @FXML
+    Button back;
 
     public class Leader {
         private String name;
@@ -89,6 +93,7 @@ public class LeaderBoardController extends PageController{
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         getLeaderBoardHandler();
+        back.setOnAction(this::backHandler);
     }
 
 }

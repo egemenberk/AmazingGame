@@ -51,6 +51,7 @@ public class IndexController extends PageController{
         } catch (IOException e) {
             e.printStackTrace();
         }
+        changeScene(root);
     }
 
     @Override
