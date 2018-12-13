@@ -1,0 +1,60 @@
+package main.com.ceng453.frontend;
+
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
+import org.json.JSONObject;
+import org.springframework.http.*;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestTemplate;
+
+import java.net.URI;
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class LoginController implements Initializable {
+
+    @FXML
+    Button login;
+    @FXML
+    TextField usernameField;
+    @FXML
+    PasswordField passwordField;
+
+
+    public void login(ActionEvent actionEvent) {
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        JSONObject params = new JSONObject();
+        params.put("username", usernameField.getText() );
+        params.put("password", passwordField.getText() );
+        //System.out.println(params.toString());
+
+        HttpEntity<String> request = new HttpEntity<String>(params.toString(), headers);
+        RestTemplate restTemplate = new RestTemplate();
+        try {
+            ResponseEntity<String> response = restTemplate.postForEntity("http://localhost:8080/login", request, String.class);
+            System.out.println(response);
+        } catch (HttpClientErrorException e) {
+            if(e.getRawStatusCode()==400)
+                System.out.println("Fill the blanks");
+            else if(e.getRawStatusCode()==403)
+                System.out.println("No such User");
+
+        }
+
+        //.postForEntity("http://localhost:8080/login", request , String.class);
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        login.setOnAction(this::login);
+    }
+}
