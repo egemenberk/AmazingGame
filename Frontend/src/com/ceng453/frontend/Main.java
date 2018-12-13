@@ -2,7 +2,9 @@ package com.ceng453.frontend;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -28,12 +30,12 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         stage.setTitle("Amazing Game");
-
-        Group root = new Group();
+        Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
+        //Group root = new Group();
         Scene scene = new Scene(root, ApplicationConstants.ScreenWidth, ApplicationConstants.ScreenHeight);
         Canvas canvas = new Canvas( ApplicationConstants.ScreenWidth, ApplicationConstants.ScreenHeight);
         gc = canvas.getGraphicsContext2D();
-        root.getChildren().add(canvas);
+        //root.getChildren().add(canvas);
         stage.setScene(scene);
 
         stage.show();
@@ -63,6 +65,7 @@ public class Main extends Application {
             }
         };
         currentTimer.start();
+
     }
 
     private void updateCurrentLevel(Canvas canvas, boolean isOver) throws Exception {
