@@ -39,9 +39,9 @@ public class GameService {
     public GameService(String userAuthToken) {
         levels = new LinkedList<>();
 
-        //levels.push(new GameLevel2());
-        //levels.push(new GameLevel1());
         levels.push(new GameLevel3());
+        levels.push(new GameLevel2());
+        levels.push(new GameLevel1());
 
         this.userAuthToken = userAuthToken;
     }
