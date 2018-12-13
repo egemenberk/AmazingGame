@@ -1,5 +1,8 @@
 package com.ceng453.Server;
 
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.NoResultException;
@@ -24,8 +27,9 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
      * authenticating
      */
     @Override
-    public Map<String, String> authenticate(String username, String password) throws NoSuchAlgorithmException {
-        Map<String, String> dictionary = new HashMap<>();
+    public ResponseEntity<String> authenticate(String username, String password) throws NoSuchAlgorithmException {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/json; charset=utf-8");
 
         Query query = entityManager
                 .createNativeQuery("select * from user where username=?", User.class);
@@ -35,8 +39,7 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
         try {
             result = (User) query.getSingleResult();
         } catch(  NoResultException ex){
-            dictionary.put("404", "No users found");
-            return dictionary;
+            return new ResponseEntity<> ("{\n \"Reason\": \"No user found\" \n}", headers, HttpStatus.FORBIDDEN);
         }
 
         if( result.getPassword().equals( EncryptionHelper.encrypt(password) ) ) {
@@ -44,13 +47,11 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
             User real_user = entityManager.getReference(User.class, result.getId());
             real_user.setSession(generated_token);
             entityManager.merge(real_user);
-            dictionary.put("Token", generated_token);
+            return new ResponseEntity<> (String.format("{\n \"Token\": \"%s\" \n}",real_user.getSession()), headers, HttpStatus.OK);
         }
         else{
-            dictionary.put("401", "Authentication failure");
+            return new ResponseEntity<> ("{\n \"Reason\": \"Auth Failed\" \n}", headers, HttpStatus.NON_AUTHORITATIVE_INFORMATION);
         }
-
-        return dictionary;
     }
 
 

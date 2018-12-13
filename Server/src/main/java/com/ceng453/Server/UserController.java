@@ -64,11 +64,10 @@ public class UserController {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json; charset=utf-8");
 
-        if(payload.get("username") != null && payload.get("password") != null)
+        if(payload.get("username") != "" && payload.get("password") != "")
             return userRepository.authenticate( payload.get("username"), payload.get("password") );
         else
-            return new ResponseEntity<String>("You did not provide username or password" +
-                    " field, Please try again later", headers, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<String>("{\n \"Reason\": \"Fill the fields\" \n}", headers, HttpStatus.BAD_REQUEST);
     }
 
     /*
