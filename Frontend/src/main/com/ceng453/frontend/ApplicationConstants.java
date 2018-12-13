@@ -23,6 +23,7 @@ public final class ApplicationConstants {
     public static final String PitSound = "pit.wav";
     public static final String Dattiridatdat = "datdiridat.wav";
     public static final String JustWowImagename = "just_wow.jpg";
+    public static final String Kapiska = "kapuska.wav";
     static final int ScreenWidth = 600;
     static final int ScreenHeight = 768;
 

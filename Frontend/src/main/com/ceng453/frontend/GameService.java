@@ -104,6 +104,13 @@ public class GameService {
             gameLoop.stop();
             sendCurrentScoreLog();
 
+            mediaView.getMediaPlayer().stop();
+            Media sound = new Media(new File(System.getProperty("user.dir") + "/assets/" + ApplicationConstants.Dattiridatdat).toURI().toString());
+            mediaView.setMediaPlayer(new MediaPlayer(sound));
+            mediaView.getMediaPlayer().setVolume(0.3);
+            mediaView.getMediaPlayer().setCycleCount(1);
+            mediaView.getMediaPlayer().play();
+
             //TODO that will be leaderboard screen
         }
 
@@ -111,22 +118,12 @@ public class GameService {
             currentLevel = levels.pop();
             canvas.setOnMouseMoved(currentLevel.getCustomizedMouseMoveEventHandler());
             canvas.setOnMouseClicked(currentLevel.getCustomizedMouseClickEventHandler());
-            if(levels.isEmpty())
-            {
-                mediaView.getMediaPlayer().stop();
-                Media sound = new Media(new File(System.getProperty("user.dir") + "/assets/" + ApplicationConstants.Dattiridatdat).toURI().toString());
-                mediaView.setMediaPlayer(new MediaPlayer(sound));
-                mediaView.getMediaPlayer().setVolume(0.3);
-                mediaView.getMediaPlayer().setCycleCount(100);
-                mediaView.getMediaPlayer().play();
-            }
         }
         else
         {
             gc.drawImage(ApplicationConstants.JustWowImage, 0,0, ApplicationConstants.ScreenWidth, ApplicationConstants.ScreenHeight);
             gameLoop.stop();
             sendCurrentScoreLog();
-            mediaView.getMediaPlayer().setCycleCount(1);
         }
 
     }

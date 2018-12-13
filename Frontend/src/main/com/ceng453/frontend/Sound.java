@@ -21,7 +21,7 @@ public class Sound {
                 musicFile = ApplicationConstants.ViyuwSound;
                 break;
             case Sound.HardEnemyBulletSound:
-                musicFile = ApplicationConstants.ViyuwSound;
+                musicFile = ApplicationConstants.Kapiska;
                 break;
             case Sound.UserBulletSound:
                 musicFile = ApplicationConstants.PitSound;
