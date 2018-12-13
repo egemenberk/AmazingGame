@@ -2,19 +2,17 @@ package main.com.ceng453.frontend;
 
 import javafx.scene.image.Image;
 
-public class Bullet extends GameObject {
-
-    public static final int UserBullet = 0;
-    public static final int AlienBullet = 1;
-    public static final int HardAlienBullet = 2;
-
-
-    public Bullet(Image sprite, int width, int height) {
-        super(sprite, width, height);
+public class HardBullet extends Bullet {
+    public HardBullet(Image alienBulletImage, int width, int height) {
+        super(alienBulletImage, width, height);
     }
 
     @Override
     public GameObject update(double elapsedTime, long currentCycleNumber) {
+
+        setVelocityX( 70*Math.sin( Math.toRadians((currentCycleNumber%30)*12.0) ) );
+
+        setPositionX( getPositionX() + getVelocityX()*elapsedTime );
         setPositionY( getPositionY() + getVelocityY()*elapsedTime );
         if( getPositionY()+getHeight() < 0 || getPositionY() > ApplicationConstants.ScreenHeight )
             setCleared(true);

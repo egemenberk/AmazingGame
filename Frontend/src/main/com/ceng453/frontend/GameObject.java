@@ -125,4 +125,11 @@ public abstract class GameObject {
     protected void setBounty(int bounty) {
         this.bounty = bounty;
     }
+
+    protected void scale( double ratio ){
+        pos_x += width*(1-ratio)/2.0;
+        pos_y += height*(1-ratio)/2.0;
+        width*=ratio;
+        height*=ratio;
+    }
 }

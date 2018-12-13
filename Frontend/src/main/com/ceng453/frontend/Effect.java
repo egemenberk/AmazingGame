@@ -20,8 +20,12 @@ public class Effect extends GameObject{
     public GameObject update(double elapsedTime, long currentCycleNumber) {
         if(creationCycle == -1)
             creationCycle = currentCycleNumber;
-        if( currentCycleNumber - creationCycle > 30 )
+
+        if( currentCycleNumber - creationCycle > 35 )
             setCleared(true);
+        else if( currentCycleNumber - creationCycle > 5 ){
+            scale(0.95);
+        }
         return null;
     }
 }

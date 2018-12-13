@@ -13,13 +13,13 @@ public class HardEnemyShip extends GameObject {
     public GameObject update(double elapsedTime, long currentCycleNumber) {
         double rad = (currentCycleNumber%70) * 2 * Math.PI / 70.0;
 
-        setVelocityY( Math.cos( rad )*140 );
-        setVelocityX( Math.sin( rad )*380 );
+        setVelocityY( -Math.cos( rad )*140 );
+        setVelocityX( -Math.sin( rad )*380 );
 
-        /*if( currentCycleNumber%140 > 70 )
+        if( currentCycleNumber%500 > 250 )
             setVelocityX( getVelocityX() + 100 );
         else
-            setVelocityX( getVelocityX() - 100 );*/
+            setVelocityX( getVelocityX() - 100 );
 
         setPositionX( getVelocityX() * elapsedTime + getPositionX());
         setPositionY( getVelocityY() * elapsedTime + getPositionY());
@@ -31,7 +31,7 @@ public class HardEnemyShip extends GameObject {
     }
 
     private GameObject shoot(){
-        Bullet bullet = BulletFactory.create(Bullet.AlienBullet, getDamage());
+        Bullet bullet = BulletFactory.create(Bullet.HardAlienBullet, getDamage());
         bullet.setPosition( getPositionX()+getWidth()/2.0, getPositionY() + getHeight() );
         return bullet;
     }
