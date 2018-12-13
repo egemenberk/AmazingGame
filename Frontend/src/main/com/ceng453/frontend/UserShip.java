@@ -1,5 +1,6 @@
 package main.com.ceng453.frontend;
 
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
 public class UserShip extends GameObject {
@@ -32,5 +33,10 @@ public class UserShip extends GameObject {
 
     public void setFlyingPositionY(double flyingPositionY) {
         this.flyingPositionY = flyingPositionY;
+    }
+
+    @Override
+    public void render(GraphicsContext context) {
+        context.drawImage( getSprite(), getPositionX(), getPositionY(), getWidth(), getHeight() );
     }
 }

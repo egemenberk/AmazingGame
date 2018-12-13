@@ -38,9 +38,9 @@ public class GameService {
     public GameService(String userAuthToken) {
         levels = new LinkedList<>();
 
+        levels.push(new GameLevel3());
         levels.push(new GameLevel2());
         levels.push(new GameLevel1());
-        levels.push(new GameLevel3());
 
         this.userAuthToken = userAuthToken;
     }
@@ -59,6 +59,7 @@ public class GameService {
         Scene scene = new Scene(root, ApplicationConstants.ScreenWidth, ApplicationConstants.ScreenHeight);
         Canvas canvas = new Canvas( ApplicationConstants.ScreenWidth, ApplicationConstants.ScreenHeight);
         gc = canvas.getGraphicsContext2D();
+        gc.save();
         root.getChildren().add(canvas);
         root.getChildren().add(mediaView);
         stage.setScene(scene);

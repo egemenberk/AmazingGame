@@ -6,7 +6,6 @@ public class GameLevel3 extends GameLevel{
 
     public GameLevel3() {
         generateAliens();
-        generateUserShip();
     }
 
     public void generateAliens() {
@@ -44,13 +43,6 @@ public class GameLevel3 extends GameLevel{
         alienShip.initialize(12,3);
         alienShip.setPosition(ApplicationConstants.ScreenWidth/2+250,50);
         alienShips.add(alienShip);
-    }
-
-    public void generateUserShip() {
-        int userShipWidth = 100, userShipHeight = 100;
-        userShip = new UserShip(ApplicationConstants.UserShipImage, userShipWidth,userShipHeight);
-        userShip.initialize(6,2);
-        userShip.setPosition(200,2*ApplicationConstants.ScreenHeight/3.0 );
     }
 
     @Override

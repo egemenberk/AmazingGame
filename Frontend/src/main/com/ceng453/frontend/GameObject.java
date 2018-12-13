@@ -2,6 +2,7 @@ package main.com.ceng453.frontend;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.transform.Rotate;
 
 public abstract class GameObject {
 
@@ -53,7 +54,16 @@ public abstract class GameObject {
     }
 
     public void render(GraphicsContext context) {
+        context.save();
+        double middleX = getPositionX() + getWidth()/2.0;
+        double middleY = getPositionY() + getHeight()/2.0;
+        double angle = Math.atan2(-getVelocityX(),getVelocityY());
+        Rotate r = new Rotate(Math.toDegrees(angle), middleX, middleY);
+        context.setTransform(r.getMxx(), r.getMyx(), r.getMxy(), r.getMyy(), r.getTx(), r.getTy());
+
         context.drawImage( sprite, pos_x, pos_y, width, height );
+
+        context.restore(); // back to original state (before rotation)
     }
 
     public int getWidth() {
@@ -131,5 +141,9 @@ public abstract class GameObject {
         pos_y += height*(1-ratio)/2.0;
         width*=ratio;
         height*=ratio;
+    }
+
+    protected Image getSprite(){
+        return sprite;
     }
 }

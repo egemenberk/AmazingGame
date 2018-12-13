@@ -16,6 +16,13 @@ public class HardBullet extends Bullet {
         setPositionY( getPositionY() + getVelocityY()*elapsedTime );
         if( getPositionY()+getHeight() < 0 || getPositionY() > ApplicationConstants.ScreenHeight )
             setCleared(true);
+        if( currentCycleNumber%10 == 0 )
+        {
+            Bullet newBullet = BulletFactory.create( Bullet.AlienBullet, 1 );
+            newBullet.setVelocityX((currentCycleNumber%20)>=10?-100:100);
+            newBullet.setPosition( getPositionX()+getWidth()/2, getPositionY()+getHeight()-10 );
+            return newBullet;
+        }
         return null;
     }
 }

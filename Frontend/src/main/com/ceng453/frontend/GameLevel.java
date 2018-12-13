@@ -28,11 +28,20 @@ abstract class GameLevel {
 
         customizedMouseClickEventHandler = new MouseClickEventHandler( this );
         customizedMouseMoveEventHandler = new MouseMoveEventHandler(this);
+        generateUserShip();
     }
 
     public abstract void generateAliens() throws FileNotFoundException;
 
-    public abstract void generateUserShip() throws FileNotFoundException;
+    public void generateUserShip()
+    {
+        int userShipWidth = 100, userShipHeight = 100;
+        userShip = new UserShip(ApplicationConstants.UserShipImage, userShipWidth,userShipHeight);
+        userShip.initialize(ApplicationConstants.UserShipHealth,2);
+        userShip.setPosition(ApplicationConstants.ScreenWidth/2.0-50,2*ApplicationConstants.ScreenHeight/3.0+120 );
+        userShip.setFlyingPositionX(userShip.getPositionX());
+        userShip.setFlyingPositionY(userShip.getPositionY());
+    }
 
     public void gameLoop( GameStateInfo gameStateInfo, GraphicsContext gc ){
         update(gameStateInfo);
@@ -112,23 +121,28 @@ abstract class GameLevel {
 
         userShip.update(elapsedTime, cycleCount);
 
-        for(int i = 0; i< alienShips.size(); i++ )
-        {
-            GameObject alienShip = alienShips.get(i);
-            if( alienShip.isCleared() ) {
-                alienShips.remove(i--);
-                gameStateInfo.incrementScoreBy(alienShip.getBounty());
-            }
-            else {
-                GameObject possibleNewBullet = alienShip.update(elapsedTime, cycleCount);
-                if (possibleNewBullet != null)
-                    alienBullets.add(possibleNewBullet);
-            }
-        }
+        updateHelperForPossibleNewItems(gameStateInfo, elapsedTime, cycleCount, alienShips);
+        updateHelperForPossibleNewItems(gameStateInfo, elapsedTime, cycleCount, alienBullets);
 
         updateHelper(elapsedTime, cycleCount, userBullets);
         updateHelper(elapsedTime, cycleCount, alienBullets);
         updateHelper(elapsedTime, cycleCount, effects);
+    }
+
+    private void updateHelperForPossibleNewItems(GameStateInfo gameStateInfo, double elapsedTime, long cycleCount, ArrayList<GameObject> objects) {
+        for(int i = 0; i< objects.size(); i++ )
+        {
+            GameObject object = objects.get(i);
+            if( object.isCleared() ) {
+                objects.remove(i--);
+                gameStateInfo.incrementScoreBy(object.getBounty());
+            }
+            else {
+                GameObject possibleNewBullet = object.update(elapsedTime, cycleCount);
+                if (possibleNewBullet != null)
+                    alienBullets.add(possibleNewBullet);
+            }
+        }
     }
 
     private void updateHelper(double elapsedTime, long cycleCount, ArrayList<GameObject> objects) {

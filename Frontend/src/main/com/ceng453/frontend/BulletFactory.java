@@ -16,8 +16,8 @@ public class BulletFactory {
                 break;
             case Bullet.HardAlienBullet:
                 bullet = new HardBullet(ApplicationConstants.AlienBulletImage, ApplicationConstants.AlienBulletWidth*damage, ApplicationConstants.AlienBulletHeight*damage);
-                bullet.setVelocityY( ApplicationConstants.AlienBulletVelocity*1.5 );
-                bullet.initialize( 1, damage );
+                bullet.setVelocityY( ApplicationConstants.AlienBulletVelocity*1.2 );
+                bullet.initialize( 4, damage );
                 break;
 
         }

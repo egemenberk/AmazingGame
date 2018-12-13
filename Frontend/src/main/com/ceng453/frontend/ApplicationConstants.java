@@ -13,7 +13,7 @@ public final class ApplicationConstants {
     public static final double EasyAlienShootPercentage = 0.001;
     public static final double MediumAlienShootPercentage = 0.004;
     public static final double HardAlienShootPercentage = 0.008;
-    public static final double AlienBulletVelocity = 200;
+    public static final double AlienBulletVelocity = 100;
     public static final int AlienShip1Bounty = 10;
     public static final int UserShipHealth = 6;
     public static final int AlienShip2Bounty = 15;

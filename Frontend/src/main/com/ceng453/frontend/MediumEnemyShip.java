@@ -14,12 +14,7 @@ public class MediumEnemyShip extends GameObject {
         double rad = (currentCycleNumber%70) * 2 * Math.PI / 70.0;
 
         setVelocityY( Math.cos( rad )*140 );
-        setVelocityX( Math.sin( rad )*380 );
-
-        /*if( currentCycleNumber%140 > 70 )
-            setVelocityX( getVelocityX() + 100 );
-        else
-            setVelocityX( getVelocityX() - 100 );*/
+        setVelocityX( Math.sin( rad )*350 );
 
         setPositionX( getVelocityX() * elapsedTime + getPositionX());
         setPositionY( getVelocityY() * elapsedTime + getPositionY());

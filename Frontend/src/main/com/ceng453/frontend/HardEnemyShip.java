@@ -32,7 +32,7 @@ public class HardEnemyShip extends GameObject {
 
     private GameObject shoot(){
         Bullet bullet = BulletFactory.create(Bullet.HardAlienBullet, getDamage());
-        bullet.setPosition( getPositionX()+getWidth()/2.0, getPositionY() + getHeight() );
+        bullet.setPosition( getPositionX()+getWidth()/2.0, getPositionY() + getHeight()-70 );
         return bullet;
     }
 }
