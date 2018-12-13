@@ -32,15 +32,16 @@ public class GameService {
     GraphicsContext gc;
     String userAuthToken;
     AnimationTimer gameLoop;
+    MediaView mediaView;
     final GameStateInfo gameStateInfo = new GameStateInfo(System.nanoTime());
 
 
     public GameService(String userAuthToken) {
         levels = new LinkedList<>();
 
+        //levels.push(new GameLevel2());
+        //levels.push(new GameLevel1());
         levels.push(new GameLevel3());
-        levels.push(new GameLevel2());
-        levels.push(new GameLevel1());
 
         this.userAuthToken = userAuthToken;
     }
@@ -52,7 +53,9 @@ public class GameService {
 
         Media sound = new Media(new File(System.getProperty("user.dir") + "/assets/" + musicFile).toURI().toString());
         MediaPlayer mediaPlayer = new MediaPlayer(sound);
-        MediaView mediaView = new MediaView(mediaPlayer);
+        mediaPlayer.setVolume(0.2);
+        mediaView = new MediaView(mediaPlayer);
+        mediaPlayer.play();
 
 
         Group root = new Group();
@@ -65,7 +68,6 @@ public class GameService {
         stage.setScene(scene);
 
         stage.show();
-        mediaPlayer.play();
 
         updateCurrentLevel(canvas, false);
         gameStateInfo.setPreviousLoopTime(System.nanoTime());
@@ -82,6 +84,7 @@ public class GameService {
                 if( currentLevel.levelPassed() || currentLevel.isOver()) {
                     try {
                         updateCurrentLevel(canvas, currentLevel.isOver());
+                        gameStateInfo.restartCycleCounter();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -108,6 +111,22 @@ public class GameService {
             currentLevel = levels.pop();
             canvas.setOnMouseMoved(currentLevel.getCustomizedMouseMoveEventHandler());
             canvas.setOnMouseClicked(currentLevel.getCustomizedMouseClickEventHandler());
+            if(levels.isEmpty())
+            {
+                mediaView.getMediaPlayer().stop();
+                Media sound = new Media(new File(System.getProperty("user.dir") + "/assets/" + ApplicationConstants.Dattiridatdat).toURI().toString());
+                mediaView.setMediaPlayer(new MediaPlayer(sound));
+                mediaView.getMediaPlayer().setVolume(0.3);
+                mediaView.getMediaPlayer().setCycleCount(100);
+                mediaView.getMediaPlayer().play();
+            }
+        }
+        else
+        {
+            gc.drawImage(ApplicationConstants.JustWowImage, 0,0, ApplicationConstants.ScreenWidth, ApplicationConstants.ScreenHeight);
+            gameLoop.stop();
+            sendCurrentScoreLog();
+            mediaView.getMediaPlayer().setCycleCount(1);
         }
 
     }

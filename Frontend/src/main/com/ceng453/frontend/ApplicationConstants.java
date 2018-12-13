@@ -19,6 +19,10 @@ public final class ApplicationConstants {
     public static final int AlienShip2Bounty = 15;
     public static final int AlienShip3Bounty = 20;
     public static final String ServerBaseAdress = "http://localhost:8080";
+    public static final String ViyuwSound = "ciyuw.wav";
+    public static final String PitSound = "pit.wav";
+    public static final String Dattiridatdat = "datdiridat.wav";
+    public static final String JustWowImagename = "just_wow.jpg";
     static final int ScreenWidth = 600;
     static final int ScreenHeight = 768;
 
@@ -43,6 +47,7 @@ public final class ApplicationConstants {
     public static final Image MediumAlienShipImage = new Image( StaticHelpers.getResourceFromAssets(MediumAlienShipImagename) );
     public static final Image HardAlienShipImage = new Image( StaticHelpers.getResourceFromAssets(HardAlienShipImagename) );
     public static final Image GameOverImage = new Image( StaticHelpers.getResourceFromAssets(GameOverImagename) );
+    public static final Image JustWowImage = new Image( StaticHelpers.getResourceFromAssets(JustWowImagename) );
 
     public static final Random numberGenerator = new Random();
 

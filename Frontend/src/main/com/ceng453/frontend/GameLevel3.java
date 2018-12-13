@@ -40,7 +40,7 @@ public class GameLevel3 extends GameLevel{
         }
 
         HardEnemyShip alienShip = new HardEnemyShip(ApplicationConstants.HardAlienShipImage, 90,115);
-        alienShip.initialize(12,3);
+        alienShip.initialize(16,3);
         alienShip.setPosition(ApplicationConstants.ScreenWidth/2+250,50);
         alienShips.add(alienShip);
     }

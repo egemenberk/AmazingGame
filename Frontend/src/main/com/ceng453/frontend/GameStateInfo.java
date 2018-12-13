@@ -43,4 +43,8 @@ public class GameStateInfo{
     public void incrementScoreBy(int bounty) {
         this.currentGameScore += bounty;
     }
+
+    public void restartCycleCounter(){
+        currentCycleCounter = -1;
+    }
 }

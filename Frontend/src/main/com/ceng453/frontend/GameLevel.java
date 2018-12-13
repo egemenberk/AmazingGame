@@ -3,7 +3,12 @@ package main.com.ceng453.frontend;
 import javafx.event.EventHandler;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.media.AudioClip;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
@@ -139,8 +144,9 @@ abstract class GameLevel {
             }
             else {
                 GameObject possibleNewBullet = object.update(elapsedTime, cycleCount);
-                if (possibleNewBullet != null)
+                if (possibleNewBullet != null) {
                     alienBullets.add(possibleNewBullet);
+                }
             }
         }
     }

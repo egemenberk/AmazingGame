@@ -1,0 +1,1 @@
+window['adblockFlag'] = 1;
