@@ -17,11 +17,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class RegisterController implements Initializable {
+public class RegisterController extends PageController{
 
     @FXML
     Button signUp;
@@ -31,6 +30,8 @@ public class RegisterController implements Initializable {
     TextField emailField;
     @FXML
     PasswordField passwordField;
+    @FXML
+    Button back;
 
     public void registerHandler(ActionEvent actionEvent){
         HttpHeaders headers = new HttpHeaders();
@@ -65,6 +66,8 @@ public class RegisterController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         signUp.setOnAction(this::registerHandler);
+        back.setOnAction(this::backHandler);
     }
+
 }
 

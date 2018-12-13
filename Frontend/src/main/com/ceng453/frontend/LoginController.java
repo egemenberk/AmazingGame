@@ -13,10 +13,12 @@ import org.springframework.web.client.RestTemplate;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class LoginController implements Initializable {
+public class LoginController extends PageController{
 
     @FXML
     Button login;
+    @FXML
+    Button back;
     @FXML
     TextField usernameField;
     @FXML
@@ -39,7 +41,6 @@ public class LoginController implements Initializable {
             ResponseEntity<String> response = restTemplate.postForEntity("http://localhost:8080/login", request, String.class);
             System.out.println(response.getBody());
 
-
             GameService newGame = new GameService( new JSONObject( response.getBody() ).getString("Token") );
             newGame.startGame( Main.primaryStage );
 
@@ -52,12 +53,11 @@ public class LoginController implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        //.postForEntity("http://localhost:8080/login", request , String.class);
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         login.setOnAction(this::login);
+        back.setOnAction(this::backHandler);
     }
 }
