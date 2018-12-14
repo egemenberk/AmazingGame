@@ -3,6 +3,7 @@ package main.com.ceng453.frontend;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -24,18 +25,37 @@ public class LoginController extends PageController{
     @FXML
     PasswordField passwordField;
 
-
+    // This function logins to the server
+    // If login is successful game will start
     public void login(ActionEvent actionEvent) {
 
+        JSONObject params = getUserFields();
+
+        HttpHeaders headers = createHttpHeaders();
+
+        HttpEntity<String> request = createRESTRequest(params, headers);
+
+        loginToServer(request);
+    }
+
+    private HttpEntity<String> createRESTRequest(JSONObject params, HttpHeaders headers) {
+        return new HttpEntity<>(params.toString(), headers);
+    }
+
+    private HttpHeaders createHttpHeaders() {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
+        return headers;
+    }
 
+    private JSONObject getUserFields() {
         JSONObject params = new JSONObject();
         params.put("username", usernameField.getText() );
         params.put("password", passwordField.getText() );
-        //System.out.println(params.toString());
+        return params;
+    }
 
-        HttpEntity<String> request = new HttpEntity<>(params.toString(), headers);
+    private void loginToServer(HttpEntity<String> request) {
         RestTemplate restTemplate = new RestTemplate();
         try {
             ResponseEntity<String> response = restTemplate.postForEntity("http://localhost:8080/login", request, String.class);
@@ -45,11 +65,7 @@ public class LoginController extends PageController{
             newGame.startGame( Main.primaryStage );
 
         } catch (HttpClientErrorException e) {
-            if(e.getRawStatusCode()==400)
-                System.out.println("Fill the blanks");
-            else if(e.getRawStatusCode()==403)
-                System.out.println("No such User");
-
+            handleWrongInput(e);
         } catch (Exception e) {
             e.printStackTrace();
         }

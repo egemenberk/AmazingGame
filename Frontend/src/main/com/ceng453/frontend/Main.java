@@ -20,17 +20,24 @@ public class Main extends Application {
         Main.primaryStage = stage;
         stage.setTitle("Amazing Game");
 
-        String musicFile = ApplicationConstants.GameMusicFilename;     // For example
+        initializeMusic();
 
-        Media sound = new Media(new File(System.getProperty("user.dir") + "/assets/" + musicFile).toURI().toString());
-        MediaPlayer mediaPlayer = new MediaPlayer(sound);
-        MediaView mediaView = new MediaView(mediaPlayer);
+        startMainPage(stage);
 
+    }
+
+    private void startMainPage(Stage stage) throws java.io.IOException {
         Parent root = FXMLLoader.load(getClass().getResource("Index.fxml"));
         Scene scene = new Scene(root, ApplicationConstants.ScreenWidth, ApplicationConstants.ScreenHeight);
         stage.setScene(scene);
         stage.show();
+    }
 
+    private void initializeMusic() {
+        String musicFile = ApplicationConstants.GameMusicFilename;     // For example
+        Media sound = new Media(new File(System.getProperty("user.dir") + "/assets/" + musicFile).toURI().toString());
+        MediaPlayer mediaPlayer = new MediaPlayer(sound);
+        MediaView mediaView = new MediaView(mediaPlayer);
     }
 
     public static void main(String[] args) {

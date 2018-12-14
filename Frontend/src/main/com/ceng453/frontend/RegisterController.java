@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -34,13 +35,10 @@ public class RegisterController extends PageController{
     Button back;
 
     public void registerHandler(ActionEvent actionEvent){
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
 
-        JSONObject params = new JSONObject();
-        params.put("username", usernameField.getText() );
-        params.put("email", emailField.getText() );
-        params.put("password", passwordField.getText() );
+        JSONObject params = getUserFields();
+
+        HttpHeaders headers = createHttpHeaders();
 
         HttpEntity<String> request = new HttpEntity<>(params.toString(), headers);
         RestTemplate restTemplate = new RestTemplate();
@@ -52,15 +50,24 @@ public class RegisterController extends PageController{
             newGame.startGame( Main.primaryStage );
 
         } catch (HttpClientErrorException e) {
-            if(e.getRawStatusCode()==400)
-                System.out.println("Fill the blanks");
-            else if(e.getRawStatusCode()==403)
-                System.out.println("No such User");
-
+            handleWrongInput(e);
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
 
+    private HttpHeaders createHttpHeaders() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        return headers;
+    }
+
+    private JSONObject getUserFields() {
+        JSONObject params = new JSONObject();
+        params.put("username", usernameField.getText() );
+        params.put("email", emailField.getText() );
+        params.put("password", passwordField.getText() );
+        return params;
     }
 
     @Override

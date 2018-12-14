@@ -1,8 +1,6 @@
 package main.com.ceng453.frontend;
 
 import javafx.fxml.FXML;
-import javafx.scene.Group;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -11,11 +9,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
@@ -23,9 +19,6 @@ import java.net.URL;
 import java.util.*;
 
 public class LeaderBoardController extends PageController{
-
-    @FXML
-    private Pane container ;
 
     @FXML
     private TableView table;
