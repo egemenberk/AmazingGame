@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.com.ceng453.frontend.pagecontrollers.LeaderBoardController">
+   <children>
+      <ImageView fitHeight="-Infinity" fitWidth="-Infinity" layoutX="-1.0" pickOnBounds="true">
+         <image>
+            <Image url="@../Images/login_background.jpg" />
+         </image>
+      </ImageView>
+      <TableView fx:id="table" layoutX="133.0" layoutY="21.0" opacity="0.68" prefHeight="321.0" prefWidth="348.0">
+      </TableView>
+      <Button fx:id="back" layoutX="247.0" layoutY="544.0" mnemonicParsing="false" text="Back">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Button>
+   </children>
+</Pane>
