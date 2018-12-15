@@ -30,7 +30,7 @@ public abstract class PageController implements Initializable {
     // Handler written for <back> button that redirects you to index(the first page when you open the game)
     // This handler forwards the user to the index page
     // This handler is used by every Controller except the IndexController
-    public void backHandler(javafx.event.ActionEvent actionEvent) {
+    void backHandler(javafx.event.ActionEvent actionEvent) {
         try {
             root = FXMLLoader.load(getClass().getResource("Index.fxml"));
         } catch (IOException e) {
@@ -41,7 +41,7 @@ public abstract class PageController implements Initializable {
 
     // When user enters an invalid Field or Wrong username or password
     // Exception that is thrown by the server will be handled here
-    protected void handleWrongInput(HttpClientErrorException e) {
+    void handleWrongInput(HttpClientErrorException e) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Error Happened");
         alert.setHeaderText("Everything is under(or above) control");
@@ -54,7 +54,7 @@ public abstract class PageController implements Initializable {
         alert.showAndWait();
     }
 
-    protected void handleSystemIsDown() {
+    void handleSystemIsDown() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Error Happened");
         alert.setHeaderText("Everything is under(or above) control");

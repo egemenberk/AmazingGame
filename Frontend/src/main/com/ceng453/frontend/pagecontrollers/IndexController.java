@@ -17,7 +17,7 @@ public class IndexController extends PageController{
     @FXML
     Button leaderBoard; // When this button is clicked User is directed to LeaderBoard page
 
-    public void loginHandler(ActionEvent actionEvent){
+    private void loginHandler(ActionEvent actionEvent){
         try {
             root = FXMLLoader.load(getClass().getResource("Login.fxml"));
         } catch (IOException e) {
@@ -26,7 +26,7 @@ public class IndexController extends PageController{
         changeScene();
     }
 
-    public void registerHandler(ActionEvent actionEvent){
+    private void registerHandler(ActionEvent actionEvent){
         try {
             root = FXMLLoader.load(getClass().getResource("Register.fxml"));
         } catch (IOException e) {
@@ -35,7 +35,7 @@ public class IndexController extends PageController{
         changeScene();
     }
 
-    public void leaderBoardHandler(ActionEvent actionEvent) {
+    private void leaderBoardHandler(ActionEvent actionEvent) {
         try {
             root = FXMLLoader.load(getClass().getResource("LeaderBoard.fxml"));
         } catch (IOException e) {

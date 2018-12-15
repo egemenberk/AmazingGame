@@ -2,7 +2,6 @@ package main.com.ceng453.frontend.gamelevels;
 
 import javafx.animation.AnimationTimer;
 import javafx.animation.PauseTransition;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -17,14 +16,11 @@ import javafx.scene.media.MediaView;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import main.com.ceng453.frontend.main.ApplicationConstants;
-import main.com.ceng453.frontend.pagecontrollers.IndexController;
-import main.com.ceng453.frontend.pagecontrollers.LeaderBoardController;
 import main.com.ceng453.frontend.pagecontrollers.PageController;
 import org.json.JSONObject;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
@@ -38,14 +34,14 @@ import java.util.LinkedList;
  */
 public class GameService {
 
-    LinkedList<GameLevel> levels; // Game levels that is added to the game
-    GameLevel currentLevel; // Current game level
-    GraphicsContext gc; // Canvas of our screen
-    String userAuthToken; // Logged in user's token, saved for sending scores
-    AnimationTimer gameLoop; // A timer to call GameLevel's frame generation
-    MediaView mediaView; // Media View, for background musics
-    final GameStateInfo gameStateInfo = new GameStateInfo(System.nanoTime()); // GameStateInfo, described in details in its class
-    PauseTransition pause;
+    private final LinkedList<GameLevel> levels; // Game levels that is added to the game
+    private GameLevel currentLevel; // Current game level
+    private GraphicsContext gc; // Canvas of our screen
+    private final String userAuthToken; // Logged in user's token, saved for sending scores
+    private AnimationTimer gameLoop; // A timer to call GameLevel's frame generation
+    private MediaView mediaView; // Media View, for background musics
+    private final GameStateInfo gameStateInfo = new GameStateInfo(System.nanoTime()); // GameStateInfo, described in details in its class
+    private PauseTransition pause;
 
 
     public GameService(String userAuthToken) {
@@ -59,7 +55,7 @@ public class GameService {
         this.userAuthToken = userAuthToken;
     }
 
-    public void startGame(Stage stage) throws Exception {
+    public void startGame(Stage stage) {
         stage.setTitle("Amazing Game");
 
         // Setting Background Music
@@ -96,11 +92,7 @@ public class GameService {
                 currentLevel.gameLoop(gameStateInfo, gc); // This call will generate a new frame of the game
 
                 if( currentLevel.levelPassed() || currentLevel.isOver()) {
-                    try {
-                        updateCurrentLevel(canvas, currentLevel.isOver()); // Get new level from levels list
-                    } catch (IOException | InterruptedException e) {
-                        e.printStackTrace();
-                    }
+                    updateCurrentLevel(canvas, currentLevel.isOver()); // Get new level from levels list
                     gameStateInfo.restartCycleCounter(); // Restaring cycle counter to make the new level to start from cycle=0
                 }
 
@@ -111,7 +103,7 @@ public class GameService {
 
     }
 
-    private void updateCurrentLevel(Canvas canvas, boolean isOver) throws IOException, InterruptedException {
+    private void updateCurrentLevel(Canvas canvas, boolean isOver) {
 
         if(isOver){ // Game is lost
             // Draw game over text
@@ -179,8 +171,8 @@ public class GameService {
 
         HttpEntity<String> request = new HttpEntity<>(params.toString(), headers);
         try {
-            ResponseEntity<String> response = new RestTemplate(). // Make http call with headers & params
-                    postForEntity(ApplicationConstants.ServerBaseAdress+"/score", request, String.class);
+            // Make http call with headers & params
+            new RestTemplate().postForEntity(ApplicationConstants.ServerBaseAdress+"/score", request, String.class);
 
         } catch (HttpClientErrorException e) { // There, we catch non 200 response types
             Alert alert = new Alert(Alert.AlertType.ERROR);

@@ -15,6 +15,7 @@ import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.URL;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class LoginController extends PageController{
@@ -31,7 +32,7 @@ public class LoginController extends PageController{
     // This function logins to the server
     // If login is successful game will start
     // Otherwise alert will be shown
-    public void login(ActionEvent actionEvent) {
+    private void login(ActionEvent actionEvent) {
 
         JSONObject params = getUserFields();
 
@@ -67,7 +68,7 @@ public class LoginController extends PageController{
         try {
             ResponseEntity<String> response = restTemplate.postForEntity(ApplicationConstants.ServerBaseAdress + "/login", request, String.class);
             System.out.println(response.getBody());
-            GameService newGame = new GameService( new JSONObject( response.getBody() ).getString("Token") );
+            GameService newGame = new GameService( new JSONObject(Objects.requireNonNull(response.getBody())).getString("Token") );
             newGame.startGame( Main.primaryStage );
 
         } catch (HttpClientErrorException e) { // User has provided wrong input Server responds it with HTTP* Exception

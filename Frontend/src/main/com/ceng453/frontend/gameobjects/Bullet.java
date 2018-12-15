@@ -12,7 +12,6 @@ public class Bullet extends GameObject {
     public static final int UserBullet = 0;
     public static final int AlienBullet = 1;
     public static final int HardAlienBullet = 2;
-    protected static final int HomingMissile = 3;
 
 
     public Bullet(Image sprite, int width, int height) {
@@ -26,7 +25,7 @@ public class Bullet extends GameObject {
         setPositionY( getPositionY() + getVelocityY()*elapsedTime );
         setPositionX( getPositionX() + getVelocityX()*elapsedTime );
         if( getPositionY()+getHeight() < 0 || getPositionY() > ApplicationConstants.ScreenHeight )
-            setCleared(true);
+            setCleared();
         return null;
     }
 }

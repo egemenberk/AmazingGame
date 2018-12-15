@@ -3,6 +3,7 @@ package main.com.ceng453.frontend.gameobjects;
 import main.com.ceng453.frontend.main.ApplicationConstants;
 
 import java.util.LinkedList;
+import java.util.Objects;
 
 /*
  * Alienship factory, to generate aliens in different levels
@@ -42,7 +43,7 @@ public class AlienShipFactory {
                     break;
             }
 
-            alienShip.setPosition(OffsetX + StepX*(i%alienCountInRow),OffsetY+StepY*(i/alienCountInRow));
+            Objects.requireNonNull(alienShip).setPosition(OffsetX + StepX*(i%alienCountInRow),OffsetY+StepY*(i/alienCountInRow));
 
             createdShips.add(alienShip);
         }

@@ -40,22 +40,21 @@ public final class ApplicationConstants {
     public static final double HealtBarHeight = 10;
     public static final double HealtBarWidthCoefficent = 0.7;
 
-    static final String UserBulletImagename = "user_bullet.png";
-    static final String AlienBulletImagename = "alien_bullet.png";
-    static final String BackgroundImagename = "background.jpg";
-    static final String UserShipImagename = "user_ship.png";
-    static final String EasyAlienShipImagename = "alien_ship.png";
-    static final String MediumAlienShipImagename = "alien2.png";
-    static final String HardAlienShipImagename = "alien3.png";
-    static final String ExplosionImagename = "explosion.png";
-    static final String GameOverImagename = "game_over.png";
-    static final String HealtBarImagename = "health_bar.png";
+    private static final String UserBulletImagename = "user_bullet.png";
+    private static final String AlienBulletImagename = "alien_bullet.png";
+    private static final String BackgroundImagename = "background.jpg";
+    private static final String UserShipImagename = "user_ship.png";
+    private static final String EasyAlienShipImagename = "alien_ship.png";
+    private static final String MediumAlienShipImagename = "alien2.png";
+    private static final String HardAlienShipImagename = "alien3.png";
+    private static final String ExplosionImagename = "explosion.png";
+    private static final String GameOverImagename = "game_over.png";
 
-    public static final String ViyuwSound = "ciyuw.wav";
-    public static final String PitSound = "pit.wav";
+    static final String ViyuwSound = "ciyuw.wav";
+    static final String PitSound = "pit.wav";
     public static final String Dattiridatdat = "datdiridat.wav";
-    public static final String JustWowImagename = "just_wow.jpg";
-    public static final String Kapiska = "kapuska.wav";
+    private static final String JustWowImagename = "just_wow.jpg";
+    static final String Kapiska = "kapuska.wav";
 
     public static final String GameMusicFilename = "NecroDancer_OST_Portabellohead.mp3";
 
@@ -69,7 +68,6 @@ public final class ApplicationConstants {
     public static final Image HardAlienShipImage = new Image(Objects.requireNonNull(StaticHelpers.getResourceFromAssets(HardAlienShipImagename)));
     public static final Image GameOverImage = new Image(Objects.requireNonNull(StaticHelpers.getResourceFromAssets(GameOverImagename)));
     public static final Image JustWowImage = new Image(Objects.requireNonNull(StaticHelpers.getResourceFromAssets(JustWowImagename)));
-    public static final Image HealthBarImage = new Image(Objects.requireNonNull(StaticHelpers.getResourceFromAssets(HealtBarImagename)));
 
     public static final Random numberGenerator = new Random();
 

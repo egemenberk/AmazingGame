@@ -3,7 +3,7 @@ package main.com.ceng453.frontend.gamelevels;
 /*
  * A state class for keeping time, cycle, score between different calls of the gamelevels
  */
-public class GameStateInfo{
+class GameStateInfo{
     private long currentCycleCounter;
     private double previousLoopTime;
     private double elapsedTime;
