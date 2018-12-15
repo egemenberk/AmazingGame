@@ -38,7 +38,7 @@ public class User {
 
     // With orphanRemoval when we delete Score from the list It is deleted from database as well
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", orphanRemoval = true, cascade = CascadeType.ALL)
-    private Set<Score> scoreLogs = new HashSet<Score>();
+    private Set<Score> scoreLogs = new HashSet<>();
 
     // Empty constructor, to create a token for newly registering users.
     // Other attributes will be set from UserController

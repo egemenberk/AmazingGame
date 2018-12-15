@@ -3,8 +3,8 @@ package com.ceng453.frontend;
 import java.util.HashMap;
 import java.util.Map;
 
-public class GameService {
-    private Map<String, GameInstance> gameInstances;
+class GameService {
+    private final Map<String, GameInstance> gameInstances;
 
 
     public GameService() {

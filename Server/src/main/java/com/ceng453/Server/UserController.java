@@ -34,7 +34,8 @@ public class UserController {
         } catch (Exception e) {
             HttpHeaders headers = new HttpHeaders();
             headers.add("Content-Type", "application/json; charset=utf-8");
-            return new ResponseEntity<String>("{\n \"Reason\": \"Same Username or email has been used\" \n}", headers, HttpStatus.BAD_REQUEST);
+            System.out.println("RAMRAS");
+            return new ResponseEntity<String>("{\n \"Reason\": \"Same Username or email has been used\" \n}", headers, HttpStatus.CONFLICT);
         }
             // Adding an empty score entity for that user to be able to list him/her on leaderboards when score=0 too
         Score s = new Score();

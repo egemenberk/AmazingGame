@@ -7,7 +7,7 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Entity
-public class Score {
+class Score {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)

@@ -35,7 +35,7 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
                 .createNativeQuery("select * from user where username=?", User.class);
         query.setParameter(1, username);
 
-        User result = null;
+        User result;
         try {
             result = (User) query.getSingleResult();
         } catch(  NoResultException ex){

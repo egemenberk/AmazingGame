@@ -10,11 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.client.MockRestServiceServer;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.time.LocalDateTime;
@@ -43,7 +41,10 @@ public class ServerApplicationTests {
     private MockMvc mockMvc;
 
     private User user1, user2, user3, user4, user5, user6, user7, user;
-    private Score score1, score2, score3, score4, score5;
+    private Score score1;
+    private Score score2;
+    private Score score3;
+    private Score score4;
 
     @Before
 	public void setUp() {

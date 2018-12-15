@@ -3,8 +3,8 @@ package com.ceng453.frontend;
 import java.util.ArrayList;
 
 public class SinglePlayerGameInstance implements GameInstance {
-    private String assignedUserToken;
-    private Thread workerThread;
+    private final String assignedUserToken;
+    private final Thread workerThread;
     private Object responseGenerationLock;
     private String responseAsJson;
     private boolean terminateSignal;
@@ -30,7 +30,6 @@ public class SinglePlayerGameInstance implements GameInstance {
         while(!terminateSignal){
             currentGameCycle++;
 
-            ProcessUserInput(); // read user input
             UpdateGameState();// update game
             serialize();
 
@@ -40,10 +39,6 @@ public class SinglePlayerGameInstance implements GameInstance {
                 e.printStackTrace();
             }
         }
-    }
-
-    private void ProcessUserInput(){
-
     }
 
     private void UpdateGameState(){

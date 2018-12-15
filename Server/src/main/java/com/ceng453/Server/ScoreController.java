@@ -33,17 +33,17 @@ public class ScoreController {
         if(payload.get("score") != null)
             s.setScore( Integer.parseInt(payload.get("score")) );
         else
-            return new ResponseEntity<String>("Your score entity cannot be found", headers, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Your score entity cannot be found", headers, HttpStatus.BAD_REQUEST);
 
         if(payload.get("token") != null){
             List<User> userList = userRepository.findBySession( payload.get("token") );
             if(userList.size() == 0)
-                return new ResponseEntity<String>("Your token is incorrect, Please try again later", headers, HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>("Your token is incorrect, Please try again later", headers, HttpStatus.BAD_REQUEST);
 
             s.setUser(userList.get(0));
         }
         else
-            return new ResponseEntity<String>("Your token entity cannot be found", headers, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Your token entity cannot be found", headers, HttpStatus.BAD_REQUEST);
 
         return scoreRepository.save(s);
     }
@@ -71,11 +71,11 @@ public class ScoreController {
 
         List<Score> scoresList = scoreRepository.findByUser(score.getUser());
         if(scoresList.isEmpty())
-            return new ResponseEntity<String>("There is no such score", headers, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("There is no such score", headers, HttpStatus.BAD_REQUEST);
 
 
         scoreRepository.deleteById(score.getScore_id());
-        return new ResponseEntity<String>("Score with Id: " + score.getScore_id() + "is succesfully deleted", headers, HttpStatus.OK);
+        return new ResponseEntity<>("Score with Id: " + score.getScore_id() + "is succesfully deleted", headers, HttpStatus.OK);
     }
 
     @GetMapping(path="/allScores") // ONLY FOR DEBUG PURPOSES
