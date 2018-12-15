@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import main.com.ceng453.frontend.main.ApplicationConstants;
 import main.com.ceng453.frontend.main.Main;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.client.HttpClientErrorException;
 
 import java.io.IOException;
@@ -45,12 +46,16 @@ public abstract class PageController implements Initializable {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Error Happened");
         alert.setHeaderText("Everything is under(or above) control");
+        System.out.println(e.getRawStatusCode());
+        System.out.println(e.getStatusCode().toString());
         if(e.getRawStatusCode()==400) {
             alert.setContentText("Please Fill in the Blanks!");
         }
         else if(e.getRawStatusCode()==403) {
             alert.setContentText("No such User with this username and password");
         }
+        else if(e.getStatusCode() == HttpStatus.CONFLICT)
+            alert.setContentText("Same Username or email has been used");
         alert.showAndWait();
     }
 

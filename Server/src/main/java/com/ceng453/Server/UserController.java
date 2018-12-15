@@ -27,9 +27,16 @@ public class UserController {
      * Will be called by frontend when creating a new user
      */
     @PostMapping(path="/signup")
-    public User addNewUser (@Valid @RequestBody User user) {
-        User u = userRepository.save(user);
-        // Adding an empty score entity for that user to be able to list him/her on leaderboards when score=0 too
+    public Object addNewUser (@Valid @RequestBody User user) {
+        User u;
+        try {
+            u = userRepository.save(user);
+        } catch (Exception e) {
+            HttpHeaders headers = new HttpHeaders();
+            headers.add("Content-Type", "application/json; charset=utf-8");
+            return new ResponseEntity<String>("{\n \"Reason\": \"Same Username or email has been used\" \n}", headers, HttpStatus.BAD_REQUEST);
+        }
+            // Adding an empty score entity for that user to be able to list him/her on leaderboards when score=0 too
         Score s = new Score();
         s.setUser(u);
         s.setScore(0);
@@ -64,7 +71,7 @@ public class UserController {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json; charset=utf-8");
 
-        if(payload.get("username") != "" && payload.get("password") != "" && payload.get("email") != "")
+        if(!payload.get("username").equals("") && payload.get("password") != "" && payload.get("email") != "")
             return userRepository.authenticate( payload.get("username"), payload.get("password") );
         else
             return new ResponseEntity<String>("{\n \"Reason\": \"Fill the fields\" \n}", headers, HttpStatus.BAD_REQUEST);
@@ -76,7 +83,7 @@ public class UserController {
      * Authentication will be done using session_token
      */
     @PutMapping("/user")
-    public Object updateUser(@RequestBody Map<String, String> payload) throws NoSuchAlgorithmException {
+    public Object updateUser(@RequestBody Map<String, String> payload) {
 
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json; charset=utf-8");
