@@ -1,7 +1,9 @@
 package main.com.ceng453.frontend.pagecontrollers;
 
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -28,6 +30,9 @@ public class LeaderBoardController extends PageController{
     @FXML
     Button back;  // Back button to go the main menu
 
+    @FXML
+    ComboBox combobox; // For selecting which LeaderBoard to show. Last 7 days and All Time
+
     // We have created a simple class to imitate the User
     public class Leader {
         private String name;
@@ -48,19 +53,19 @@ public class LeaderBoardController extends PageController{
     }
 
     // Function to get the all time Scores from the Server
-    public void getLeaderBoardHandler() {
-        Main.primaryStage.setTitle("LeaderBoard");
-        configureTable();
-        getBoardWithREST();
+    // The Parameter is used to alternate between 7 days and All Time
+    public void getLeaderBoardHandler(String timeInterval) {
+        Main.primaryStage.setTitle(timeInterval);
+        getBoardWithREST(timeInterval);
     }
 
     // We make a REST request to Server
-    private void getBoardWithREST() {
+    private void getBoardWithREST(String timeInterval) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         RestTemplate restTemplate = new RestTemplate();
         try {
-            ResponseEntity<String> response = restTemplate.getForEntity(new URI(ApplicationConstants.ServerBaseAdress+"/leaderboard/all_time"), String.class);
+            ResponseEntity<String> response = restTemplate.getForEntity(new URI(ApplicationConstants.ServerBaseAdress+"/leaderboard/" + timeInterval), String.class);
             addToTable(response);
         } catch (HttpClientErrorException e) { // User has provided wrong input Server responds it with HTTP* Exception
             handleWrongInput(e);
@@ -93,10 +98,24 @@ public class LeaderBoardController extends PageController{
         table.getColumns().addAll(nameColumn, scoreColumn);
     }
 
+    // It updates the table according to the selected option
+    private void changeTable(Event event) {
+        table.getItems().clear();
+        if(combobox.getValue().toString().equals("All Time"))
+            getLeaderBoardHandler("all_time");
+        else
+            getLeaderBoardHandler("7_days");
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        getLeaderBoardHandler();
+        configureTable();
+        getLeaderBoardHandler("7_days");
         back.setOnAction(this::backHandler);
+        combobox.getItems().addAll("All Time", "Last 7 days");
+        combobox.getSelectionModel().select("All Time");
+        combobox.getSelectionModel().select("Last 7 days");
+        combobox.setOnAction(this::changeTable);
     }
 
 }
