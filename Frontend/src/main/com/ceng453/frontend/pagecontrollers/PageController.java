@@ -16,6 +16,7 @@ import java.io.IOException;
 public abstract class PageController implements Initializable {
 
     // This is used for changing the Scene
+    // Every instance of the subclass of PageController will have the same object
     public static Parent root;
 
     // Helper function to change the page

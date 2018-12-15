@@ -11,11 +11,11 @@ import java.util.ResourceBundle;
 public class IndexController extends PageController{
 
     @FXML
-    Button login;
+    Button login;  // When this button is clicked User is directed to Log In page
     @FXML
-    Button register;
+    Button register;  // When this button is clicked User is directed to Register page
     @FXML
-    Button leaderBoard;
+    Button leaderBoard; // When this button is clicked User is directed to LeaderBoard page
 
     public void loginHandler(ActionEvent actionEvent){
         try {
