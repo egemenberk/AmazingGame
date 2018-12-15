@@ -3,8 +3,6 @@ package main.com.ceng453.frontend.gamelevels;
 import javafx.scene.canvas.GraphicsContext;
 import main.com.ceng453.frontend.gameobjects.AlienShipFactory;
 import main.com.ceng453.frontend.main.ApplicationConstants;
-import main.com.ceng453.frontend.gameobjects.EasyEnemyShip;
-import main.com.ceng453.frontend.gameobjects.MediumEnemyShip;
 
 public class GameLevel2 extends GameLevel{
 

@@ -31,8 +31,6 @@ public class ServerApplicationTests {
     @Autowired
     private WebApplicationContext wac;
 
-    private RestTemplate restOperations= new RestTemplate();
-
     @Autowired
     private ScoreRepository scoreRepository;
 
@@ -43,7 +41,6 @@ public class ServerApplicationTests {
     ObjectMapper objectMapper;
 
     private MockMvc mockMvc;
-    private MockRestServiceServer mockRestServiceServer;
 
     private User user1, user2, user3, user4, user5, user6, user7, user;
     private Score score1, score2, score3, score4, score5;
@@ -51,7 +48,6 @@ public class ServerApplicationTests {
     @Before
 	public void setUp() {
         mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
-        mockRestServiceServer = MockRestServiceServer.createServer(restOperations);
 
 	    LocalDateTime time = LocalDateTime.now();
 	    user  = new User("username", "email@gmail.com", "password");
@@ -145,7 +141,7 @@ public class ServerApplicationTests {
         this.mockMvc.perform(post("/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request)))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isForbidden());
 
         userRepository.delete(user7);
     }

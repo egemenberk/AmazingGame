@@ -45,8 +45,8 @@ public class GameService {
 
         // Adding levels to our list to pop, when current level is completed
         levels.push(new GameLevel3());
-        levels.push(new GameLevel2());
-        levels.push(new GameLevel1());
+        //levels.push(new GameLevel2());
+        //levels.push(new GameLevel1());
 
         this.userAuthToken = userAuthToken;
     }

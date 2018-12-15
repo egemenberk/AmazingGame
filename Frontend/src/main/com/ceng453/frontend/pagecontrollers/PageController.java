@@ -43,15 +43,21 @@ public abstract class PageController implements Initializable {
     protected void handleWrongInput(HttpClientErrorException e) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Error Happened");
-        alert.setHeaderText("Look, an Information Dialog");
+        alert.setHeaderText("Everything is under(or above) control");
         if(e.getRawStatusCode()==400) {
             alert.setContentText("Please Fill in the Blanks!");
         }
         else if(e.getRawStatusCode()==403) {
-            alert.setContentText("No such User");
+            alert.setContentText("No such User with this username and password");
         }
         alert.showAndWait();
     }
 
-
+    protected void handleSystemIsDown() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Error Happened");
+        alert.setHeaderText("Everything is under(or above) control");
+        alert.setContentText("Server is down or not started!");
+        alert.showAndWait();
+    }
 }
