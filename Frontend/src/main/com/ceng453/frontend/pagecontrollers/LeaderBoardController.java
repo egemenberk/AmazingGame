@@ -6,6 +6,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import main.com.ceng453.frontend.main.ApplicationConstants;
 import main.com.ceng453.frontend.main.Main;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -58,7 +59,7 @@ public class LeaderBoardController extends PageController{
         headers.setContentType(MediaType.APPLICATION_JSON);
         RestTemplate restTemplate = new RestTemplate();
         try {
-            ResponseEntity<String> response = restTemplate.getForEntity(new URI("http://localhost:8080/leaderboard/all_time"), String.class);
+            ResponseEntity<String> response = restTemplate.getForEntity(new URI(ApplicationConstants.ServerBaseAdress+"/leaderboard/all_time"), String.class);
             addToTable(response);
         } catch (Exception e) {
             e.printStackTrace();

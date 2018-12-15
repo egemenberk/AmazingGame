@@ -3,28 +3,39 @@ package main.com.ceng453.frontend.gameobjects;
 import javafx.scene.image.Image;
 import main.com.ceng453.frontend.main.ApplicationConstants;
 
+// This is the boss of our game
 public class HardEnemyShip extends GameObject {
+
+    private static final int changeDirectionCycle = 250;
+    private static final int linearXVelocity = 100;
+    private static final int circleCompilationCycle = 70;
+    private static final int cyclicMovementElipsX = 140;
+    private static final int cyclicMovementElipsY = 380;
 
     public HardEnemyShip(Image sprite, int width, int height) {
         super(sprite, width, height);
-        setBounty(ApplicationConstants.AlienShip3Bounty);
+        setBounty(ApplicationConstants.HardAlienShipBounty);
     }
 
     @Override
     public GameObject update(double elapsedTime, long currentCycleNumber) {
-        double rad = (currentCycleNumber%70) * 2 * Math.PI / 70.0;
+        // Move in cycles
+        double rad = (currentCycleNumber% circleCompilationCycle) * 2 * Math.PI / circleCompilationCycle;
 
-        setVelocityY( -Math.cos( rad )*140 );
-        setVelocityX( -Math.sin( rad )*380 );
+        setVelocityY( -Math.cos( rad )*cyclicMovementElipsX );
+        setVelocityX( -Math.sin( rad )*cyclicMovementElipsY );
 
-        if( currentCycleNumber%500 > 250 )
-            setVelocityX( getVelocityX() + 100 );
+        // Additionally, move to left and right
+        if( currentCycleNumber%(2*changeDirectionCycle) > changeDirectionCycle )
+            setVelocityX( getVelocityX() + linearXVelocity );
         else
-            setVelocityX( getVelocityX() - 100 );
+            setVelocityX( getVelocityX() - linearXVelocity );
 
+        // Calculate x by x=v*t
         setPositionX( getVelocityX() * elapsedTime + getPositionX());
         setPositionY( getVelocityY() * elapsedTime + getPositionY());
 
+        // Randomly shoot
         if( ApplicationConstants.numberGenerator.nextDouble() > (1.0 -  ApplicationConstants.HardAlienShootPercentage) )
             return shoot();
 

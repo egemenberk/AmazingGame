@@ -5,35 +5,37 @@ import javafx.scene.image.Image;
 import java.util.Random;
 
 public final class ApplicationConstants {
+    public static final String ServerBaseAdress = "http://localhost:8080";
+
     public static final int UserBulletWidth = 20;
     public static final int UserBulletHeight = 35;
     public static final int AlienBulletWidth = 20;
     public static final int AlienBulletHeight = 30;
-    public static final double UserBulletVelocity = -270;
-    public static final double EasyAlienShootPercentage = 0.001;
-    public static final double MediumAlienShootPercentage = 0.004;
+
+    public static final double EasyAlienShootPercentage = 0.002;
+    public static final double MediumAlienShootPercentage = 0.005;
     public static final double HardAlienShootPercentage = 0.008;
-    public static final double AlienBulletVelocity = 100;
-    public static final int AlienShip1Bounty = 10;
-    public static final int UserShipHealth = 6;
-    public static final int AlienShip2Bounty = 15;
-    public static final int AlienShip3Bounty = 20;
-    public static final String ServerBaseAdress = "http://localhost:8080";
-    public static final String ViyuwSound = "ciyuw.wav";
-    public static final String PitSound = "pit.wav";
-    public static final String Dattiridatdat = "datdiridat.wav";
-    public static final String JustWowImagename = "just_wow.jpg";
-    public static final String Kapiska = "kapuska.wav";
+
     public static final int ScreenWidth = 600;
     public static final int ScreenHeight = 768;
-    public static final int UserShipDamage = 2;
     public static final double TextDrawRectHeight = 22;
+
+    public static final int EasyAlienShipBounty = 10;
+    public static final int MediumAlienShipBounty = 15;
+    public static final int HardAlienShipBounty = 20;
+
     public static final int EasyAlienShipHP = 2;
     public static final int EasyAlienShipDMG = 1;
     public static final int MediumAlienShipHP = 6;
     public static final int MediumAlienShipDMG = 2;
     public static final int HardAlienShipHP = 16;
     public static final int HardAlienShipDMG = 3;
+
+    public static final int UserShipHealth = 6;
+    public static final int UserShipDamage = 2;
+
+    public static final double UserBulletVelocity = -270;
+    public static final double AlienBulletVelocity = 100;
 
     static final String UserBulletImagename = "user_bullet.png";
     static final String AlienBulletImagename = "alien_bullet.png";
@@ -44,6 +46,12 @@ public final class ApplicationConstants {
     static final String HardAlienShipImagename = "alien3.png";
     static final String ExplosionImagename = "explosion.png";
     static final String GameOverImagename = "game_over.png";
+
+    public static final String ViyuwSound = "ciyuw.wav";
+    public static final String PitSound = "pit.wav";
+    public static final String Dattiridatdat = "datdiridat.wav";
+    public static final String JustWowImagename = "just_wow.jpg";
+    public static final String Kapiska = "kapuska.wav";
 
     public static final String GameMusicFilename = "NecroDancer_OST_Portabellohead.mp3";
 

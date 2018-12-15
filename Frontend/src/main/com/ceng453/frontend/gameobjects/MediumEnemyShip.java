@@ -5,21 +5,28 @@ import main.com.ceng453.frontend.main.ApplicationConstants;
 
 public class MediumEnemyShip extends GameObject {
 
+    private static final int circleCompilationCycle = 70;
+    private static final int cyclicMovementElipsX = 140;
+    private static final int cyclicMovementElipsY = 350;
+
     public MediumEnemyShip(Image sprite, int width, int height) {
         super(sprite, width, height);
-        setBounty(ApplicationConstants.AlienShip2Bounty);
+        setBounty(ApplicationConstants.MediumAlienShipBounty);
     }
 
     @Override
     public GameObject update(double elapsedTime, long currentCycleNumber) {
-        double rad = (currentCycleNumber%70) * 2 * Math.PI / 70.0;
+        // Move in elipses
+        double rad = (currentCycleNumber%circleCompilationCycle) * 2 * Math.PI / circleCompilationCycle;
 
-        setVelocityY( Math.cos( rad )*140 );
-        setVelocityX( Math.sin( rad )*350 );
+        setVelocityY( Math.cos( rad )*cyclicMovementElipsX );
+        setVelocityX( Math.sin( rad )*cyclicMovementElipsY );
 
+        // Calculate x with x=v*t
         setPositionX( getVelocityX() * elapsedTime + getPositionX());
         setPositionY( getVelocityY() * elapsedTime + getPositionY());
 
+        // Randomly shoot
         if( ApplicationConstants.numberGenerator.nextDouble() > 1.0 -  ApplicationConstants.MediumAlienShootPercentage )
             return shoot();
 

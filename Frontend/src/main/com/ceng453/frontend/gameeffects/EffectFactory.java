@@ -10,6 +10,8 @@ public class EffectFactory {
     private static final int BulletExplosionHeight = 50;
     private static final int BulletExplosionWidth = 50;
 
+    private EffectFactory(){} // Factory Pattern
+
     /*
         This method created an effect object depending on the given effectType
         Those effect types are defined in Effect object.

@@ -4,13 +4,25 @@ import main.com.ceng453.frontend.main.ApplicationConstants;
 
 import java.util.LinkedList;
 
+/*
+ * Alienship factory, to generate aliens in different levels
+ */
 public class AlienShipFactory {
 
+    // Constant alien types that can be created
     public static final int EasyEnemyShip = 0;
     public static final int MediumEnemyShip = 1;
     public static final int HardEnemyShip = 2;
 
+    private AlienShipFactory(){} // Factory pattern
+
+    /*
+     * This method generates alien ships, with 'alienCountInRow' in each of 'rowCount'
+     * First row,column will be positioned in OffsetX and OffsetY
+     * There will be StepX and StepY difference in the each row and column respectively
+     */
     public static LinkedList<GameObject> populateEnemyShips(int shipType, int alienCountInRow, int rowCount, int OffsetX, int StepX, int OffsetY, int StepY){
+        // We will be adding each initialized ship to that list to return
         LinkedList<GameObject> createdShips = new LinkedList<>();
         for( int i=0; i<alienCountInRow*rowCount; i++ )
         {
