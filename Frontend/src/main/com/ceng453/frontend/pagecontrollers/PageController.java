@@ -16,11 +16,11 @@ import java.io.IOException;
 public abstract class PageController implements Initializable {
 
     // This is used for changing the Scene
-    protected Parent root;
+    public static Parent root;
 
     // Helper function to change the page
     // Set The new Scene in the Stage
-    protected void changeScene(Parent root) {
+    public static void changeScene() {
         Scene scene = new Scene(root, ApplicationConstants.ScreenWidth, ApplicationConstants.ScreenHeight);
         Main.primaryStage.setScene(scene);
         Main.primaryStage.show();
@@ -35,7 +35,7 @@ public abstract class PageController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        changeScene(root);
+        changeScene();
     }
 
     // When user enters an invalid Field or Wrong username or password

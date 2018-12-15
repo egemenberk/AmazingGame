@@ -1,6 +1,9 @@
 package main.com.ceng453.frontend.gamelevels;
 
 import javafx.animation.AnimationTimer;
+import javafx.animation.PauseTransition;
+import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -12,8 +15,11 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import main.com.ceng453.frontend.main.ApplicationConstants;
 import main.com.ceng453.frontend.pagecontrollers.IndexController;
+import main.com.ceng453.frontend.pagecontrollers.LeaderBoardController;
+import main.com.ceng453.frontend.pagecontrollers.PageController;
 import org.json.JSONObject;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -23,6 +29,7 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.LinkedList;
 
 /*
@@ -38,6 +45,7 @@ public class GameService {
     AnimationTimer gameLoop; // A timer to call GameLevel's frame generation
     MediaView mediaView; // Media View, for background musics
     final GameStateInfo gameStateInfo = new GameStateInfo(System.nanoTime()); // GameStateInfo, described in details in its class
+    PauseTransition pause;
 
 
     public GameService(String userAuthToken) {
@@ -88,7 +96,11 @@ public class GameService {
                 currentLevel.gameLoop(gameStateInfo, gc); // This call will generate a new frame of the game
 
                 if( currentLevel.levelPassed() || currentLevel.isOver()) {
-                    updateCurrentLevel(canvas, currentLevel.isOver()); // Get new level from levels list
+                    try {
+                        updateCurrentLevel(canvas, currentLevel.isOver()); // Get new level from levels list
+                    } catch (IOException | InterruptedException e) {
+                        e.printStackTrace();
+                    }
                     gameStateInfo.restartCycleCounter(); // Restaring cycle counter to make the new level to start from cycle=0
                 }
 
@@ -99,13 +111,12 @@ public class GameService {
 
     }
 
-    private void updateCurrentLevel(Canvas canvas, boolean isOver) {
+    private void updateCurrentLevel(Canvas canvas, boolean isOver) throws IOException, InterruptedException {
 
         if(isOver){ // Game is lost
             // Draw game over text
             gc.drawImage(ApplicationConstants.GameOverImage, 0,0, ApplicationConstants.ScreenWidth, ApplicationConstants.ScreenHeight);
             gameLoop.stop(); // Stop the game loop
-            sendCurrentScoreLog(); // Send score log to the server
 
             // Setting mediaView's player to play Dattiridat song
             mediaView.getMediaPlayer().stop();
@@ -114,6 +125,11 @@ public class GameService {
             mediaView.getMediaPlayer().setVolume(0.3);
             mediaView.getMediaPlayer().setCycleCount(1);
             mediaView.getMediaPlayer().play();
+
+            pause = new PauseTransition( Duration.seconds(5) );
+
+            waitAtTheEnd(4);
+
         }
 
         else if( !levels.isEmpty() ) { // Meaning there is still levels exists
@@ -127,9 +143,27 @@ public class GameService {
             // Drawing the 'Amazing!' image
             gc.drawImage(ApplicationConstants.JustWowImage, 0,0, ApplicationConstants.ScreenWidth, ApplicationConstants.ScreenHeight);
             gameLoop.stop(); // Stop the game loop
-            sendCurrentScoreLog(); // And send score to server
+
+            waitAtTheEnd(3);
         }
 
+    }
+
+    // Wait for Images to Load
+    // Send the User Score to the Server
+    // Then Redirect the User to the LeaderBoard
+    private void waitAtTheEnd(int seconds) {
+        pause = new PauseTransition( Duration.seconds(seconds) );
+        pause.setOnFinished(event -> {
+            try {
+                sendCurrentScoreLog(); // And send score to server
+                PageController.root = FXMLLoader.load(getClass().getResource("../pagecontrollers/LeaderBoard.fxml"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            PageController.changeScene();
+        });
+        pause.play();
     }
 
     // This method sends game score to the server
