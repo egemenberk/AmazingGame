@@ -8,8 +8,8 @@ Server 2.zip
 .apt_generated
 .classpath
 .factorypath
-.class
-DS_STORE
+*.class
+*DS_STORE
 .project
 .settings
 .springBeans
