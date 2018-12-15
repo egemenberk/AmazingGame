@@ -69,7 +69,8 @@ public class ServerApplicationTests {
         this.mockMvc.perform(post("/signup/")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(user)));
-
+        // We assert that the User is added to the database
+        // So !isEmpty() will return True
         assertFalse(userRepository.findBySession(user.getSession()).isEmpty());
     }
 
@@ -138,6 +139,7 @@ public class ServerApplicationTests {
 
         userRepository.save(user7);
 
+        // We Expect that this kind of behaviour is forbidden
         this.mockMvc.perform(post("/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request)))
@@ -148,6 +150,7 @@ public class ServerApplicationTests {
 
     @Test
     public void addNewScore() throws Exception {
+        // We first add the user so that we can add scores to some User
         userRepository.save(user5);
         // To get a valid user_id and token we have to add user to the database
         JSONObject request = new JSONObject();
@@ -159,12 +162,18 @@ public class ServerApplicationTests {
                     .content(objectMapper.writeValueAsString(request)));
 
         List<Score> score = scoreRepository.findByUser(user5);
+        // We assert that sessionId of the saved User is same with the
+        // sessionId of the score whose user is User5
         assertEquals(user5.getSession(), score.get(0).getUser().getSession());
     }
 
     @Test
     public void deleteScore() throws Exception {
+        // We add the User to be deleted to the database First
         userRepository.save(user6);
+
+        // We also add Scores so that we can show that the scores of the deleted User
+        // will also be deleted
         scoreRepository.save(score2);
         scoreRepository.save(score3);
         scoreRepository.save(score4);
@@ -173,6 +182,8 @@ public class ServerApplicationTests {
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsString(score2)));
 
+        // We assert that there is no such score
+        // Because there is no such user
         List<Score> scoreList = scoreRepository.findByUser(user6);
         assertEquals(2, scoreList.size());
     }
