@@ -2,9 +2,12 @@ package main.com.ceng453.frontend.gameobjects;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.transform.Rotate;
 import main.com.ceng453.frontend.gameeffects.Effect;
 import main.com.ceng453.frontend.gameeffects.EffectFactory;
+import main.com.ceng453.frontend.main.ApplicationConstants;
 
 /*
  * Every Object that is drawn and interractable is a GameObject
@@ -16,6 +19,7 @@ public abstract class GameObject {
     // Position, Velocity, hp, dmg, width and height, bounty(for score calc.) and an image
     private double pos_x, pos_y;
     private double velocity_x, velocity_y;
+    private int originalHitPoints;
     private int hitPointsLeft;
     private int damage;
     private int width, height;
@@ -39,6 +43,7 @@ public abstract class GameObject {
 
     public void setHitpointsAndDamage(int hitPointsLeft, int damage ) {
         this.hitPointsLeft = hitPointsLeft;
+        this.originalHitPoints = hitPointsLeft;
         this.damage = damage;
     }
 
@@ -67,16 +72,29 @@ public abstract class GameObject {
         // We will rotate images of GameObjects in their movement direction
         context.save();
 
-        double middleX = getPositionX() + getWidth()/2.0;
-        double middleY = getPositionY() + getHeight()/2.0;
-        double angle = Math.atan2(-getVelocityX(),getVelocityY()); // Calculate the rotation angle in radians
+        double middleX = getPositionX() + getWidth() / 2.0;
+        double middleY = getPositionY() + getHeight() / 2.0;
+        double angle = Math.atan2(-getVelocityX(), getVelocityY()); // Calculate the rotation angle in radians
         // Rotate the canvas centering the given X and Y
         Rotate r = new Rotate(Math.toDegrees(angle), middleX, middleY);
         context.setTransform(r.getMxx(), r.getMyx(), r.getMxy(), r.getMyy(), r.getTx(), r.getTy());
 
-        context.drawImage( sprite, pos_x, pos_y, width, height ); // Drawing self image
+        context.drawImage(sprite, pos_x, pos_y, width, height); // Drawing self image
 
         context.restore(); // back to original state (before rotation)
+
+        if (hitPointsLeft < originalHitPoints && originalHitPoints > ApplicationConstants.UserShipDamage ) // Draw health bar
+        {
+            double health_ratio = hitPointsLeft / (double)originalHitPoints; // Calculate health percentage
+            double offsetX = ((1 - ApplicationConstants.HealtBarWidthCoefficent) * getWidth())/2; // Offset of rectangle to centralize
+            // Draw Bounding Box
+            context.strokeRect( pos_x + offsetX, pos_y + height, ApplicationConstants.HealtBarWidthCoefficent * width, ApplicationConstants.HealtBarHeight );
+            context.save(); // Save the context, we will change fill color
+            context.setFill(Color.RED );
+            // Fill the Bounding box with health_ratio percentage
+            context.fillRect(pos_x + offsetX + 1, pos_y + height + 1, ApplicationConstants.HealtBarWidthCoefficent * width * health_ratio, ApplicationConstants.HealtBarHeight -1);
+            context.restore(); // Restore it back
+        }
     }
 
     public int getWidth() {

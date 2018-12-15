@@ -2,6 +2,8 @@ package main.com.ceng453.frontend.gameobjects;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
+import main.com.ceng453.frontend.main.ApplicationConstants;
 
 public class UserShip extends GameObject {
 
@@ -43,5 +45,19 @@ public class UserShip extends GameObject {
     @Override
     public void render(GraphicsContext context) {
         context.drawImage( getSprite(), getPositionX(), getPositionY(), getWidth(), getHeight() );
+        if ( ApplicationConstants.UserShipHealth > getHitPointsLeft() ) // Draw health bar
+        {
+            double health_ratio = getHitPointsLeft() / (double)ApplicationConstants.UserShipHealth; // Calculate health percentage
+            double offsetX = ((1 - ApplicationConstants.HealtBarWidthCoefficent) * getWidth())/2; // Offset of rectangle to centralize
+            // Draw Bounding Box
+            context.strokeRect( getPositionX() + offsetX, getPositionY() + getHeight(),
+                    ApplicationConstants.HealtBarWidthCoefficent * getWidth(), ApplicationConstants.HealtBarHeight );
+            context.save(); // Save the context, we will change fill color
+            context.setFill(Color.DARKOLIVEGREEN );
+            // Fill the Bounding box with health_ratio percentage
+            context.fillRect(getPositionX() + offsetX + 1, getPositionY() + getHeight() + 1,
+                    ApplicationConstants.HealtBarWidthCoefficent * getWidth() * health_ratio, ApplicationConstants.HealtBarHeight - 1 );
+            context.restore(); // Restore it back
+        }
     }
 }
