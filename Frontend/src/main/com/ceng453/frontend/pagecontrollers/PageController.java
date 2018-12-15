@@ -50,7 +50,7 @@ public abstract class PageController implements Initializable {
         else if(e.getRawStatusCode()==403) {
             alert.setContentText("No such User with this username and password");
         }
-        alert.show();
+        alert.showAndWait();
     }
 
     protected void handleSystemIsDown() {

@@ -2,6 +2,7 @@ package main.com.ceng453.frontend.main;
 
 import javafx.scene.image.Image;
 
+import java.util.Objects;
 import java.util.Random;
 
 public final class ApplicationConstants {
@@ -21,8 +22,8 @@ public final class ApplicationConstants {
     public static final double TextDrawRectHeight = 22;
 
     public static final int EasyAlienShipBounty = 10;
-    public static final int MediumAlienShipBounty = 15;
-    public static final int HardAlienShipBounty = 20;
+    public static final int MediumAlienShipBounty = 45;
+    public static final int HardAlienShipBounty = 180;
 
     public static final int EasyAlienShipHP = 2;
     public static final int EasyAlienShipDMG = 1;
@@ -36,6 +37,8 @@ public final class ApplicationConstants {
 
     public static final double UserBulletVelocity = -270;
     public static final double AlienBulletVelocity = 100;
+    public static final double HealtBarHeight = 10;
+    public static final double HealtBarWidthCoefficent = 0.7;
 
     static final String UserBulletImagename = "user_bullet.png";
     static final String AlienBulletImagename = "alien_bullet.png";
@@ -46,6 +49,7 @@ public final class ApplicationConstants {
     static final String HardAlienShipImagename = "alien3.png";
     static final String ExplosionImagename = "explosion.png";
     static final String GameOverImagename = "game_over.png";
+    static final String HealtBarImagename = "health_bar.png";
 
     public static final String ViyuwSound = "ciyuw.wav";
     public static final String PitSound = "pit.wav";
@@ -55,16 +59,17 @@ public final class ApplicationConstants {
 
     public static final String GameMusicFilename = "NecroDancer_OST_Portabellohead.mp3";
 
-    public static final Image UserBulletImage = new Image( StaticHelpers.getResourceFromAssets(UserBulletImagename) );
-    public static final Image BackGroundImage = new Image( StaticHelpers.getResourceFromAssets(BackgroundImagename) );
-    public static final Image UserShipImage = new Image( StaticHelpers.getResourceFromAssets(UserShipImagename) );
-    public static final Image EasyAlienShipImage = new Image( StaticHelpers.getResourceFromAssets(EasyAlienShipImagename) );
-    public static final Image ExplosionImage = new Image( StaticHelpers.getResourceFromAssets(ExplosionImagename) );
-    public static final Image AlienBulletImage = new Image( StaticHelpers.getResourceFromAssets(AlienBulletImagename) );
-    public static final Image MediumAlienShipImage = new Image( StaticHelpers.getResourceFromAssets(MediumAlienShipImagename) );
-    public static final Image HardAlienShipImage = new Image( StaticHelpers.getResourceFromAssets(HardAlienShipImagename) );
-    public static final Image GameOverImage = new Image( StaticHelpers.getResourceFromAssets(GameOverImagename) );
-    public static final Image JustWowImage = new Image( StaticHelpers.getResourceFromAssets(JustWowImagename) );
+    public static final Image UserBulletImage = new Image(Objects.requireNonNull(StaticHelpers.getResourceFromAssets(UserBulletImagename)));
+    public static final Image BackGroundImage = new Image(Objects.requireNonNull(StaticHelpers.getResourceFromAssets(BackgroundImagename)));
+    public static final Image UserShipImage = new Image(Objects.requireNonNull(StaticHelpers.getResourceFromAssets(UserShipImagename)));
+    public static final Image EasyAlienShipImage = new Image(Objects.requireNonNull(StaticHelpers.getResourceFromAssets(EasyAlienShipImagename)));
+    public static final Image ExplosionImage = new Image(Objects.requireNonNull(StaticHelpers.getResourceFromAssets(ExplosionImagename)));
+    public static final Image AlienBulletImage = new Image(Objects.requireNonNull(StaticHelpers.getResourceFromAssets(AlienBulletImagename)));
+    public static final Image MediumAlienShipImage = new Image(Objects.requireNonNull(StaticHelpers.getResourceFromAssets(MediumAlienShipImagename)));
+    public static final Image HardAlienShipImage = new Image(Objects.requireNonNull(StaticHelpers.getResourceFromAssets(HardAlienShipImagename)));
+    public static final Image GameOverImage = new Image(Objects.requireNonNull(StaticHelpers.getResourceFromAssets(GameOverImagename)));
+    public static final Image JustWowImage = new Image(Objects.requireNonNull(StaticHelpers.getResourceFromAssets(JustWowImagename)));
+    public static final Image HealthBarImage = new Image(Objects.requireNonNull(StaticHelpers.getResourceFromAssets(HealtBarImagename)));
 
     public static final Random numberGenerator = new Random();
 

@@ -15,10 +15,10 @@ public class Sound {
     public static final int UserBulletSound = 3;
     public static final int ExplosionSound = 4;
 
-    private Sound(){} // Factory pattenr
+    private Sound(){} // Factory pattern
 
     // Create a sound in type 'type', then play it
-    // These sound will be used for effects & sourd sounds, background sound is not created from here
+    // These sound will be used for effects & sound sounds, background sound is not created from here
     // Since it is attached to MediaView on our Scene
     public static void play( int type ){
         String musicFile = ApplicationConstants.ViyuwSound;
