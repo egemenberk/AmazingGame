@@ -21,8 +21,6 @@ public class StaticHelpers {
     // Helper function that checks if two objects collide into each other
     public static boolean intersects(GameObject o1, GameObject o2) {
         Rectangle o1Rect = new Rectangle( o1.getPositionX(),o1.getPositionY(), o1.getWidth(), o1.getHeight() );
-        if( o1Rect.intersects( o2.getPositionX(), o2.getPositionY(), o2.getWidth(), o2.getHeight() ) )
-            return true;
-        return false;
+        return o1Rect.intersects(o2.getPositionX(), o2.getPositionY(), o2.getWidth(), o2.getHeight());
     }
 }

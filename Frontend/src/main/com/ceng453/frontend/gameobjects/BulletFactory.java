@@ -7,7 +7,7 @@ import main.com.ceng453.frontend.main.Sound;
 /*
  * Bullet factory class. That class will be used while creating bullets
  */
-public class BulletFactory {
+class BulletFactory {
 
     private BulletFactory(){} // Factory pattern
 

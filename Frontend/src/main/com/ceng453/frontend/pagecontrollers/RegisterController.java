@@ -18,6 +18,7 @@ import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.URL;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class RegisterController extends PageController{
@@ -33,7 +34,7 @@ public class RegisterController extends PageController{
     @FXML
     Button back;
 
-    public void registerHandler(ActionEvent actionEvent){
+    private void registerHandler(ActionEvent actionEvent){
 
         JSONObject params = getUserFields();
 
@@ -45,7 +46,7 @@ public class RegisterController extends PageController{
             ResponseEntity<String> response = restTemplate.postForEntity(ApplicationConstants.ServerBaseAdress +"/signup", request, String.class);
             System.out.println(response.getBody());
 
-            GameService newGame = new GameService( new JSONObject( response.getBody() ).getString("session") );
+            GameService newGame = new GameService( new JSONObject(Objects.requireNonNull(response.getBody())).getString("session") );
             newGame.startGame( Main.primaryStage );
 
         } catch (HttpClientErrorException e) {

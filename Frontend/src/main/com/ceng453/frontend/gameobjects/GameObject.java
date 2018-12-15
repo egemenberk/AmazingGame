@@ -3,7 +3,6 @@ package main.com.ceng453.frontend.gameobjects;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.transform.Rotate;
 import main.com.ceng453.frontend.gameeffects.Effect;
 import main.com.ceng453.frontend.gameeffects.EffectFactory;
@@ -26,9 +25,9 @@ public abstract class GameObject {
     private boolean isCleared;
     private int bounty;
 
-    private Image sprite;
+    private final Image sprite;
 
-    public GameObject(Image sprite, int width, int height) {
+    protected GameObject(Image sprite, int width, int height) {
         this.sprite = sprite;
         this.pos_x = 0;
         this.pos_y = 0;
@@ -51,7 +50,7 @@ public abstract class GameObject {
     public GameObject hitBy(GameObject hitter )
     {
         hitPointsLeft -= hitter.getDamage(); // reduce self's hp
-        hitter.setCleared(true); // Destroy hitter
+        hitter.setCleared(); // Destroy hitter
         if( hitPointsLeft <= 0 ) { // If self.hp reduces to 0, destroy this one too
             isCleared = true;
             // Also, create Explosion effect
@@ -111,7 +110,7 @@ public abstract class GameObject {
         return pos_x;
     }
 
-    public void setPositionX(double pos_x) {
+    void setPositionX(double pos_x) {
         this.pos_x = pos_x;
     }
 
@@ -119,23 +118,23 @@ public abstract class GameObject {
         return pos_y;
     }
 
-    public void setPositionY(double pos_y) {
+    void setPositionY(double pos_y) {
         this.pos_y = pos_y;
     }
 
-    public double getVelocityX() {
+    double getVelocityX() {
         return velocity_x;
     }
 
-    public void setVelocityX(double velocity_x) {
+    void setVelocityX(double velocity_x) {
         this.velocity_x = velocity_x;
     }
 
-    public double getVelocityY() {
+    double getVelocityY() {
         return velocity_y;
     }
 
-    public void setVelocityY(double velocity_y) {
+    void setVelocityY(double velocity_y) {
         this.velocity_y = velocity_y;
     }
 
@@ -143,19 +142,15 @@ public abstract class GameObject {
         return hitPointsLeft;
     }
 
-    public void setHitPointsLeft(int hitPointsLeft) {
-        this.hitPointsLeft = hitPointsLeft;
-    }
-
     public boolean isCleared() {
         return isCleared;
     }
 
-    public void setCleared(boolean cleared) {
-        isCleared = cleared;
+    protected void setCleared() {
+        isCleared = true;
     }
 
-    public int getDamage() {
+    int getDamage() {
         return damage;
     }
 
@@ -163,7 +158,7 @@ public abstract class GameObject {
         return bounty;
     }
 
-    protected void setBounty(int bounty) {
+    void setBounty(int bounty) {
         this.bounty = bounty;
     }
 
@@ -175,7 +170,7 @@ public abstract class GameObject {
         height*=ratio;
     }
 
-    protected Image getSprite(){
+    Image getSprite(){
         return sprite;
     }
 }

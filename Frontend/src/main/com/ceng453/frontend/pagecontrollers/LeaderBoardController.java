@@ -11,8 +11,6 @@ import main.com.ceng453.frontend.main.ApplicationConstants;
 import main.com.ceng453.frontend.main.Main;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.ResourceAccessException;
@@ -25,20 +23,21 @@ import java.util.*;
 public class LeaderBoardController extends PageController{
 
     @FXML
-    private TableView table; // This table holds the all time leaders
+    private TableView<Object> table; // This table holds the all time leaders
 
     @FXML
     Button back;  // Back button to go the main menu
 
     @FXML
-    ComboBox combobox; // For selecting which LeaderBoard to show. Last 7 days and All Time
+    ComboBox<String> combobox; // For selecting which LeaderBoard to show. Last 7 days and All Time
 
     // We have created a simple class to imitate the User
+    @SuppressWarnings("WeakerAccess")
     public class Leader {
-        private String name;
-        private String score;
+        private final String name;
+        private final String score;
 
-        public Leader(String name, String score) {
+        Leader(String name, String score) {
             this.name = name;
             this.score = score;
         }
@@ -54,15 +53,13 @@ public class LeaderBoardController extends PageController{
 
     // Function to get the all time Scores from the Server
     // The Parameter is used to alternate between 7 days and All Time
-    public void getLeaderBoardHandler(String timeInterval) {
+    private void getLeaderBoardHandler(String timeInterval) {
         Main.primaryStage.setTitle(timeInterval);
         getBoardWithREST(timeInterval);
     }
 
     // We make a REST request to Server
     private void getBoardWithREST(String timeInterval) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
         RestTemplate restTemplate = new RestTemplate();
         try {
             ResponseEntity<String> response = restTemplate.getForEntity(new URI(ApplicationConstants.ServerBaseAdress+"/leaderboard/" + timeInterval), String.class);
@@ -78,7 +75,7 @@ public class LeaderBoardController extends PageController{
 
     // Adding the scores that is coming from the Server by parsing it as a Json Response
     private void addToTable(ResponseEntity<String> response) {
-        JSONArray jsonArr = new JSONArray(response.getBody());
+        JSONArray jsonArr = new JSONArray(Objects.requireNonNull(response.getBody()));
         for (int i = 0; i < jsonArr.length(); i++)
         {
             JSONObject jsonObj = jsonArr.getJSONObject(i);
@@ -88,10 +85,11 @@ public class LeaderBoardController extends PageController{
     }
 
     // We set the properties of the table
+    @SuppressWarnings("unchecked")
     private void configureTable() {
-        TableColumn nameColumn = new TableColumn("Name");
+        TableColumn<Object, Object> nameColumn = new TableColumn<>("Name");
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-        TableColumn scoreColumn = new TableColumn("Score");
+        TableColumn<Object, Object> scoreColumn = new TableColumn<>("Score");
         scoreColumn.setCellValueFactory(new PropertyValueFactory<>("score"));
         nameColumn.prefWidthProperty().bind(table.widthProperty().multiply(0.68));
         scoreColumn.prefWidthProperty().bind(table.widthProperty().multiply(0.29));
@@ -101,7 +99,7 @@ public class LeaderBoardController extends PageController{
     // It updates the table according to the selected option
     private void changeTable(Event event) {
         table.getItems().clear();
-        if(combobox.getValue().toString().equals("All Time"))
+        if(combobox.getValue().equals("All Time"))
             getLeaderBoardHandler("all_time");
         else
             getLeaderBoardHandler("7_days");

@@ -3,13 +3,11 @@ package main.com.ceng453.frontend.gamelevels;
 import javafx.event.EventHandler;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.MouseEvent;
-import main.com.ceng453.frontend.gameobjects.EasyEnemyShip;
 import main.com.ceng453.frontend.main.ApplicationConstants;
 import main.com.ceng453.frontend.gameobjects.GameObject;
 import main.com.ceng453.frontend.main.StaticHelpers;
 import main.com.ceng453.frontend.gameobjects.UserShip;
 
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 /*
@@ -18,25 +16,25 @@ import java.util.ArrayList;
  *  Only the initialization functions are defined in the child classes.
  *  This allows easy extendability to our game style by changing only the objects inside the level
  */
-public abstract class GameLevel {
+abstract class GameLevel {
 
     // Current GameObjects in the game level
-    protected ArrayList<GameObject> effects;
-    protected ArrayList<GameObject> alienShips;
-    protected ArrayList<GameObject> userBullets;
-    protected ArrayList<GameObject> alienBullets;
-    protected UserShip userShip;
+    private final ArrayList<GameObject> effects;
+    final ArrayList<GameObject> alienShips;
+    private final ArrayList<GameObject> userBullets;
+    private final ArrayList<GameObject> alienBullets;
+    private UserShip userShip;
 
-    protected boolean isOver; // Indicator for GameOver state
-    protected boolean levelPassed; // Indicator for successful level end state
+    private boolean isOver; // Indicator for GameOver state
+    private boolean levelPassed; // Indicator for successful level end state
 
     // Event handler classes to capture user input
-    MouseMoveEventHandler customizedMouseMoveEventHandler;
-    MouseClickEventHandler customizedMouseClickEventHandler;
+    private final MouseMoveEventHandler customizedMouseMoveEventHandler;
+    private final MouseClickEventHandler customizedMouseClickEventHandler;
 
     // Constructor of the abstract class.
     // Note that alien construction does not done in this class
-    public GameLevel() {
+    GameLevel() {
         alienShips = new ArrayList<>();
         userBullets = new ArrayList<>();
         effects = new ArrayList<>();
@@ -48,10 +46,10 @@ public abstract class GameLevel {
     }
 
     // Alien construction is left to the extending class to allow customization between levels
-    public abstract void generateAliens() throws FileNotFoundException;
+    public abstract void generateAliens();
 
     // We will construct the user ship in this method
-    public void generateUserShip()
+    private void generateUserShip()
     {
         int userShipWidth = 100, userShipHeight = 100;
         userShip = new UserShip(ApplicationConstants.UserShipImage, userShipWidth,userShipHeight); // Create UserShip obj.
@@ -67,7 +65,7 @@ public abstract class GameLevel {
     }
 
     // High level game pipeline. GameService class will be calling this method for each frame.
-    public void gameLoop( GameStateInfo gameStateInfo, GraphicsContext gc ){
+    void gameLoop(GameStateInfo gameStateInfo, GraphicsContext gc){
         // UPDATE OPERATIONS
         update(gameStateInfo); // Update the state of the game
         collision_detection(); // Collision detection and related updates( e.g EnemyShip gets damage from user bullet in case of collision )
@@ -78,7 +76,7 @@ public abstract class GameLevel {
     }
 
     // Score & Healt indicator drawing
-    protected void drawTexts(GraphicsContext gc, int currentScore){
+    private void drawTexts(GraphicsContext gc, int currentScore){
         double ScoreXOffset = 30;
         double HealthStatusXOffset = 300;
         gc.strokeText(String.format("Current Score : %d", currentScore),ScoreXOffset, ApplicationConstants.TextDrawRectHeight);
@@ -199,9 +197,9 @@ public abstract class GameLevel {
     // Mouse handler classes
     private class MouseMoveEventHandler implements EventHandler<MouseEvent>{
 
-        GameLevel superClass;
+        final GameLevel superClass;
 
-        public MouseMoveEventHandler( GameLevel superClass ) {
+        MouseMoveEventHandler( GameLevel superClass ) {
             this.superClass = superClass;
         }
 
@@ -213,9 +211,9 @@ public abstract class GameLevel {
 
     private class MouseClickEventHandler implements EventHandler<MouseEvent>{
 
-        GameLevel superClass;
+        final GameLevel superClass;
 
-        public MouseClickEventHandler( GameLevel superClass ) {
+        MouseClickEventHandler(GameLevel superClass) {
             this.superClass = superClass;
         }
 
@@ -227,7 +225,7 @@ public abstract class GameLevel {
 
     // Mouse move handle method, it sets the flying point of the user ship
     // As well as not permitting the user ship to pass above the screen's top 2/5 part
-    public void MouseMoveEventHandle( MouseEvent mouseEvent ){
+    private void MouseMoveEventHandle(MouseEvent mouseEvent){
         double lastMousePositionX = mouseEvent.getX();
         double lastMousePositionY = mouseEvent.getY() > 3*ApplicationConstants.ScreenHeight/5.0? mouseEvent.getY() : 3*ApplicationConstants.ScreenHeight/5.0;
         userShip.setFlyingPositionX(lastMousePositionX);
@@ -235,21 +233,21 @@ public abstract class GameLevel {
     }
 
     // Mouse click handle, user ship shoots whenever mouse clicks
-    public void MouseClickedEventHandle( MouseEvent mouseEvent ){
+    private void MouseClickedEventHandle(MouseEvent mouseEvent){
         userBullets.add(userShip.shoot());
     }
 
-    public boolean isOver() {
+    boolean isOver() {
         return isOver;
     }
 
-    public boolean levelPassed() { return levelPassed; }
+    boolean levelPassed() { return levelPassed; }
 
-    public MouseMoveEventHandler getCustomizedMouseMoveEventHandler() {
+    MouseMoveEventHandler getCustomizedMouseMoveEventHandler() {
         return customizedMouseMoveEventHandler;
     }
 
-    public MouseClickEventHandler getCustomizedMouseClickEventHandler() {
+    MouseClickEventHandler getCustomizedMouseClickEventHandler() {
         return customizedMouseClickEventHandler;
     }
 }

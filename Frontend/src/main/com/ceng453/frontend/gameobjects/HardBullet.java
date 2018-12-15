@@ -25,7 +25,7 @@ public class HardBullet extends Bullet {
 
         //If bullet leaves screen, destroy it
         if( getPositionY()+getHeight() < 0 || getPositionY() > ApplicationConstants.ScreenHeight )
-            setCleared(true);
+            setCleared();
         if( currentCycleNumber%bulletGenerationInterval == 0 )
         {
             Bullet newBullet = BulletFactory.create( Bullet.AlienBullet, ApplicationConstants.EasyAlienShipDMG );

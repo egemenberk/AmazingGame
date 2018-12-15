@@ -10,10 +10,10 @@ import java.io.File;
 public class Sound {
 
     public static final int EasyEnemyBulletSound = 0;
-    public static final int MediumEnemyBulletSound = 1;
+    private static final int MediumEnemyBulletSound = 1;
     public static final int HardEnemyBulletSound = 2;
     public static final int UserBulletSound = 3;
-    public static final int ExplosionSound = 4;
+    private static final int ExplosionSound = 4;
 
     private Sound(){} // Factory pattern
 
@@ -21,7 +21,7 @@ public class Sound {
     // These sound will be used for effects & sound sounds, background sound is not created from here
     // Since it is attached to MediaView on our Scene
     public static void play( int type ){
-        String musicFile = ApplicationConstants.ViyuwSound;
+        String musicFile = null;
         switch (type){
             case Sound.EasyEnemyBulletSound:
                 musicFile = ApplicationConstants.ViyuwSound;
