@@ -23,7 +23,7 @@ public class IndexController extends PageController{
         } catch (IOException e) {
             e.printStackTrace();
         }
-        changeScene(root);
+        changeScene();
     }
 
     public void registerHandler(ActionEvent actionEvent){
@@ -32,7 +32,7 @@ public class IndexController extends PageController{
         } catch (IOException e) {
             e.printStackTrace();
         }
-        changeScene(root);
+        changeScene();
     }
 
     public void leaderBoardHandler(ActionEvent actionEvent) {
@@ -41,7 +41,7 @@ public class IndexController extends PageController{
         } catch (IOException e) {
             e.printStackTrace();
         }
-        changeScene(root);
+        changeScene();
     }
 
     @Override

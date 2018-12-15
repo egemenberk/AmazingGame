@@ -2,7 +2,6 @@ package main.com.ceng453.frontend.pagecontrollers;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -13,6 +12,8 @@ import org.json.JSONObject;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
@@ -22,11 +23,12 @@ import java.util.*;
 public class LeaderBoardController extends PageController{
 
     @FXML
-    private TableView table;
+    private TableView table; // This table holds the all time leaders
 
     @FXML
-    Button back;
+    Button back;  // Back button to go the main menu
 
+    // We have created a simple class to imitate the User
     public class Leader {
         private String name;
         private String score;
@@ -45,15 +47,14 @@ public class LeaderBoardController extends PageController{
         }
     }
 
+    // Function to get the all time Scores from the Server
     public void getLeaderBoardHandler() {
         Main.primaryStage.setTitle("LeaderBoard");
-        final Label label = new Label("Scores");
-
         configureTable();
-
         getBoardWithREST();
     }
 
+    // We make a REST request to Server
     private void getBoardWithREST() {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -61,11 +62,16 @@ public class LeaderBoardController extends PageController{
         try {
             ResponseEntity<String> response = restTemplate.getForEntity(new URI(ApplicationConstants.ServerBaseAdress+"/leaderboard/all_time"), String.class);
             addToTable(response);
-        } catch (Exception e) {
+        } catch (HttpClientErrorException e) { // User has provided wrong input Server responds it with HTTP* Exception
+            handleWrongInput(e);
+        } catch(ResourceAccessException e) { // Server is probably not started or down
+            handleSystemIsDown();
+        } catch (Exception e) { // Some other thing is going around
             e.printStackTrace();
         }
     }
 
+    // Adding the scores that is coming from the Server by parsing it as a Json Response
     private void addToTable(ResponseEntity<String> response) {
         JSONArray jsonArr = new JSONArray(response.getBody());
         for (int i = 0; i < jsonArr.length(); i++)
@@ -76,6 +82,7 @@ public class LeaderBoardController extends PageController{
         }
     }
 
+    // We set the properties of the table
     private void configureTable() {
         TableColumn nameColumn = new TableColumn("Name");
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));

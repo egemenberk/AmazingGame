@@ -16,11 +16,11 @@ import java.io.IOException;
 public abstract class PageController implements Initializable {
 
     // This is used for changing the Scene
-    protected Parent root;
+    public static Parent root;
 
     // Helper function to change the page
     // Set The new Scene in the Stage
-    protected void changeScene(Parent root) {
+    public static void changeScene() {
         Scene scene = new Scene(root, ApplicationConstants.ScreenWidth, ApplicationConstants.ScreenHeight);
         Main.primaryStage.setScene(scene);
         Main.primaryStage.show();
@@ -35,7 +35,7 @@ public abstract class PageController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        changeScene(root);
+        changeScene();
     }
 
     // When user enters an invalid Field or Wrong username or password
@@ -43,15 +43,21 @@ public abstract class PageController implements Initializable {
     protected void handleWrongInput(HttpClientErrorException e) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Error Happened");
-        alert.setHeaderText("Look, an Information Dialog");
+        alert.setHeaderText("Everything is under(or above) control");
         if(e.getRawStatusCode()==400) {
             alert.setContentText("Please Fill in the Blanks!");
         }
         else if(e.getRawStatusCode()==403) {
-            alert.setContentText("No such User");
+            alert.setContentText("No such User with this username and password");
         }
         alert.showAndWait();
     }
 
-
+    protected void handleSystemIsDown() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Error Happened");
+        alert.setHeaderText("Everything is under(or above) control");
+        alert.setContentText("Server is down or not started!");
+        alert.showAndWait();
+    }
 }

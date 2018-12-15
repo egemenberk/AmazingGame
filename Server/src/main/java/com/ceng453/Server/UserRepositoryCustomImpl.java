@@ -50,7 +50,7 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
             return new ResponseEntity<> (String.format("{\n \"Token\": \"%s\" \n}",real_user.getSession()), headers, HttpStatus.OK);
         }
         else{
-            return new ResponseEntity<> ("{\n \"Reason\": \"Auth Failed\" \n}", headers, HttpStatus.NON_AUTHORITATIVE_INFORMATION);
+            return new ResponseEntity<> ("{\n \"Reason\": \"Auth Failed\" \n}", headers, HttpStatus.FORBIDDEN);
         }
     }
 

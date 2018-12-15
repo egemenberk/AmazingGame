@@ -64,7 +64,7 @@ public class UserController {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json; charset=utf-8");
 
-        if(payload.get("username") != "" && payload.get("password") != "")
+        if(payload.get("username") != "" && payload.get("password") != "" && payload.get("email") != "")
             return userRepository.authenticate( payload.get("username"), payload.get("password") );
         else
             return new ResponseEntity<String>("{\n \"Reason\": \"Fill the fields\" \n}", headers, HttpStatus.BAD_REQUEST);
