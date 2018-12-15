@@ -33,7 +33,7 @@ public abstract class GameObject {
         this.isCleared = false;
     }
 
-    public void initialize( int hitPointsLeft, int damage ) {
+    public void setHitpointsAndDamage(int hitPointsLeft, int damage ) {
         this.hitPointsLeft = hitPointsLeft;
         this.damage = damage;
     }

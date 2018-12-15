@@ -1,6 +1,7 @@
 package main.com.ceng453.frontend.gamelevels;
 
 import javafx.scene.canvas.GraphicsContext;
+import main.com.ceng453.frontend.gameobjects.AlienShipFactory;
 import main.com.ceng453.frontend.main.ApplicationConstants;
 import main.com.ceng453.frontend.gameobjects.EasyEnemyShip;
 import main.com.ceng453.frontend.gameobjects.MediumEnemyShip;
@@ -18,14 +19,9 @@ public class GameLevel2 extends GameLevel{
         int alienCountInRow = 9;
         int rowCount = 2;
 
-        for( int i=0; i<alienCountInRow*rowCount; i++ )
-        {
-            EasyEnemyShip alienShip = new EasyEnemyShip(ApplicationConstants.EasyAlienShipImage, 45,70);
-            alienShip.initialize(1,1);
-            alienShip.setPosition(OffsetX + StepX*(i%alienCountInRow),OffsetY+StepY*(i/alienCountInRow));
-
-            alienShips.add(alienShip);
-        }
+        // Adding 2 rows of Easy Enemy Ships
+        alienShips.addAll(AlienShipFactory.populateEnemyShips(AlienShipFactory.EasyEnemyShip,
+                alienCountInRow, rowCount, OffsetX, StepX, OffsetY, StepY));
 
         alienCountInRow = 5;
         rowCount = 1;
@@ -33,14 +29,9 @@ public class GameLevel2 extends GameLevel{
         OffsetY = 20;
         OffsetX = -20;
 
-        for( int i=0; i<alienCountInRow*rowCount; i++ )
-        {
-            MediumEnemyShip alienShip = new MediumEnemyShip(ApplicationConstants.MediumAlienShipImage, 55,85);
-            alienShip.initialize(4,2);
-            alienShip.setPosition(OffsetX + StepX*(i%alienCountInRow),OffsetY+StepY*(i/alienCountInRow));
-
-            alienShips.add(alienShip);
-        }
+        // Adding one row of MediumEnemyShips of the game level
+        alienShips.addAll(AlienShipFactory.populateEnemyShips(AlienShipFactory.MediumEnemyShip,
+                alienCountInRow, rowCount, OffsetX, StepX, OffsetY, StepY));
     }
 
     @Override

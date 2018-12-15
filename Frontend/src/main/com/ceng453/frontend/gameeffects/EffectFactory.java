@@ -4,11 +4,16 @@ import main.com.ceng453.frontend.main.ApplicationConstants;
 
 public class EffectFactory {
 
+    // Constants for explosion effects
     private static final int ShipExplosionHeight = 50;
     private static final int ShipExplosionWidth = 50;
     private static final int BulletExplosionHeight = 50;
     private static final int BulletExplosionWidth = 50;
 
+    /*
+        This method created an effect object depending on the given effectType
+        Those effect types are defined in Effect object.
+     */
     public static Effect create( int effectType, double posX, double posY ){
         Effect effect = null;
         switch (effectType) {

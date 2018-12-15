@@ -1,6 +1,7 @@
 package main.com.ceng453.frontend.gamelevels;
 
 import javafx.scene.canvas.GraphicsContext;
+import main.com.ceng453.frontend.gameobjects.AlienShipFactory;
 import main.com.ceng453.frontend.main.ApplicationConstants;
 import main.com.ceng453.frontend.gameobjects.EasyEnemyShip;
 import main.com.ceng453.frontend.gameobjects.HardEnemyShip;
@@ -19,14 +20,9 @@ public class GameLevel3 extends GameLevel{
         int alienCountInRow = 3;
         int rowCount = 2;
 
-        for( int i=0; i<alienCountInRow*rowCount; i++ )
-        {
-            EasyEnemyShip alienShip = new EasyEnemyShip(ApplicationConstants.EasyAlienShipImage, 45,70);
-            alienShip.initialize(2,1);
-            alienShip.setPosition(OffsetX + StepX*(i%alienCountInRow),OffsetY+StepY*(i/alienCountInRow));
-
-            alienShips.add(alienShip);
-        }
+        // Adding easy enemies with large step value
+        alienShips.addAll(AlienShipFactory.populateEnemyShips(AlienShipFactory.EasyEnemyShip,
+                alienCountInRow, rowCount, OffsetX, StepX, OffsetY, StepY));
 
         OffsetX = 80;
         StepX = 240;
@@ -34,19 +30,19 @@ public class GameLevel3 extends GameLevel{
         rowCount = 1;
         alienCountInRow = 2;
 
-        for( int i=0; i<alienCountInRow*rowCount; i++ )
-        {
-            MediumEnemyShip alienShip = new MediumEnemyShip(ApplicationConstants.MediumAlienShipImage, 55,85);
-            alienShip.initialize(4,2);
-            alienShip.setPosition(OffsetX + StepX*(i%alienCountInRow),OffsetY+StepY*(i/alienCountInRow));
+        // Then, filling the spaces with Medium Enemies
+        alienShips.addAll(AlienShipFactory.populateEnemyShips(AlienShipFactory.MediumEnemyShip,
+                alienCountInRow, rowCount, OffsetX, StepX, OffsetY, StepY));
 
-            alienShips.add(alienShip);
-        }
 
-        HardEnemyShip alienShip = new HardEnemyShip(ApplicationConstants.HardAlienShipImage, 90,115);
-        alienShip.initialize(16,3);
-        alienShip.setPosition(ApplicationConstants.ScreenWidth/2+250,50);
-        alienShips.add(alienShip);
+        OffsetX = ApplicationConstants.ScreenWidth/2 + 250;
+        OffsetY = 50;
+        rowCount = 1;
+        alienCountInRow = 1;
+
+        // Finally, spawn a Hard Enemy to the top
+        alienShips.addAll(AlienShipFactory.populateEnemyShips(AlienShipFactory.HardEnemyShip,
+                alienCountInRow, rowCount, OffsetX, StepX, OffsetY, StepY));
     }
 
     @Override

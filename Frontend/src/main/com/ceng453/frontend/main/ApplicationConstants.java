@@ -26,6 +26,14 @@ public final class ApplicationConstants {
     public static final String Kapiska = "kapuska.wav";
     public static final int ScreenWidth = 600;
     public static final int ScreenHeight = 768;
+    public static final int UserShipDamage = 2;
+    public static final double TextDrawRectHeight = 22;
+    public static final int EasyAlienShipHP = 2;
+    public static final int EasyAlienShipDMG = 1;
+    public static final int MediumAlienShipHP = 6;
+    public static final int MediumAlienShipDMG = 2;
+    public static final int HardAlienShipHP = 16;
+    public static final int HardAlienShipDMG = 3;
 
     static final String UserBulletImagename = "user_bullet.png";
     static final String AlienBulletImagename = "alien_bullet.png";

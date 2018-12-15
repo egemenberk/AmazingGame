@@ -1,8 +1,8 @@
 package main.com.ceng453.frontend.gamelevels;
 
 import javafx.scene.canvas.GraphicsContext;
+import main.com.ceng453.frontend.gameobjects.AlienShipFactory;
 import main.com.ceng453.frontend.main.ApplicationConstants;
-import main.com.ceng453.frontend.gameobjects.EasyEnemyShip;
 
 public class GameLevel1 extends GameLevel{
 
@@ -17,17 +17,10 @@ public class GameLevel1 extends GameLevel{
         int alienCountInRow = 9;
         int rowCount = 3;
 
-        for( int i=0; i<alienCountInRow*rowCount; i++ )
-        {
-            EasyEnemyShip alienShip = new EasyEnemyShip(ApplicationConstants.EasyAlienShipImage, 45,70);
-            alienShip.initialize(2,1);
-            alienShip.setPosition(OffsetX + StepX*(i%alienCountInRow),OffsetY+StepY*(i/alienCountInRow));
-
-            alienShips.add(alienShip);
-        }
+        alienShips.addAll(AlienShipFactory.populateEnemyShips(AlienShipFactory.EasyEnemyShip,
+                alienCountInRow, rowCount, OffsetX, StepX, OffsetY, StepY));
     }
 
-    @Override
     protected void drawBackground(GraphicsContext gc) {
         gc.drawImage(ApplicationConstants.BackGroundImage, 0,0, ApplicationConstants.ScreenWidth, ApplicationConstants.ScreenHeight);
     }

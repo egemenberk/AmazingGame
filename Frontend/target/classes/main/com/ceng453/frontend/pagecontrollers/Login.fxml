@@ -18,7 +18,7 @@
             <Image url="@../Images/login_background.jpg" />
          </image>
       </ImageView>
-      <Text fill="#17112f" layoutX="246.0" layoutY="104.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Login" textAlignment="CENTER">
+      <Text fill="#e8752e" layoutX="246.0" layoutY="104.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Login" textAlignment="CENTER">
          <font>
             <Font size="57.0" />
          </font>

@@ -78,9 +78,11 @@ public class LeaderBoardController extends PageController{
     private void configureTable() {
         TableColumn nameColumn = new TableColumn("Name");
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-        TableColumn surnameColumn = new TableColumn("Score");
-        surnameColumn.setCellValueFactory(new PropertyValueFactory<>("score"));
-        table.getColumns().addAll(nameColumn, surnameColumn);
+        TableColumn scoreColumn = new TableColumn("Score");
+        scoreColumn.setCellValueFactory(new PropertyValueFactory<>("score"));
+        nameColumn.prefWidthProperty().bind(table.widthProperty().multiply(0.68));
+        scoreColumn.prefWidthProperty().bind(table.widthProperty().multiply(0.29));
+        table.getColumns().addAll(nameColumn, scoreColumn);
     }
 
     @Override

@@ -13,6 +13,7 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.stage.Stage;
 import main.com.ceng453.frontend.main.ApplicationConstants;
+import main.com.ceng453.frontend.pagecontrollers.IndexController;
 import org.json.JSONObject;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -24,20 +25,25 @@ import org.springframework.web.client.RestTemplate;
 import java.io.File;
 import java.util.LinkedList;
 
+/*
+ * This class is an interface between Javafx framework and GameLevels.
+ * Stage initialization and calls to the GameLevels are done from this class
+ */
 public class GameService {
 
-    LinkedList<GameLevel> levels;
-    GameLevel currentLevel;
-    GraphicsContext gc;
-    String userAuthToken;
-    AnimationTimer gameLoop;
-    MediaView mediaView;
-    final GameStateInfo gameStateInfo = new GameStateInfo(System.nanoTime());
+    LinkedList<GameLevel> levels; // Game levels that is added to the game
+    GameLevel currentLevel; // Current game level
+    GraphicsContext gc; // Canvas of our screen
+    String userAuthToken; // Logged in user's token, saved for sending scores
+    AnimationTimer gameLoop; // A timer to call GameLevel's frame generation
+    MediaView mediaView; // Media View, for background musics
+    final GameStateInfo gameStateInfo = new GameStateInfo(System.nanoTime()); // GameStateInfo, described in details in its class
 
 
     public GameService(String userAuthToken) {
         levels = new LinkedList<>();
 
+        // Adding levels to our list to pop, when current level is completed
         levels.push(new GameLevel3());
         levels.push(new GameLevel2());
         levels.push(new GameLevel1());
@@ -48,100 +54,101 @@ public class GameService {
     public void startGame(Stage stage) throws Exception {
         stage.setTitle("Amazing Game");
 
+        // Setting Background Music
         String musicFile = ApplicationConstants.GameMusicFilename;     // For example
-
         Media sound = new Media(new File(System.getProperty("user.dir") + "/assets/" + musicFile).toURI().toString());
         MediaPlayer mediaPlayer = new MediaPlayer(sound);
-        mediaPlayer.setVolume(0.2);
+        mediaPlayer.setVolume(0.45);
         mediaView = new MediaView(mediaPlayer);
         mediaPlayer.play();
 
-
+        // Creating group, scene and game's canvas. That canvas will be passed to all GameObjects to rendering
         Group root = new Group();
         Scene scene = new Scene(root, ApplicationConstants.ScreenWidth, ApplicationConstants.ScreenHeight);
         Canvas canvas = new Canvas( ApplicationConstants.ScreenWidth, ApplicationConstants.ScreenHeight);
         gc = canvas.getGraphicsContext2D();
-        gc.save();
+
+        // Adding canvas and mediaView to the root
         root.getChildren().add(canvas);
         root.getChildren().add(mediaView);
-        stage.setScene(scene);
-
+        stage.setScene(scene); // Stage is setting its scene
         stage.show();
 
-        updateCurrentLevel(canvas, false);
-        gameStateInfo.setPreviousLoopTime(System.nanoTime());
+        updateCurrentLevel(canvas, false); // Getting first level from levels
+        gameStateInfo.setPreviousLoopTime(System.nanoTime()); // Calibrate initial game start time
 
         gameLoop = new AnimationTimer() {
             public void handle(long currentNanoTime) {
                 // calculate time since last update.
                 double elapsedTime = (currentNanoTime - gameStateInfo.getPreviousLoopTime()) / 1000000000.0; // in secs
-                gameStateInfo.setElapsedTime(elapsedTime);
-                gameStateInfo.setPreviousLoopTime(currentNanoTime);
+                gameStateInfo.setElapsedTime(elapsedTime); // Setting game Info class' corresponding variables
+                gameStateInfo.setPreviousLoopTime(currentNanoTime); // GameObjects will calculate their displacements
+                // From the elapsed time
 
-                currentLevel.gameLoop(gameStateInfo, gc);
+                currentLevel.gameLoop(gameStateInfo, gc); // This call will generate a new frame of the game
 
                 if( currentLevel.levelPassed() || currentLevel.isOver()) {
-                    try {
-                        updateCurrentLevel(canvas, currentLevel.isOver());
-                        gameStateInfo.restartCycleCounter();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                    updateCurrentLevel(canvas, currentLevel.isOver()); // Get new level from levels list
+                    gameStateInfo.restartCycleCounter(); // Restaring cycle counter to make the new level to start from cycle=0
                 }
 
-                gameStateInfo.incrementCurrentCycleCount();
+                gameStateInfo.incrementCurrentCycleCount(); // increase cycle counter
             }
         };
-        gameLoop.start();
+        gameLoop.start(); // Starting animation timer
 
     }
 
-    private void updateCurrentLevel(Canvas canvas, boolean isOver) throws Exception {
+    private void updateCurrentLevel(Canvas canvas, boolean isOver) {
 
-        if(isOver){
+        if(isOver){ // Game is lost
+            // Draw game over text
             gc.drawImage(ApplicationConstants.GameOverImage, 0,0, ApplicationConstants.ScreenWidth, ApplicationConstants.ScreenHeight);
-            gameLoop.stop();
-            sendCurrentScoreLog();
+            gameLoop.stop(); // Stop the game loop
+            sendCurrentScoreLog(); // Send score log to the server
 
+            // Setting mediaView's player to play Dattiridat song
             mediaView.getMediaPlayer().stop();
             Media sound = new Media(new File(System.getProperty("user.dir") + "/assets/" + ApplicationConstants.Dattiridatdat).toURI().toString());
             mediaView.setMediaPlayer(new MediaPlayer(sound));
             mediaView.getMediaPlayer().setVolume(0.3);
             mediaView.getMediaPlayer().setCycleCount(1);
             mediaView.getMediaPlayer().play();
-
-            //TODO that will be leaderboard screen
         }
 
-        else if( !levels.isEmpty() ) {
-            currentLevel = levels.pop();
+        else if( !levels.isEmpty() ) { // Meaning there is still levels exists
+            currentLevel = levels.pop(); // Get the next level
+            // And set mouse handlers of the canvas
             canvas.setOnMouseMoved(currentLevel.getCustomizedMouseMoveEventHandler());
             canvas.setOnMouseClicked(currentLevel.getCustomizedMouseClickEventHandler());
         }
-        else
+        else // In this case, we have completed the game
         {
+            // Drawing the 'Amazing!' image
             gc.drawImage(ApplicationConstants.JustWowImage, 0,0, ApplicationConstants.ScreenWidth, ApplicationConstants.ScreenHeight);
-            gameLoop.stop();
-            sendCurrentScoreLog();
+            gameLoop.stop(); // Stop the game loop
+            sendCurrentScoreLog(); // And send score to server
         }
 
     }
 
+    // This method sends game score to the server
     private void sendCurrentScoreLog(){
+        // Creating HTTP Headers
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
+        // Creating http params
         JSONObject params = new JSONObject();
         params.put("token", userAuthToken );
         params.put("score", gameStateInfo.getCurrentGameScore());
 
         HttpEntity<String> request = new HttpEntity<>(params.toString(), headers);
-        RestTemplate restTemplate = new RestTemplate();
         try {
-            ResponseEntity<String> response = restTemplate.postForEntity(ApplicationConstants.ServerBaseAdress+"/score", request, String.class);
-            System.out.println(response.getBody());
+            ResponseEntity<String> response = new RestTemplate(). // Make http call with headers & params
+                    postForEntity(ApplicationConstants.ServerBaseAdress+"/score", request, String.class);
 
-        } catch (HttpClientErrorException e) {
+        } catch (HttpClientErrorException e) { // There, we catch non 200 response types
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText("An exception occurred!");
             alert.getDialogPane().setExpandableContent(new ScrollPane(new TextArea("Error while sending scores to the server, params : "+params.toString())));
