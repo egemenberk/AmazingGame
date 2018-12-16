@@ -1,4 +1,4 @@
-package com.ceng453.Server;
+package com.ceng453.Server.entities;
 
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -7,7 +7,7 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Entity
-class Score {
+public class Score {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)

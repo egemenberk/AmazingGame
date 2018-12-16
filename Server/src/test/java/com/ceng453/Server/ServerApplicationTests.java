@@ -1,5 +1,9 @@
 package com.ceng453.Server;
 
+import com.ceng453.Server.entities.Score;
+import com.ceng453.Server.entities.User;
+import com.ceng453.Server.repositories.ScoreRepository;
+import com.ceng453.Server.repositories.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.minidev.json.JSONObject;
 import org.junit.After;

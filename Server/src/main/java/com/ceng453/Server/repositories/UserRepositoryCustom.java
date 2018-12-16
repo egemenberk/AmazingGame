@@ -1,4 +1,4 @@
-package com.ceng453.Server;
+package com.ceng453.Server.repositories;
 
 
 import org.springframework.http.ResponseEntity;

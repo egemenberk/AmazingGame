@@ -1,5 +1,6 @@
-package com.ceng453.Server;
+package com.ceng453.Server.entities;
 
+import com.ceng453.Server.EncryptionHelper;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -9,6 +10,7 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
+@SuppressWarnings("ALL")
 @Entity
 public class User {
     @Id
@@ -37,6 +39,7 @@ public class User {
     private LocalDateTime updateDateTime;
 
     // With orphanRemoval when we delete Score from the list It is deleted from database as well
+    @SuppressWarnings("unused")
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", orphanRemoval = true, cascade = CascadeType.ALL)
     private Set<Score> scoreLogs = new HashSet<>();
 
@@ -75,6 +78,7 @@ public class User {
         return id;
     }
 
+    @SuppressWarnings("unused")
     public void setId(Integer id) {
         this.id = id;
     }
@@ -103,14 +107,17 @@ public class User {
         return session;
     }
 
+    @SuppressWarnings("unused")
     public void setCreateDateTime(LocalDateTime createDateTime) {
         this.createDateTime = createDateTime;
     }
 
+    @SuppressWarnings("unused")
     public LocalDateTime getUpdateDateTime() {
         return updateDateTime;
     }
 
+    @SuppressWarnings("unused")
     public void setUpdateDateTime(LocalDateTime updateDateTime) {
         this.updateDateTime = updateDateTime;
     }
@@ -119,6 +126,7 @@ public class User {
         this.session = session;
     }
 
+    @SuppressWarnings("unused")
     public LocalDateTime getCreateDateTime() {
         return createDateTime;
     }

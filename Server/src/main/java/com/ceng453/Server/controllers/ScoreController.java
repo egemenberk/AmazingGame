@@ -1,5 +1,9 @@
-package com.ceng453.Server;
+package com.ceng453.Server.controllers;
 
+import com.ceng453.Server.repositories.ScoreRepository;
+import com.ceng453.Server.repositories.UserRepository;
+import com.ceng453.Server.entities.Score;
+import com.ceng453.Server.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

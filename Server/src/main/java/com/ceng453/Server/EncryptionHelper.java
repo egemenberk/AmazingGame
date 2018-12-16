@@ -4,7 +4,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.UUID;
 
-class EncryptionHelper {
+public class EncryptionHelper {
 
     /*
      * Standart encrpytion method, for storing user password in hashed form.

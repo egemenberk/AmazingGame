@@ -1,5 +1,9 @@
-package com.ceng453.Server;
+package com.ceng453.Server.controllers;
 
+import com.ceng453.Server.repositories.ScoreRepository;
+import com.ceng453.Server.repositories.UserRepository;
+import com.ceng453.Server.entities.Score;
+import com.ceng453.Server.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -72,7 +76,7 @@ public class UserController {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json; charset=utf-8");
 
-        if(!payload.get("username").equals("") && payload.get("password") != "" && payload.get("email") != "")
+        if(payload.get("username") != "" && payload.get("password") != "" && payload.get("email") != "")
             return userRepository.authenticate( payload.get("username"), payload.get("password") );
         else
             return new ResponseEntity<String>("{\n \"Reason\": \"Fill the fields\" \n}", headers, HttpStatus.BAD_REQUEST);
