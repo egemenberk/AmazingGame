@@ -40,7 +40,13 @@ public class ServerApplicationTests {
 
     private MockMvc mockMvc;
 
-    private User user1, user2, user3, user4, user5, user6, user7, user;
+    private User user2;
+    private User user3;
+    private User user4;
+    private User user5;
+    private User user6;
+    private User user7;
+    private User user;
     private Score score1;
     private Score score2;
     private Score score3;
@@ -52,7 +58,6 @@ public class ServerApplicationTests {
 
 	    LocalDateTime time = LocalDateTime.now();
 	    user  = new User("username", "email@gmail.com", "password");
-	    user1 = new User("username1", "email1@dat.com", "password");
         user2 = new User("username2", "email2@dat.com", "password");
         user3 = new User("username3", "email3@dat.com", "password");
         user4 = new User("username4", "email4@dat.com", "password");
