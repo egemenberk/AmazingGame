@@ -3,7 +3,7 @@ package main.com.ceng453.frontend.gamelevels;
 import javafx.event.EventHandler;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.MouseEvent;
-import main.com.ceng453.frontend.main.ApplicationConstants;
+import main.com.ceng453.ApplicationConstants;
 import main.com.ceng453.game_objects.GameObject;
 import main.com.ceng453.frontend.main.StaticHelpers;
 import main.com.ceng453.game_objects.UserShip;

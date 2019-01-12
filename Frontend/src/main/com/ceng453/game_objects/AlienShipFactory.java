@@ -1,6 +1,6 @@
 package main.com.ceng453.game_objects;
 
-import main.com.ceng453.frontend.main.ApplicationConstants;
+import main.com.ceng453.ApplicationConstants;
 
 import java.util.LinkedList;
 import java.util.Objects;

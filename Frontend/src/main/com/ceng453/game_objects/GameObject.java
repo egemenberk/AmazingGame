@@ -4,7 +4,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.transform.Rotate;
-import main.com.ceng453.frontend.main.ApplicationConstants;
+import main.com.ceng453.ApplicationConstants;
 
 /*
  * Every Object that is drawn and interractable is a GameObject

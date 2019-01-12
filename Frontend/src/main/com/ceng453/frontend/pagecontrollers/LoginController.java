@@ -6,7 +6,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import main.com.ceng453.frontend.gamelevels.GameService;
-import main.com.ceng453.frontend.main.ApplicationConstants;
+import main.com.ceng453.ApplicationConstants;
 import main.com.ceng453.frontend.main.Main;
 import org.json.JSONObject;
 import org.springframework.http.*;
@@ -66,7 +66,7 @@ public class LoginController extends PageController{
     private void loginToServer(HttpEntity<String> request) {
         RestTemplate restTemplate = new RestTemplate();
         try {
-            ResponseEntity<String> response = restTemplate.postForEntity(ApplicationConstants.ServerBaseAddress + "/login", request, String.class);
+            ResponseEntity<String> response = restTemplate.postForEntity(ApplicationConstants.RestServerBaseAddress + "/login", request, String.class);
             System.out.println(response.getBody());
             GameService newGame = new GameService( new JSONObject(Objects.requireNonNull(response.getBody())).getString("Token") );
             newGame.startGame( Main.primaryStage );

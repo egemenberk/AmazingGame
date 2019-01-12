@@ -15,7 +15,7 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import main.com.ceng453.frontend.main.ApplicationConstants;
+import main.com.ceng453.ApplicationConstants;
 import main.com.ceng453.frontend.pagecontrollers.PageController;
 import org.json.JSONObject;
 import org.springframework.http.HttpEntity;
@@ -172,7 +172,7 @@ public class GameService {
         HttpEntity<String> request = new HttpEntity<>(params.toString(), headers);
         try {
             // Make http call with headers & params
-            new RestTemplate().postForEntity(ApplicationConstants.ServerBaseAddress +"/score", request, String.class);
+            new RestTemplate().postForEntity(ApplicationConstants.RestServerBaseAddress +"/score", request, String.class);
 
         } catch (HttpClientErrorException e) { // There, we catch non 200 response types
             Alert alert = new Alert(Alert.AlertType.ERROR);

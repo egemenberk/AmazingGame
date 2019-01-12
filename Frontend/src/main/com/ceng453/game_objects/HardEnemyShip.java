@@ -1,7 +1,7 @@
 package main.com.ceng453.game_objects;
 
 import javafx.scene.image.Image;
-import main.com.ceng453.frontend.main.ApplicationConstants;
+import main.com.ceng453.ApplicationConstants;
 
 // This is the boss of our game
 public class HardEnemyShip extends GameObject {

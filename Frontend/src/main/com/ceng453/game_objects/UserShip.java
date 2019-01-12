@@ -3,7 +3,7 @@ package main.com.ceng453.game_objects;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
-import main.com.ceng453.frontend.main.ApplicationConstants;
+import main.com.ceng453.ApplicationConstants;
 
 public class UserShip extends GameObject {
 

@@ -6,7 +6,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import main.com.ceng453.frontend.gamelevels.GameService;
-import main.com.ceng453.frontend.main.ApplicationConstants;
+import main.com.ceng453.ApplicationConstants;
 import main.com.ceng453.frontend.main.Main;
 import org.json.JSONObject;
 import org.springframework.http.HttpEntity;
@@ -43,7 +43,7 @@ public class RegisterController extends PageController{
         HttpEntity<String> request = new HttpEntity<>(params.toString(), headers);
         RestTemplate restTemplate = new RestTemplate();
         try {
-            ResponseEntity<String> response = restTemplate.postForEntity(ApplicationConstants.ServerBaseAddress +"/signup", request, String.class);
+            ResponseEntity<String> response = restTemplate.postForEntity(ApplicationConstants.RestServerBaseAddress +"/signup", request, String.class);
             System.out.println(response.getBody());
 
             GameService newGame = new GameService( new JSONObject(Objects.requireNonNull(response.getBody())).getString("session") );

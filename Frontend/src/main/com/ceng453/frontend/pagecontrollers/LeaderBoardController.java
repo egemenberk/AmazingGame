@@ -7,7 +7,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import main.com.ceng453.frontend.main.ApplicationConstants;
+import main.com.ceng453.ApplicationConstants;
 import main.com.ceng453.frontend.main.Main;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -62,7 +62,7 @@ public class LeaderBoardController extends PageController{
     private void getBoardWithREST(String timeInterval) {
         RestTemplate restTemplate = new RestTemplate();
         try {
-            ResponseEntity<String> response = restTemplate.getForEntity(new URI(ApplicationConstants.ServerBaseAddress +"/leaderboard/" + timeInterval), String.class);
+            ResponseEntity<String> response = restTemplate.getForEntity(new URI(ApplicationConstants.RestServerBaseAddress +"/leaderboard/" + timeInterval), String.class);
             addToTable(response);
         } catch (HttpClientErrorException e) { // User has provided wrong input Server responds it with HTTP* Exception
             handleWrongInput(e);

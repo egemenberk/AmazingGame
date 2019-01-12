@@ -5,7 +5,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import main.com.ceng453.frontend.main.ApplicationConstants;
+import main.com.ceng453.ApplicationConstants;
 import main.com.ceng453.frontend.main.Main;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.client.HttpClientErrorException;

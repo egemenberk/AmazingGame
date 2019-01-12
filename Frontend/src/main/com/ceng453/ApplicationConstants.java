@@ -1,12 +1,15 @@
-package main.com.ceng453.frontend.main;
+package main.com.ceng453;
 
 import javafx.scene.image.Image;
+import main.com.ceng453.frontend.main.StaticHelpers;
 
 import java.util.Objects;
 import java.util.Random;
 
 public final class ApplicationConstants {
-    public static final String ServerBaseAddress = "http://localhost:8080";
+    public static final String RestServerBaseAddress = "http://localhost:8080";
+    public static final String GameServerIP ="localhost";
+    public static final int GameServerPort = 9999;
 
     public static final int UserBulletWidth = 20;
     public static final int UserBulletHeight = 35;
