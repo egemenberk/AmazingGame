@@ -1,11 +1,9 @@
-package main.com.ceng453.frontend.gameobjects;
+package main.com.ceng453.game_objects;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.transform.Rotate;
-import main.com.ceng453.frontend.gameeffects.Effect;
-import main.com.ceng453.frontend.gameeffects.EffectFactory;
 import main.com.ceng453.frontend.main.ApplicationConstants;
 
 /*

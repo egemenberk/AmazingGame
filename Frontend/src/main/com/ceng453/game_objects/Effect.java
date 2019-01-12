@@ -1,7 +1,6 @@
-package main.com.ceng453.frontend.gameeffects;
+package main.com.ceng453.game_objects;
 
 import javafx.scene.image.Image;
-import main.com.ceng453.frontend.gameobjects.GameObject;
 
 
 /*

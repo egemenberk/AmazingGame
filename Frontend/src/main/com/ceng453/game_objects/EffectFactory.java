@@ -1,4 +1,4 @@
-package main.com.ceng453.frontend.gameeffects;
+package main.com.ceng453.game_objects;
 
 import main.com.ceng453.frontend.main.ApplicationConstants;
 

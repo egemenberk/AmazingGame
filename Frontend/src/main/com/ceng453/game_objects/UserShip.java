@@ -1,4 +1,4 @@
-package main.com.ceng453.frontend.gameobjects;
+package main.com.ceng453.game_objects;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;

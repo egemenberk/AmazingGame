@@ -172,7 +172,7 @@ public class GameService {
         HttpEntity<String> request = new HttpEntity<>(params.toString(), headers);
         try {
             // Make http call with headers & params
-            new RestTemplate().postForEntity(ApplicationConstants.ServerBaseAdress+"/score", request, String.class);
+            new RestTemplate().postForEntity(ApplicationConstants.ServerBaseAddress +"/score", request, String.class);
 
         } catch (HttpClientErrorException e) { // There, we catch non 200 response types
             Alert alert = new Alert(Alert.AlertType.ERROR);

@@ -43,7 +43,7 @@ public class RegisterController extends PageController{
         HttpEntity<String> request = new HttpEntity<>(params.toString(), headers);
         RestTemplate restTemplate = new RestTemplate();
         try {
-            ResponseEntity<String> response = restTemplate.postForEntity(ApplicationConstants.ServerBaseAdress +"/signup", request, String.class);
+            ResponseEntity<String> response = restTemplate.postForEntity(ApplicationConstants.ServerBaseAddress +"/signup", request, String.class);
             System.out.println(response.getBody());
 
             GameService newGame = new GameService( new JSONObject(Objects.requireNonNull(response.getBody())).getString("session") );

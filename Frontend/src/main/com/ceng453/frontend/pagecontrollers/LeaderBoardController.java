@@ -62,7 +62,7 @@ public class LeaderBoardController extends PageController{
     private void getBoardWithREST(String timeInterval) {
         RestTemplate restTemplate = new RestTemplate();
         try {
-            ResponseEntity<String> response = restTemplate.getForEntity(new URI(ApplicationConstants.ServerBaseAdress+"/leaderboard/" + timeInterval), String.class);
+            ResponseEntity<String> response = restTemplate.getForEntity(new URI(ApplicationConstants.ServerBaseAddress +"/leaderboard/" + timeInterval), String.class);
             addToTable(response);
         } catch (HttpClientErrorException e) { // User has provided wrong input Server responds it with HTTP* Exception
             handleWrongInput(e);

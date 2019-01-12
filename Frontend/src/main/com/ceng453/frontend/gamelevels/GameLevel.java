@@ -4,9 +4,9 @@ import javafx.event.EventHandler;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.MouseEvent;
 import main.com.ceng453.frontend.main.ApplicationConstants;
-import main.com.ceng453.frontend.gameobjects.GameObject;
+import main.com.ceng453.game_objects.GameObject;
 import main.com.ceng453.frontend.main.StaticHelpers;
-import main.com.ceng453.frontend.gameobjects.UserShip;
+import main.com.ceng453.game_objects.UserShip;
 
 import java.util.ArrayList;
 
@@ -75,7 +75,7 @@ abstract class GameLevel {
         drawTexts(gc,gameStateInfo.getCurrentGameScore());
     }
 
-    // Score & Healt indicator drawing
+    // Score & Health indicator drawing
     private void drawTexts(GraphicsContext gc, int currentScore){
         double ScoreXOffset = 30;
         double HealthStatusXOffset = 300;
@@ -158,7 +158,7 @@ abstract class GameLevel {
         updateHelper(elapsedTime, cycleCount, effects);
     }
 
-    /*
+    /**
      * This method both
      *  - Calls the update method of gameObjects
      *  - Catches the newly created objects during their update
@@ -190,7 +190,7 @@ abstract class GameLevel {
                 objects.remove(i--);
             }
             else
-                object.update(elapsedTime,cycleCount);
+                object.update(elapsedTime, cycleCount);
         }
     }
 

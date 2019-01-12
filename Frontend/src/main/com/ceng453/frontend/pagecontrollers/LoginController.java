@@ -66,7 +66,7 @@ public class LoginController extends PageController{
     private void loginToServer(HttpEntity<String> request) {
         RestTemplate restTemplate = new RestTemplate();
         try {
-            ResponseEntity<String> response = restTemplate.postForEntity(ApplicationConstants.ServerBaseAdress + "/login", request, String.class);
+            ResponseEntity<String> response = restTemplate.postForEntity(ApplicationConstants.ServerBaseAddress + "/login", request, String.class);
             System.out.println(response.getBody());
             GameService newGame = new GameService( new JSONObject(Objects.requireNonNull(response.getBody())).getString("Token") );
             newGame.startGame( Main.primaryStage );

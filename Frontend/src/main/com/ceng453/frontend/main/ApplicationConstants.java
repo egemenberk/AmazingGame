@@ -6,7 +6,7 @@ import java.util.Objects;
 import java.util.Random;
 
 public final class ApplicationConstants {
-    public static final String ServerBaseAdress = "http://localhost:8080";
+    public static final String ServerBaseAddress = "http://localhost:8080";
 
     public static final int UserBulletWidth = 20;
     public static final int UserBulletHeight = 35;
