@@ -16,13 +16,13 @@ public class ServerCommunicationHandler extends MultiplayerCommunicationHandler 
 
     public ServerCommunicationHandler(List<GameClient> clientsInThatGame) {
         this.clientsInThatGame = clientsInThatGame;
-        (new ServeClient(clientsInThatGame.get(0), 0)).start();
-        (new ServeClient(clientsInThatGame.get(1), 1)).start();
     }
 
     @Override
     public void initiate(GameLevel4 delegatorClass) {
         this.delegatorClass = delegatorClass;
+        (new ServeClient(clientsInThatGame.get(0), 0)).start();
+        (new ServeClient(clientsInThatGame.get(1), 1)).start();
     }
 
     @Override

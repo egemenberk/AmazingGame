@@ -10,5 +10,5 @@ public abstract class MultiplayerCommunicationHandler{
 
     public abstract void initiate( GameLevel4 delegatorClass );
 
-    public abstract void send_data() throws IOException;
+    public abstract void send_data();
 }

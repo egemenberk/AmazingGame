@@ -25,8 +25,8 @@ abstract class AbstractGameLevel implements Serializable {
     protected UserShip userShip;
     protected ArrayList<GameObject> userBullets;
     private int shooted;
-    private boolean isOver; // Indicator for GameOver state
-    private boolean levelPassed; // Indicator for successful level end state
+    protected boolean isOver; // Indicator for GameOver state
+    protected boolean levelPassed; // Indicator for successful level end state
 
     // Event handler classes to capture user input
     private transient final MouseMoveEventHandler customizedMouseMoveEventHandler;

@@ -75,11 +75,11 @@ public class GameLevel4 extends AbstractGameLevel implements Serializable {
     protected void update(GameStateInfo gameStateInfo) {
         if(rivalShip.getHitPointsLeft() <= 0) // In this case, user loses. Mark the state variable
         {
-            //isOver = true;
+            isOver = true;
             return;
         }
         if( rivalShip.isCleared() || alienShips.size() == 0) { // In this case, user completes the current level
-            //levelPassed = true; // Mark the state variable accordingly
+            levelPassed = true; // Mark the state variable accordingly
             return;
         }
         super.update(gameStateInfo);

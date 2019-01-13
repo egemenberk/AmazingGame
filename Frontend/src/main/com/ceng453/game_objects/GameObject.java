@@ -25,7 +25,7 @@ public abstract class GameObject implements Serializable {
     private boolean isCleared;
     private int bounty;
 
-    private final Image sprite;
+    private final transient Image sprite;
 
     protected GameObject(Image sprite, int width, int height) {
         this.sprite = sprite;
