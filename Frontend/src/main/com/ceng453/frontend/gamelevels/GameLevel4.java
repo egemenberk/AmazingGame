@@ -2,15 +2,14 @@ package main.com.ceng453.frontend.gamelevels;
 
 import javafx.scene.canvas.GraphicsContext;
 import main.com.ceng453.ApplicationConstants;
+import main.com.ceng453.MultiplayerCommunicationHandler;
 import main.com.ceng453.frontend.main.StaticHelpers;
 import main.com.ceng453.game_objects.AlienShipFactory;
 import main.com.ceng453.game_objects.GameObject;
 import main.com.ceng453.game_objects.UserShip;
-import org.json.JSONObject;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -19,20 +18,16 @@ public class GameLevel4 extends AbstractGameLevel {
 
     private UserShip rivalShip;
     private final ArrayList<GameObject> rivalBullets;
-    private Socket clientSocket;
-    private PrintWriter out;
-    private ObjectOutputStream in;
+    private MultiplayerCommunicationHandler multiplayerCommunucationHander;
 
-    public GameLevel4() {
+
+    public GameLevel4(MultiplayerCommunicationHandler communicationHandler) {
         rivalBullets = new ArrayList<>();
         generateAliens();
         generateRivalShip();
-
-        try {
-            InitiateConnection();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        multiplayerCommunucationHander = communicationHandler;
+        multiplayerCommunucationHander.initiate(this);
+        multiplayerCommunucationHander.start();
     }
 
     // We will construct the user ship in this method
@@ -51,12 +46,6 @@ public class GameLevel4 extends AbstractGameLevel {
         rivalShip.setFlyingPositionY(rivalShip.getPositionY());
     }
 
-    private void InitiateConnection() throws IOException {
-        this.clientSocket = new Socket(ApplicationConstants.GameServerIP, ApplicationConstants.GameServerPort);
-        this.out = new PrintWriter(new DataOutputStream(clientSocket.getOutputStream()));
-        //this.in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-    }
-
     public void generateAliens() {
         //Creating an image
         int OffsetX = ApplicationConstants.ScreenWidth/2 + 250, OffsetY = ApplicationConstants.ScreenHeight/2;
@@ -72,14 +61,8 @@ public class GameLevel4 extends AbstractGameLevel {
     @Override
     protected void gameLoop(GameStateInfo gameStateInfo, GraphicsContext gc) {
         super.gameLoop(gameStateInfo, gc);
-
-        JSONObject jsonData = new JSONObject();
-        jsonData.put("x", userShip.getPositionX());
-        jsonData.put("y", userShip.getPositionY());
-        jsonData.put("shooted", isShooted());
+        multiplayerCommunucationHander.send_data();
         setShooted(0);
-        out.println(jsonData.toString());
-        out.flush();
     }
 
     @Override
@@ -142,6 +125,11 @@ public class GameLevel4 extends AbstractGameLevel {
                     effects.add(effect); // Track that Effect object
             }
         }
+    }
+
+    public void interpolateReceivedVersion( GameLevel4 receivedVersion )
+    {
+
     }
 }
 

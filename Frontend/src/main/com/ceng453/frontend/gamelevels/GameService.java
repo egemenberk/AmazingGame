@@ -17,6 +17,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import main.com.ceng453.ApplicationConstants;
 import main.com.ceng453.frontend.pagecontrollers.PageController;
+import main.com.ceng453.game_server.ClientCommunicationHandler;
 import org.json.JSONObject;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -50,7 +51,7 @@ public class GameService {
         levels.push(new GameLevel3());
         levels.push(new GameLevel2());
         levels.push(new GameLevel1());
-        levels.push(new GameLevel4());
+        levels.push(new GameLevel4(new ClientCommunicationHandler()));
 
         this.userAuthToken = userAuthToken;
     }
