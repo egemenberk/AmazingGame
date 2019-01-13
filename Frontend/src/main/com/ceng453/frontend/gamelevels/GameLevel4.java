@@ -7,17 +7,13 @@ import main.com.ceng453.frontend.main.StaticHelpers;
 import main.com.ceng453.game_objects.AlienShipFactory;
 import main.com.ceng453.game_objects.GameObject;
 import main.com.ceng453.game_objects.UserShip;
-
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.net.Socket;
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class GameLevel4 extends AbstractGameLevel {
+public class GameLevel4 extends AbstractGameLevel implements Serializable {
 
     private UserShip rivalShip;
-    private final ArrayList<GameObject> rivalBullets;
+    private ArrayList<GameObject> rivalBullets;
     private MultiplayerCommunicationHandler multiplayerCommunucationHander;
 
 
@@ -27,7 +23,6 @@ public class GameLevel4 extends AbstractGameLevel {
         generateRivalShip();
         multiplayerCommunucationHander = communicationHandler;
         multiplayerCommunucationHander.initiate(this);
-        multiplayerCommunucationHander.start();
     }
 
     // We will construct the user ship in this method
@@ -127,9 +122,16 @@ public class GameLevel4 extends AbstractGameLevel {
         }
     }
 
-    public void interpolateReceivedVersion( GameLevel4 receivedVersion )
+    // Called only for clients
+    public void interpolateReceivedVersion( GameLevel4 receivedVersion ) // TODO is this pretty?
     {
-
+        userShip = receivedVersion.userShip;
+        alienShips = receivedVersion.alienShips;
+        userBullets = receivedVersion.userBullets;
+        alienBullets = receivedVersion.alienBullets;
+        effects = receivedVersion.effects;
+        rivalShip = receivedVersion.rivalShip;
+        rivalBullets = receivedVersion.rivalBullets;
     }
 }
 

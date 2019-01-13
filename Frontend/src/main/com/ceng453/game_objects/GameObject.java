@@ -6,11 +6,13 @@ import javafx.scene.paint.Color;
 import javafx.scene.transform.Rotate;
 import main.com.ceng453.ApplicationConstants;
 
+import java.io.Serializable;
+
 /*
  * Every Object that is drawn and interractable is a GameObject
  * Namely, this class is base class of our objects in game world
  */
-public abstract class GameObject {
+public abstract class GameObject implements Serializable {
 
     // Every object in our game will have
     // Position, Velocity, hp, dmg, width and height, bounty(for score calc.) and an image

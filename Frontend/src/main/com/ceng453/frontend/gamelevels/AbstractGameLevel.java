@@ -19,11 +19,11 @@ import java.util.ArrayList;
  */
 abstract class AbstractGameLevel implements Serializable {
     // Current GameObjects in the game level
-    protected final ArrayList<GameObject> effects;
-    final ArrayList<GameObject> alienShips;
-    private final ArrayList<GameObject> alienBullets;
+    protected ArrayList<GameObject> effects;
+    protected ArrayList<GameObject> alienShips;
+    protected ArrayList<GameObject> alienBullets;
     protected UserShip userShip;
-    protected final ArrayList<GameObject> userBullets;
+    protected ArrayList<GameObject> userBullets;
     private int shooted;
     private boolean isOver; // Indicator for GameOver state
     private boolean levelPassed; // Indicator for successful level end state

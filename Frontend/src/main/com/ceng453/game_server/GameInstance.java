@@ -33,19 +33,7 @@ public class GameInstance extends Thread{
 
         @Override
         public void run() {
-            super.run();
-            String input = "";
-            String output;
-            while (true) {
-                try {
-                    if ((input = gc.in.readLine()) == null) break;
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    break;
-                }
-                //JSONObject userShip = new JSONObject(input);
-                System.out.println(input);
-            }
+
         }
     }
 }
