@@ -8,6 +8,7 @@ import main.com.ceng453.game_objects.GameObject;
 import main.com.ceng453.frontend.main.StaticHelpers;
 import main.com.ceng453.game_objects.UserShip;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /*
@@ -16,26 +17,25 @@ import java.util.ArrayList;
  *  Only the initialization functions are defined in the child classes.
  *  This allows easy extendability to our game style by changing only the objects inside the level
  */
-abstract class GameLevel {
-
+abstract class AbstractGameLevel implements Serializable {
     // Current GameObjects in the game level
-    private final ArrayList<GameObject> effects;
+    protected final ArrayList<GameObject> effects;
     final ArrayList<GameObject> alienShips;
-    private final ArrayList<GameObject> userBullets;
     private final ArrayList<GameObject> alienBullets;
-    private UserShip userShip;
+    protected UserShip userShip;
+    protected final ArrayList<GameObject> userBullets;
     private int shooted;
 
     private boolean isOver; // Indicator for GameOver state
     private boolean levelPassed; // Indicator for successful level end state
 
     // Event handler classes to capture user input
-    private final MouseMoveEventHandler customizedMouseMoveEventHandler;
-    private final MouseClickEventHandler customizedMouseClickEventHandler;
+    private transient final MouseMoveEventHandler customizedMouseMoveEventHandler;
+    private transient final MouseClickEventHandler customizedMouseClickEventHandler;
 
     // Constructor of the abstract class.
     // Note that alien construction does not done in this class
-    GameLevel() {
+    AbstractGameLevel() {
         alienShips = new ArrayList<>();
         userBullets = new ArrayList<>();
         effects = new ArrayList<>();
@@ -45,9 +45,6 @@ abstract class GameLevel {
         customizedMouseMoveEventHandler = new MouseMoveEventHandler(this);
         generateUserShip();
     }
-
-    // Alien construction is left to the extending class to allow customization between levels
-    public abstract void generateAliens();
 
     // We will construct the user ship in this method
     private void generateUserShip()
@@ -66,7 +63,7 @@ abstract class GameLevel {
     }
 
     // High level game pipeline. GameService class will be calling this method for each frame.
-    void gameLoop(GameStateInfo gameStateInfo, GraphicsContext gc){
+    protected void gameLoop(GameStateInfo gameStateInfo, GraphicsContext gc){
         // UPDATE OPERATIONS
         update(gameStateInfo); // Update the state of the game
         collision_detection(); // Collision detection and related updates( e.g EnemyShip gets damage from user bullet in case of collision )
@@ -88,7 +85,7 @@ abstract class GameLevel {
     protected abstract void drawBackground(GraphicsContext gc);
 
     // Drawing game objects
-    private void drawObjects(GraphicsContext gc) {
+    protected void drawObjects(GraphicsContext gc) {
         userShip.render(gc);
         for( GameObject alien : alienShips )
             alien.render(gc);
@@ -101,8 +98,7 @@ abstract class GameLevel {
     }
 
     // Method for collision check between the objetcs
-    private void collision_detection() {
-
+    protected void collision_detection() {
         // Checking if any user bullet collides with any alien bullet
         for( GameObject userBullet: userBullets) {
             for (GameObject  alienBullet: alienBullets)
@@ -133,8 +129,8 @@ abstract class GameLevel {
         }
     }
 
-    // Update method of GameLevel calls individual update methods of all GameObjects currently in the game
-    private void update( GameStateInfo gameStateInfo ) {
+    // Update method of AbstractGameLevel calls individual update methods of all GameObjects currently in the game
+    protected void update( GameStateInfo gameStateInfo ) {
         double elapsedTime = gameStateInfo.getElapsedTime();
         long cycleCount = gameStateInfo.getCurrentCycleCounter();
 
@@ -196,11 +192,11 @@ abstract class GameLevel {
     }
 
     // Mouse handler classes
-    private class MouseMoveEventHandler implements EventHandler<MouseEvent>{
+    private class MouseMoveEventHandler implements EventHandler<MouseEvent> {
 
-        final GameLevel superClass;
+        final AbstractGameLevel superClass;
 
-        MouseMoveEventHandler( GameLevel superClass ) {
+        MouseMoveEventHandler( AbstractGameLevel superClass ) {
             this.superClass = superClass;
         }
 
@@ -212,9 +208,9 @@ abstract class GameLevel {
 
     private class MouseClickEventHandler implements EventHandler<MouseEvent>{
 
-        final GameLevel superClass;
+        final AbstractGameLevel superClass;
 
-        MouseClickEventHandler(GameLevel superClass) {
+        MouseClickEventHandler(AbstractGameLevel superClass) {
             this.superClass = superClass;
         }
 
@@ -253,10 +249,6 @@ abstract class GameLevel {
         return customizedMouseClickEventHandler;
     }
 
-    public UserShip getUserShip() {
-        return userShip;
-    }
-
     public int isShooted() {
         return shooted;
     }
@@ -264,5 +256,4 @@ abstract class GameLevel {
     public void setShooted(int shooted) {
         this.shooted = shooted;
     }
-
 }

@@ -8,7 +8,7 @@ import java.util.Random;
 
 public final class ApplicationConstants {
     public static final String RestServerBaseAddress = "http://localhost:8080";
-    public static final String GameServerIP ="localhost";
+    public static final String GameServerIP ="192.168.1.25";
     public static final int GameServerPort = 9999;
 
     public static final int UserBulletWidth = 20;

@@ -4,7 +4,7 @@ import javafx.scene.canvas.GraphicsContext;
 import main.com.ceng453.game_objects.AlienShipFactory;
 import main.com.ceng453.ApplicationConstants;
 
-public class GameLevel1 extends GameLevel{
+public class GameLevel1 extends AbstractGameLevel {
 
     public GameLevel1() {
         generateAliens();

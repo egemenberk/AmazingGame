@@ -26,7 +26,6 @@ import org.springframework.web.client.RestTemplate;
 
 import java.io.*;
 import java.net.Socket;
-import java.nio.charset.StandardCharsets;
 import java.util.LinkedList;
 
 /*
@@ -35,17 +34,14 @@ import java.util.LinkedList;
  */
 public class GameService {
 
-    private final LinkedList<GameLevel> levels; // Game levels that is added to the game
-    private GameLevel currentLevel; // Current game level
+    private final LinkedList<AbstractGameLevel> levels; // Game levels that is added to the game
+    private AbstractGameLevel currentLevel; // Current game level
     private GraphicsContext gc; // Canvas of our screen
     private final String userAuthToken; // Logged in user's token, saved for sending scores
-    private AnimationTimer gameLoop; // A timer to call GameLevel's frame generation
+    private AnimationTimer gameLoop; // A timer to call AbstractGameLevel's frame generation
     private MediaView mediaView; // Media View, for background musics
     private final GameStateInfo gameStateInfo = new GameStateInfo(System.nanoTime()); // GameStateInfo, described in details in its class
     private PauseTransition pause;
-    private Socket clientSocket;
-    private PrintWriter out;
-    private ObjectOutputStream in;
 
     public GameService(String userAuthToken) {
         levels = new LinkedList<>();
@@ -54,14 +50,9 @@ public class GameService {
         levels.push(new GameLevel3());
         levels.push(new GameLevel2());
         levels.push(new GameLevel1());
+        levels.push(new GameLevel4());
 
         this.userAuthToken = userAuthToken;
-    }
-
-    private void InitiateConnection() throws IOException {
-        this.clientSocket = new Socket(ApplicationConstants.GameServerIP, ApplicationConstants.GameServerPort);
-        this.out = new PrintWriter(new DataOutputStream(clientSocket.getOutputStream()));
-        //this.in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
     }
 
     public void startGame(Stage stage) throws IOException {
@@ -89,25 +80,16 @@ public class GameService {
 
         updateCurrentLevel(canvas, false); // Getting first level from levels
         gameStateInfo.setPreviousLoopTime(System.nanoTime()); // Calibrate initial game start time
-        InitiateConnection();
 
         gameLoop = new AnimationTimer() {
             public void handle(long currentNanoTime) {
                 // calculate time since last update.
                 double elapsedTime = (currentNanoTime - gameStateInfo.getPreviousLoopTime()) / 1000000000.0; // in secs
                 gameStateInfo.setElapsedTime(elapsedTime); // Setting game Info class' corresponding variables
-                if(elapsedTime > 15/1000.0) {
+                // From the elapsed time
+                if(elapsedTime > 15/1000.0) { // TODO is it correct?
                     gameStateInfo.setPreviousLoopTime(currentNanoTime); // GameObjects will calculate their displacements
-                    // From the elapsed time
-
                     currentLevel.gameLoop(gameStateInfo, gc); // This call will generate a new frame of the game
-                    JSONObject userShip = new JSONObject();
-                    userShip.put("x", currentLevel.getUserShip().getPositionX());
-                    userShip.put("y", currentLevel.getUserShip().getPositionY());
-                    userShip.put("shooted", currentLevel.isShooted());
-                    currentLevel.setShooted(0);
-                    out.println(userShip.toString());
-                    out.flush();
                 }
                 if( currentLevel.levelPassed() || currentLevel.isOver()) {
                     updateCurrentLevel(canvas, currentLevel.isOver()); // Get new level from levels list

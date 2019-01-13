@@ -17,7 +17,6 @@ public class Main extends Application {
         Main.primaryStage = stage;
         //stage.setResizable(false); // Those two lines disables resizing of the window
         stage.setTitle("Amazing Game");
-
         startMainPage(stage);
 
     }
