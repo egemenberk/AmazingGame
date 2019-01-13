@@ -24,6 +24,7 @@ abstract class GameLevel {
     private final ArrayList<GameObject> userBullets;
     private final ArrayList<GameObject> alienBullets;
     private UserShip userShip;
+    private int shooted;
 
     private boolean isOver; // Indicator for GameOver state
     private boolean levelPassed; // Indicator for successful level end state
@@ -234,6 +235,7 @@ abstract class GameLevel {
 
     // Mouse click handle, user ship shoots whenever mouse clicks
     private void MouseClickedEventHandle(MouseEvent mouseEvent){
+        shooted = 1;
         userBullets.add(userShip.shoot());
     }
 
@@ -250,4 +252,17 @@ abstract class GameLevel {
     MouseClickEventHandler getCustomizedMouseClickEventHandler() {
         return customizedMouseClickEventHandler;
     }
+
+    public UserShip getUserShip() {
+        return userShip;
+    }
+
+    public int isShooted() {
+        return shooted;
+    }
+
+    public void setShooted(int shooted) {
+        this.shooted = shooted;
+    }
+
 }

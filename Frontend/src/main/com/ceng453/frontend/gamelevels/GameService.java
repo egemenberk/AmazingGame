@@ -24,8 +24,9 @@ import org.springframework.http.MediaType;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.net.Socket;
+import java.nio.charset.StandardCharsets;
 import java.util.LinkedList;
 
 /*
@@ -42,7 +43,9 @@ public class GameService {
     private MediaView mediaView; // Media View, for background musics
     private final GameStateInfo gameStateInfo = new GameStateInfo(System.nanoTime()); // GameStateInfo, described in details in its class
     private PauseTransition pause;
-
+    private Socket clientSocket;
+    private PrintWriter out;
+    private ObjectOutputStream in;
 
     public GameService(String userAuthToken) {
         levels = new LinkedList<>();
@@ -55,7 +58,13 @@ public class GameService {
         this.userAuthToken = userAuthToken;
     }
 
-    public void startGame(Stage stage) {
+    private void InitiateConnection() throws IOException {
+        this.clientSocket = new Socket(ApplicationConstants.GameServerIP, ApplicationConstants.GameServerPort);
+        this.out = new PrintWriter(new DataOutputStream(clientSocket.getOutputStream()));
+        //this.in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+    }
+
+    public void startGame(Stage stage) throws IOException {
         stage.setTitle("Amazing Game");
 
         // Setting Background Music
@@ -80,17 +89,26 @@ public class GameService {
 
         updateCurrentLevel(canvas, false); // Getting first level from levels
         gameStateInfo.setPreviousLoopTime(System.nanoTime()); // Calibrate initial game start time
+        InitiateConnection();
 
         gameLoop = new AnimationTimer() {
             public void handle(long currentNanoTime) {
                 // calculate time since last update.
                 double elapsedTime = (currentNanoTime - gameStateInfo.getPreviousLoopTime()) / 1000000000.0; // in secs
                 gameStateInfo.setElapsedTime(elapsedTime); // Setting game Info class' corresponding variables
-                gameStateInfo.setPreviousLoopTime(currentNanoTime); // GameObjects will calculate their displacements
-                // From the elapsed time
+                if(elapsedTime > 15/1000.0) {
+                    gameStateInfo.setPreviousLoopTime(currentNanoTime); // GameObjects will calculate their displacements
+                    // From the elapsed time
 
-                currentLevel.gameLoop(gameStateInfo, gc); // This call will generate a new frame of the game
-
+                    currentLevel.gameLoop(gameStateInfo, gc); // This call will generate a new frame of the game
+                    JSONObject userShip = new JSONObject();
+                    userShip.put("x", currentLevel.getUserShip().getPositionX());
+                    userShip.put("y", currentLevel.getUserShip().getPositionY());
+                    userShip.put("shooted", currentLevel.isShooted());
+                    currentLevel.setShooted(0);
+                    out.println(userShip.toString());
+                    out.flush();
+                }
                 if( currentLevel.levelPassed() || currentLevel.isOver()) {
                     updateCurrentLevel(canvas, currentLevel.isOver()); // Get new level from levels list
                     gameStateInfo.restartCycleCounter(); // Restaring cycle counter to make the new level to start from cycle=0

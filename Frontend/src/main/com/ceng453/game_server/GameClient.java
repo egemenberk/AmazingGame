@@ -7,13 +7,13 @@ import java.io.PrintWriter;
 import java.net.Socket;
 
 public class GameClient {
-    Socket clientSocket;
-    BufferedReader streamFromClient;
-    PrintWriter streamToClient;
+    public Socket clientSocket;
+    public BufferedReader in;
+    public PrintWriter out;
 
     public GameClient(Socket socket) throws IOException {
         this.clientSocket = socket;
-        this.streamFromClient = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-        this.streamToClient = new PrintWriter(clientSocket.getOutputStream(),true);
+        this.in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+        this.out = new PrintWriter(clientSocket.getOutputStream(),true);
     }
 }

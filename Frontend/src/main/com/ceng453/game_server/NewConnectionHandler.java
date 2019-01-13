@@ -32,7 +32,9 @@ public class NewConnectionHandler extends Thread {
         super.run();
         try {
             while (true) {
+                System.out.println("System is ready to receive connection...");
                 GameClient newClient = new GameClient(connectionHandlerSocket.accept());
+                System.out.println("Someone has connected...");
                 matchmakingQueue.add( newClient );
                 handleMatchMaking();
             }

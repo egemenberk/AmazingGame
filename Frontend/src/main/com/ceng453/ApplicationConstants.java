@@ -53,11 +53,11 @@ public final class ApplicationConstants {
     private static final String ExplosionImagename = "explosion.png";
     private static final String GameOverImagename = "game_over.png";
 
-    static final String ViyuwSound = "ciyuw.wav";
-    static final String PitSound = "pit.wav";
+    public static final String ViyuwSound = "ciyuw.wav";
+    public static final String PitSound = "pit.wav";
     public static final String Dattiridatdat = "datdiridat.wav";
     private static final String JustWowImagename = "just_wow.jpg";
-    static final String Kapiska = "kapuska.wav";
+    public static final String Kapiska = "kapuska.wav";
 
     public static final String GameMusicFilename = "NecroDancer_OST_Portabellohead.mp3";
 
