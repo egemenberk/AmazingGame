@@ -17,7 +17,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import main.com.ceng453.ApplicationConstants;
 import main.com.ceng453.frontend.pagecontrollers.PageController;
-import main.com.ceng453.game_server.ClientCommunicationHandler;
+import main.com.ceng453.frontend.main.ClientCommunicationHandler;
 import org.json.JSONObject;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -26,7 +26,6 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.*;
-import java.net.Socket;
 import java.util.LinkedList;
 
 /*
@@ -51,7 +50,7 @@ public class GameService {
         levels.push(new GameLevel3());
         levels.push(new GameLevel2());
         levels.push(new GameLevel1());
-        levels.push(new GameLevel4(new ClientCommunicationHandler()));
+        levels.push(new MultiplayerGameLevel(new ClientCommunicationHandler()));
 
         this.userAuthToken = userAuthToken;
     }

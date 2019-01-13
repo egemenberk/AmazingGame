@@ -14,6 +14,7 @@ public class AlienShipFactory {
     public static final int EasyEnemyShip = 0;
     public static final int MediumEnemyShip = 1;
     public static final int HardEnemyShip = 2;
+    public static final int BossEnemyShip = 3;
 
     private AlienShipFactory(){} // Factory pattern
 
@@ -41,6 +42,10 @@ public class AlienShipFactory {
                     alienShip = new HardEnemyShip(ApplicationConstants.HardAlienShipImage, 90,115);
                     alienShip.setHitpointsAndDamage(ApplicationConstants.HardAlienShipHP,ApplicationConstants.HardAlienShipDMG);
                     break;
+                case AlienShipFactory.BossEnemyShip:
+                    alienShip = new BossAlien(ApplicationConstants.BossAlienShipImage, ApplicationConstants.BossAlienShipWidth,ApplicationConstants.BossAlienShipHeight);
+                    alienShip.setHitpointsAndDamage(ApplicationConstants.BossAlienShipHP,ApplicationConstants.HardAlienShipDMG);
+
             }
 
             Objects.requireNonNull(alienShip).setPosition(OffsetX + StepX*(i%alienCountInRow),OffsetY+StepY*(i/alienCountInRow));

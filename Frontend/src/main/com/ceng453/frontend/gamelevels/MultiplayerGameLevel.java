@@ -1,28 +1,31 @@
 package main.com.ceng453.frontend.gamelevels;
 
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.input.MouseEvent;
 import main.com.ceng453.ApplicationConstants;
-import main.com.ceng453.MultiplayerCommunicationHandler;
+import main.com.ceng453.frontend.main.ClientCommunicationHandler;
 import main.com.ceng453.frontend.main.StaticHelpers;
-import main.com.ceng453.game_objects.AlienShipFactory;
-import main.com.ceng453.game_objects.GameObject;
-import main.com.ceng453.game_objects.UserShip;
-import java.io.Serializable;
+import main.com.ceng453.game_objects.*;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
-public class GameLevel4 extends AbstractGameLevel implements Serializable {
+public class MultiplayerGameLevel extends AbstractGameLevel{
 
-    private UserShip rivalShip;
-    private ArrayList<GameObject> rivalBullets;
-    private MultiplayerCommunicationHandler multiplayerCommunucationHander;
+    public UserShip rivalShip;
+    public ArrayList<GameObject> rivalBullets;
+    private long serverDrivenGameTicks = -1;
+    private ClientCommunicationHandler multiplayerCommunucationHander;
 
 
-    public GameLevel4(MultiplayerCommunicationHandler communicationHandler) {
+    public MultiplayerGameLevel(ClientCommunicationHandler communicationHandler) {
+        System.out.println("MultiplayerGameLevel constructor called");
         rivalBullets = new ArrayList<>();
         generateAliens();
         generateRivalShip();
         multiplayerCommunucationHander = communicationHandler;
         multiplayerCommunucationHander.initiate(this);
+        customizedMouseClickEventHandler = new MouseClickEventHandler( this );
     }
 
     // We will construct the user ship in this method
@@ -43,21 +46,21 @@ public class GameLevel4 extends AbstractGameLevel implements Serializable {
 
     public void generateAliens() {
         //Creating an image
-        int OffsetX = ApplicationConstants.ScreenWidth/2 + 250, OffsetY = ApplicationConstants.ScreenHeight/2;
+        int OffsetX = ApplicationConstants.ScreenWidth/2 + 500, OffsetY = ApplicationConstants.ScreenHeight/2 + 350;
         int StepX = 240, StepY = 100;
         int alienCountInRow = 1;
         int rowCount = 1;
 
         // Spawn an Hard Enemy to the Middle
-        alienShips.addAll(AlienShipFactory.populateEnemyShips(AlienShipFactory.HardEnemyShip,
+        alienShips.addAll(AlienShipFactory.populateEnemyShips(AlienShipFactory.BossEnemyShip,
                 alienCountInRow, rowCount, OffsetX, StepX, OffsetY, StepY));
     }
 
     @Override
     public void gameLoop(GameStateInfo gameStateInfo, GraphicsContext gc) {
+        gameStateInfo.setCurrentCycleCounter(serverDrivenGameTicks);
         super.gameLoop(gameStateInfo, gc);
-        multiplayerCommunucationHander.send_data();
-        setShooted(0);
+        multiplayerCommunucationHander.send_data(false);
     }
 
     @Override
@@ -68,7 +71,9 @@ public class GameLevel4 extends AbstractGameLevel implements Serializable {
     @Override
     protected void drawObjects(GraphicsContext gc){
         super.drawObjects(gc);
-        rivalShip.render(gc);
+        rivalShip.render(gc, true);
+        for( GameObject bullet : rivalBullets)
+            bullet.render(gc, true);
     }
 
     @Override
@@ -88,6 +93,13 @@ public class GameLevel4 extends AbstractGameLevel implements Serializable {
         long cycleCount = gameStateInfo.getCurrentCycleCounter();
 
         rivalShip.update(elapsedTime, cycleCount);
+
+        for( int i=0; i<rivalBullets.size(); i++) {
+            if(rivalBullets.get(i).isCleared())
+                rivalBullets.remove(i--);
+            else
+                rivalBullets.get(i).update(elapsedTime, cycleCount);
+        }
     }
 
     @Override
@@ -106,6 +118,24 @@ public class GameLevel4 extends AbstractGameLevel implements Serializable {
                     }
             }
         }
+        for( GameObject bullet: alienBullets) {
+            if ( !bullet.isCleared() && StaticHelpers.intersects(rivalShip, bullet)) { // If there is an intersection
+                GameObject effect = rivalShip.hitBy(bullet); // Apply the hit effects
+                if (effect != null) // If an Game Effect is returned( Explosion effect etc. )
+                    effects.add(effect); // Track that Effect object
+            }
+        }
+
+        for( GameObject alienBullet: alienBullets) {
+            for( GameObject rivalBullet: rivalBullets ) {
+                if (!rivalBullet.isCleared() && !alienBullet.isCleared() && StaticHelpers.intersects(rivalBullet, alienBullet)) { // If there is an intersection
+                    GameObject effect = rivalBullet.hitBy(alienBullet); // Apply the hit effects
+                    if (effect != null) // If an Game Effect is returned( Explosion effect etc. )
+                        effects.add(effect); // Track that Effect object
+                }
+            }
+        }
+
 
         checkIntersectionForTwoPlayers(rivalBullets, userShip);
         checkIntersectionForTwoPlayers(userBullets, rivalShip);
@@ -130,15 +160,26 @@ public class GameLevel4 extends AbstractGameLevel implements Serializable {
         this.rivalShip = rivalShip;
     }
 
-    public void interpolateReceivedVersion( GameLevel4 receivedVersion )
+    public void updateRivalShip(JSONObject receivedVersion )
     {
-        userShip = receivedVersion.userShip;
-        alienShips = receivedVersion.alienShips;
-        userBullets = receivedVersion.userBullets;
-        alienBullets = receivedVersion.alienBullets;
-        effects = receivedVersion.effects;
-        rivalShip = receivedVersion.rivalShip;
-        rivalBullets = receivedVersion.rivalBullets;
+        rivalShip.setPosition(receivedVersion.getDouble("x"), receivedVersion.getDouble("y"));
+        rivalShip.setFlyingPositionX(receivedVersion.getDouble("x"));
+        rivalShip.setFlyingPositionY(receivedVersion.getDouble("y"));
+        rivalShip.setHitPointsLeft( receivedVersion.getInt(("hp")) );
+        if(receivedVersion.getBoolean("has_shot")) {
+            rivalBullets.add(rivalShip.shoot(true));
+        }
+    }
+
+    public void updateGameTick( JSONObject recievedVersion )
+    {
+        serverDrivenGameTicks = recievedVersion.getLong("tick");
+    }
+
+    @Override
+    protected void MouseClickedEventHandle(MouseEvent mouseEvent){
+        multiplayerCommunucationHander.send_data(true);
+        userBullets.add(userShip.shoot(true));
     }
 }
 

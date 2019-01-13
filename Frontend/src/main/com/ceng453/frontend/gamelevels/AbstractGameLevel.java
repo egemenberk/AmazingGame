@@ -17,24 +17,24 @@ import java.util.ArrayList;
  *  Only the initialization functions are defined in the child classes.
  *  This allows easy extendability to our game style by changing only the objects inside the level
  */
-abstract class AbstractGameLevel implements Serializable {
+abstract class AbstractGameLevel{
     // Current GameObjects in the game level
-    protected ArrayList<GameObject> effects;
-    protected ArrayList<GameObject> alienShips;
-    protected ArrayList<GameObject> alienBullets;
-    protected UserShip userShip;
-    protected ArrayList<GameObject> userBullets;
-    private int shooted;
-    protected boolean isOver; // Indicator for GameOver state
-    protected boolean levelPassed; // Indicator for successful level end state
+    public ArrayList<GameObject> effects;
+    public ArrayList<GameObject> alienShips;
+    public ArrayList<GameObject> alienBullets;
+    public UserShip userShip;
+    public ArrayList<GameObject> userBullets;
+    public boolean isOver; // Indicator for GameOver state
+    public boolean levelPassed; // Indicator for successful level end state
 
     // Event handler classes to capture user input
-    private transient final MouseMoveEventHandler customizedMouseMoveEventHandler;
-    private transient final MouseClickEventHandler customizedMouseClickEventHandler;
+    private final MouseMoveEventHandler customizedMouseMoveEventHandler;
+    protected MouseClickEventHandler customizedMouseClickEventHandler;
 
     // Constructor of the abstract class.
     // Note that alien construction does not done in this class
     AbstractGameLevel() {
+        System.out.println("Abstract constructor called");
         alienShips = new ArrayList<>();
         userBullets = new ArrayList<>();
         effects = new ArrayList<>();
@@ -64,14 +64,13 @@ abstract class AbstractGameLevel implements Serializable {
     // High level game pipeline. GameService class will be calling this method for each frame.
     public void gameLoop(GameStateInfo gameStateInfo, GraphicsContext gc){
         // UPDATE OPERATIONS
+        System.out.println("On update ");
         update(gameStateInfo); // Update the state of the game
         collision_detection(); // Collision detection and related updates( e.g EnemyShip gets damage from user bullet in case of collision )
         // Draw OPERATIONS
-        if( gc != null ) {
-            drawBackground(gc);
-            drawObjects(gc);
-            drawTexts(gc,gameStateInfo.getCurrentGameScore());
-        }
+        drawBackground(gc);
+        drawObjects(gc);
+        drawTexts(gc,gameStateInfo.getCurrentGameScore());
     }
 
     // Score & Health indicator drawing
@@ -207,7 +206,7 @@ abstract class AbstractGameLevel implements Serializable {
         }
     }
 
-    private class MouseClickEventHandler implements EventHandler<MouseEvent>{
+    protected class MouseClickEventHandler implements EventHandler<MouseEvent>{
 
         final AbstractGameLevel superClass;
 
@@ -231,9 +230,8 @@ abstract class AbstractGameLevel implements Serializable {
     }
 
     // Mouse click handle, user ship shoots whenever mouse clicks
-    private void MouseClickedEventHandle(MouseEvent mouseEvent){
-        shooted = 1;
-        userBullets.add(userShip.shoot());
+    protected void MouseClickedEventHandle(MouseEvent mouseEvent){
+        userBullets.add(userShip.shoot(false));
     }
 
     boolean isOver() {
@@ -258,11 +256,4 @@ abstract class AbstractGameLevel implements Serializable {
         return userShip;
     }
 
-    public int isShooted() {
-        return shooted;
-    }
-
-    public void setShooted(int shooted) {
-        this.shooted = shooted;
-    }
 }

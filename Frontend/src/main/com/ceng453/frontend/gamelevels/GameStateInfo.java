@@ -50,4 +50,6 @@ public class GameStateInfo{
     public void restartCycleCounter(){
         currentCycleCounter = -1;
     }
+
+    public void setCurrentCycleCounter(long currentCycleCounter){ this.currentCycleCounter = currentCycleCounter; }
 }

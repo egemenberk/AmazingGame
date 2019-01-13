@@ -6,11 +6,11 @@ import java.net.Socket;
 public class GameClient {
     public Socket clientSocket;
     public BufferedReader in;
-    public ObjectOutputStream out;
+    public PrintWriter out;
 
     public GameClient(Socket socket) throws IOException {
         this.clientSocket = socket;
         this.in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-        this.out = new ObjectOutputStream(clientSocket.getOutputStream());
+        this.out = new PrintWriter(clientSocket.getOutputStream());
     }
 }
