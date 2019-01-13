@@ -15,9 +15,8 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception { // Init of the app.
         Main.primaryStage = stage;
-        stage.setResizable(false); // Those two lines disables resizing of the window
+        //stage.setResizable(false); // Those two lines disables resizing of the window
         stage.setTitle("Amazing Game");
-
         startMainPage(stage);
 
     }

@@ -17,7 +17,6 @@ public class NewConnectionHandler extends Thread {
 
     public NewConnectionHandler()
     {
-        super();
         try {
             connectionHandlerSocket = new ServerSocket(ApplicationConstants.GameServerPort); // TODO no binding ok?
             activeGames = new LinkedList<>();
@@ -32,8 +31,10 @@ public class NewConnectionHandler extends Thread {
         super.run();
         try {
             while (true) {
+                System.out.println("System is ready to receive connection...");
                 GameClient newClient = new GameClient(connectionHandlerSocket.accept());
                 matchmakingQueue.add( newClient );
+                System.out.println("Someone has connected... Queue size is " + matchmakingQueue.size());
                 handleMatchMaking();
             }
         }
@@ -46,6 +47,7 @@ public class NewConnectionHandler extends Thread {
     private void handleMatchMaking() {
         while( matchmakingQueue.size() > 1 )
         {
+            System.out.println("Making match xd");
             GameClient c1 = matchmakingQueue.poll();
             GameClient c2 = matchmakingQueue.poll();
 

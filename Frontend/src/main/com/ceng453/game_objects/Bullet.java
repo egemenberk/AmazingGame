@@ -9,9 +9,10 @@ import main.com.ceng453.ApplicationConstants;
  */
 public class Bullet extends GameObject {
 
-    public static final int UserBullet = 0;
+    public static final int RegularUserBullet = 0;
     public static final int AlienBullet = 1;
     public static final int HardAlienBullet = 2;
+    public static final int ServerTickDrivenUserBullet = 3;
 
 
     public Bullet(Image sprite, int width, int height) {

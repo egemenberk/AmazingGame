@@ -7,14 +7,14 @@ import main.com.ceng453.frontend.main.Sound;
 /*
  * Bullet factory class. That class will be used while creating bullets
  */
-class BulletFactory {
+public class BulletFactory {
 
     private BulletFactory(){} // Factory pattern
 
     public static Bullet create( int bulletType, int damage ){
         Bullet bullet = null;
         switch (bulletType) {
-            case Bullet.UserBullet:
+            case Bullet.RegularUserBullet:
                 bullet = new Bullet(ApplicationConstants.UserBulletImage, ApplicationConstants.UserBulletWidth, ApplicationConstants.UserBulletHeight);
                 bullet.setVelocityY( ApplicationConstants.UserBulletVelocity );
                 bullet.setHitpointsAndDamage( 1, damage);
@@ -31,6 +31,12 @@ class BulletFactory {
                 bullet.setVelocityY( ApplicationConstants.AlienBulletVelocity );
                 bullet.setHitpointsAndDamage( 4, damage );
                 Sound.play(Sound.HardEnemyBulletSound);
+                break;
+            case Bullet.ServerTickDrivenUserBullet:
+                bullet = new ServerTickDrivenUserBullet(ApplicationConstants.UserBulletImage, ApplicationConstants.UserBulletWidth, ApplicationConstants.UserBulletHeight);
+                bullet.setVelocityY( ApplicationConstants.UserBulletVelocity );
+                bullet.setHitpointsAndDamage( 1, damage);
+                Sound.play(Sound.UserBulletSound);
                 break;
 
         }

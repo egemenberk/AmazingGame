@@ -27,8 +27,8 @@ public class UserShip extends GameObject {
     }
 
     // This will be called on mouse click
-    public GameObject shoot(){
-        Bullet bullet = BulletFactory.create(Bullet.UserBullet, getDamage());
+    public GameObject shoot( boolean isInMultiplayer ){
+        Bullet bullet = BulletFactory.create(Bullet.RegularUserBullet, getDamage());
         bullet.setPosition(getPositionX() + getWidth() / 2.0, getPositionY());
         return bullet;
     }

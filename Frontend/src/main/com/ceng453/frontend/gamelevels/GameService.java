@@ -17,6 +17,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import main.com.ceng453.ApplicationConstants;
 import main.com.ceng453.frontend.pagecontrollers.PageController;
+import main.com.ceng453.frontend.main.ClientCommunicationHandler;
 import org.json.JSONObject;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -24,8 +25,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.LinkedList;
 
 /*
@@ -34,15 +34,14 @@ import java.util.LinkedList;
  */
 public class GameService {
 
-    private final LinkedList<GameLevel> levels; // Game levels that is added to the game
-    private GameLevel currentLevel; // Current game level
+    private final LinkedList<AbstractGameLevel> levels; // Game levels that is added to the game
+    private AbstractGameLevel currentLevel; // Current game level
     private GraphicsContext gc; // Canvas of our screen
     private final String userAuthToken; // Logged in user's token, saved for sending scores
-    private AnimationTimer gameLoop; // A timer to call GameLevel's frame generation
+    private AnimationTimer gameLoop; // A timer to call AbstractGameLevel's frame generation
     private MediaView mediaView; // Media View, for background musics
     private final GameStateInfo gameStateInfo = new GameStateInfo(System.nanoTime()); // GameStateInfo, described in details in its class
     private PauseTransition pause;
-
 
     public GameService(String userAuthToken) {
         levels = new LinkedList<>();
@@ -51,11 +50,12 @@ public class GameService {
         levels.push(new GameLevel3());
         levels.push(new GameLevel2());
         levels.push(new GameLevel1());
+        levels.push(new MultiplayerGameLevel(new ClientCommunicationHandler()));
 
         this.userAuthToken = userAuthToken;
     }
 
-    public void startGame(Stage stage) {
+    public void startGame(Stage stage) throws IOException {
         stage.setTitle("Amazing Game");
 
         // Setting Background Music
@@ -86,11 +86,11 @@ public class GameService {
                 // calculate time since last update.
                 double elapsedTime = (currentNanoTime - gameStateInfo.getPreviousLoopTime()) / 1000000000.0; // in secs
                 gameStateInfo.setElapsedTime(elapsedTime); // Setting game Info class' corresponding variables
-                gameStateInfo.setPreviousLoopTime(currentNanoTime); // GameObjects will calculate their displacements
                 // From the elapsed time
-
-                currentLevel.gameLoop(gameStateInfo, gc); // This call will generate a new frame of the game
-
+                if(elapsedTime > 15/1000.0) { // TODO is it correct?
+                    gameStateInfo.setPreviousLoopTime(currentNanoTime); // GameObjects will calculate their displacements
+                    currentLevel.gameLoop(gameStateInfo, gc); // This call will generate a new frame of the game
+                }
                 if( currentLevel.levelPassed() || currentLevel.isOver()) {
                     updateCurrentLevel(canvas, currentLevel.isOver()); // Get new level from levels list
                     gameStateInfo.restartCycleCounter(); // Restaring cycle counter to make the new level to start from cycle=0

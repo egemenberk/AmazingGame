@@ -3,7 +3,7 @@ package main.com.ceng453.frontend.gamelevels;
 /*
  * A state class for keeping time, cycle, score between different calls of the gamelevels
  */
-class GameStateInfo{
+public class GameStateInfo{
     private long currentCycleCounter;
     private double previousLoopTime;
     private double elapsedTime;
@@ -50,4 +50,6 @@ class GameStateInfo{
     public void restartCycleCounter(){
         currentCycleCounter = -1;
     }
+
+    public void setCurrentCycleCounter(long currentCycleCounter){ this.currentCycleCounter = currentCycleCounter; }
 }

@@ -8,7 +8,7 @@ import java.util.Random;
 
 public final class ApplicationConstants {
     public static final String RestServerBaseAddress = "http://localhost:8080";
-    public static final String GameServerIP ="localhost";
+    public static final String GameServerIP ="127.0.0.1";
     public static final int GameServerPort = 9999;
 
     public static final int UserBulletWidth = 20;
@@ -18,15 +18,19 @@ public final class ApplicationConstants {
 
     public static final double EasyAlienShootPercentage = 0.002;
     public static final double MediumAlienShootPercentage = 0.005;
-    public static final double HardAlienShootPercentage = 0.008;
+    public static final double HardAlienShootPercentage = 0.00000008;
 
     public static final int ScreenWidth = 600;
     public static final int ScreenHeight = 768;
     public static final double TextDrawRectHeight = 22;
 
+    public static final int BossAlienShipWidth = 200;
+    public static final int BossAlienShipHeight = 200;
+
     public static final int EasyAlienShipBounty = 10;
     public static final int MediumAlienShipBounty = 45;
     public static final int HardAlienShipBounty = 180;
+    public static final int BossAlienShipBounty = 480;
 
     public static final int EasyAlienShipHP = 2;
     public static final int EasyAlienShipDMG = 1;
@@ -34,6 +38,7 @@ public final class ApplicationConstants {
     public static final int MediumAlienShipDMG = 2;
     public static final int HardAlienShipHP = 16;
     public static final int HardAlienShipDMG = 3;
+    public static final int BossAlienShipHP = 225;
 
     public static final int UserShipHealth = 6;
     public static final int UserShipDamage = 2;
@@ -43,6 +48,7 @@ public final class ApplicationConstants {
     public static final double HealtBarHeight = 10;
     public static final double HealtBarWidthCoefficent = 0.7;
 
+    public static final String BossAlienShipImagename = "alien_boss.png";
     private static final String UserBulletImagename = "user_bullet.png";
     private static final String AlienBulletImagename = "alien_bullet.png";
     private static final String BackgroundImagename = "background.jpg";
@@ -53,11 +59,11 @@ public final class ApplicationConstants {
     private static final String ExplosionImagename = "explosion.png";
     private static final String GameOverImagename = "game_over.png";
 
-    static final String ViyuwSound = "ciyuw.wav";
-    static final String PitSound = "pit.wav";
+    public static final String ViyuwSound = "ciyuw.wav";
+    public static final String PitSound = "pit.wav";
     public static final String Dattiridatdat = "datdiridat.wav";
     private static final String JustWowImagename = "just_wow.jpg";
-    static final String Kapiska = "kapuska.wav";
+    public static final String Kapiska = "kapuska.wav";
 
     public static final String GameMusicFilename = "NecroDancer_OST_Portabellohead.mp3";
 
@@ -71,6 +77,7 @@ public final class ApplicationConstants {
     public static final Image HardAlienShipImage = new Image(Objects.requireNonNull(StaticHelpers.getResourceFromAssets(HardAlienShipImagename)));
     public static final Image GameOverImage = new Image(Objects.requireNonNull(StaticHelpers.getResourceFromAssets(GameOverImagename)));
     public static final Image JustWowImage = new Image(Objects.requireNonNull(StaticHelpers.getResourceFromAssets(JustWowImagename)));
+    public static final Image BossAlienShipImage = new Image(Objects.requireNonNull(StaticHelpers.getResourceFromAssets(BossAlienShipImagename)));
 
     public static final Random numberGenerator = new Random();
 
