@@ -62,14 +62,16 @@ abstract class AbstractGameLevel implements Serializable {
     }
 
     // High level game pipeline. GameService class will be calling this method for each frame.
-    protected void gameLoop(GameStateInfo gameStateInfo, GraphicsContext gc){
+    public void gameLoop(GameStateInfo gameStateInfo, GraphicsContext gc){
         // UPDATE OPERATIONS
         update(gameStateInfo); // Update the state of the game
         collision_detection(); // Collision detection and related updates( e.g EnemyShip gets damage from user bullet in case of collision )
         // Draw OPERATIONS
-        drawBackground(gc);
-        drawObjects(gc);
-        drawTexts(gc,gameStateInfo.getCurrentGameScore());
+        if( gc != null ) {
+            drawBackground(gc);
+            drawObjects(gc);
+            drawTexts(gc,gameStateInfo.getCurrentGameScore());
+        }
     }
 
     // Score & Health indicator drawing

@@ -54,7 +54,7 @@ public class GameLevel4 extends AbstractGameLevel implements Serializable {
     }
 
     @Override
-    protected void gameLoop(GameStateInfo gameStateInfo, GraphicsContext gc) {
+    public void gameLoop(GameStateInfo gameStateInfo, GraphicsContext gc) {
         super.gameLoop(gameStateInfo, gc);
         multiplayerCommunucationHander.send_data();
         setShooted(0);
@@ -122,8 +122,15 @@ public class GameLevel4 extends AbstractGameLevel implements Serializable {
         }
     }
 
-    // Called only for clients
-    public void interpolateReceivedVersion( GameLevel4 receivedVersion ) // TODO is this pretty?
+    public UserShip getRivalShip() {
+        return rivalShip;
+    }
+
+    public void setRivalShip(UserShip rivalShip) {
+        this.rivalShip = rivalShip;
+    }
+
+    public void interpolateReceivedVersion( GameLevel4 receivedVersion )
     {
         userShip = receivedVersion.userShip;
         alienShips = receivedVersion.alienShips;
