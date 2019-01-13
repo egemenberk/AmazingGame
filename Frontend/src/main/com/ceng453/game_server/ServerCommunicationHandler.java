@@ -5,6 +5,7 @@ import main.com.ceng453.frontend.gamelevels.GameLevel4;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.net.SocketException;
 import java.util.List;
 
 public class ServerCommunicationHandler extends MultiplayerCommunicationHandler {
@@ -26,10 +27,15 @@ public class ServerCommunicationHandler extends MultiplayerCommunicationHandler 
 
     @Override
     public void send_data() {
-        clientsInThatGame.get(0).out.println(delegatorClass);
-        clientsInThatGame.get(0).out.flush();
-        clientsInThatGame.get(1).out.println(delegatorClass);
-        clientsInThatGame.get(1).out.flush();
+        try {
+            clientsInThatGame.get(0).out.writeObject(delegatorClass);
+            clientsInThatGame.get(0).out.flush();
+            clientsInThatGame.get(1).out.writeObject(delegatorClass);
+            clientsInThatGame.get(1).out.flush();
+        } catch (IOException e) {
+            terminate = true;
+            e.printStackTrace();
+        }
     }
 
     public class ServeClient extends Thread {
@@ -47,10 +53,11 @@ public class ServerCommunicationHandler extends MultiplayerCommunicationHandler 
             super.run();
             String input = "";
 
-            while (true) {
+            while (!terminate) {
                 try {
                     if((input = gc.in.readLine()) == null) break;
                 } catch (IOException e) {
+                    terminate = true;
                     e.printStackTrace();
                 }
                 JSONObject receivedInfo = new JSONObject(input);

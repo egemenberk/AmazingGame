@@ -35,18 +35,18 @@ public class GameInstance extends Thread{
 
         @Override
         public void run() {
-        gameStateInfo.setPreviousLoopTime(System.nanoTime()); // Calibrate initial game start time
-        while(true) {
-            try {
-                sleep(15);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+            gameStateInfo.setPreviousLoopTime(System.nanoTime()); // Calibrate initial game start time
+            while (true) {
+                try {
+                    sleep(15);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                gameStateInfo.setElapsedTime(0.015);
+                gameStateInfo.incrementCurrentCycleCount(); // increase cycle counter
+                gameLevel4.gameLoop(gameStateInfo, null); // This call will generate a new frame of the game
             }
-            gameStateInfo.setElapsedTime(0.015);
-            gameStateInfo.incrementCurrentCycleCount(); // increase cycle counter
-            gameLevel4.gameLoop(gameStateInfo, null); // This call will generate a new frame of the game
         }
-
     }
 
 }

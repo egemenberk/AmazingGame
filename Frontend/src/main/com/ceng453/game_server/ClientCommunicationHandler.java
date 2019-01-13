@@ -43,6 +43,7 @@ public class ClientCommunicationHandler extends MultiplayerCommunicationHandler 
             try {
                 GameLevel4 receivedGameLevel = (GameLevel4) in.readObject();
                 delegatorClass.interpolateReceivedVersion(receivedGameLevel);
+                System.out.println("Received data");
             } catch (IOException | ClassNotFoundException e) {
                 e.printStackTrace();
             }
