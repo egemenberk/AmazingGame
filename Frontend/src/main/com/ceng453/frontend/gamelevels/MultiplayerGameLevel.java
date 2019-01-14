@@ -98,13 +98,24 @@ public class MultiplayerGameLevel extends AbstractGameLevel{
             if (!bullet.isCleared()) {
                 for (GameObject alienShip : alienShips)
                     if (StaticHelpers.intersects(alienShip, bullet)) { // If there is an intersection
-                        int b = 0; // TODO delete and resolve duplicate
                         GameObject effect = alienShip.hitBy(bullet); // Apply the hit effects
                         if (effect != null) // If an Game Effect is returned( Explosion effect etc. )
                             effects.add(effect); // Track that Effect object
                     }
             }
         }
+
+        for (GameObject rivalBullet : rivalBullets) {
+            if (!rivalBullet.isCleared()) {
+                for (GameObject userBullet : userBullets)
+                    if (StaticHelpers.intersects(userBullet, rivalBullet)) { // If there is an intersection
+                        GameObject effect = rivalBullet.hitBy(userBullet); // Apply the hit effects
+                        if (effect != null) // If an Game Effect is returned( Explosion effect etc. )
+                            effects.add(effect); // Track that Effect object
+                    }
+            }
+        }
+
         for( GameObject bullet: alienBullets) {
             if ( !bullet.isCleared() && StaticHelpers.intersects(rivalShip, bullet)) { // If there is an intersection
                 GameObject effect = rivalShip.hitBy(bullet); // Apply the hit effects
