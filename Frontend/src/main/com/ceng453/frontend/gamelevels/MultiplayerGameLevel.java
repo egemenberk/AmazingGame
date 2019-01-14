@@ -19,7 +19,6 @@ public class MultiplayerGameLevel extends AbstractGameLevel{
 
 
     public MultiplayerGameLevel(ClientCommunicationHandler communicationHandler) {
-        System.out.println("MultiplayerGameLevel constructor called");
         rivalBullets = new ArrayList<>();
         generateAliens();
         generateRivalShip();
@@ -71,9 +70,9 @@ public class MultiplayerGameLevel extends AbstractGameLevel{
     @Override
     protected void drawObjects(GraphicsContext gc){
         super.drawObjects(gc);
-        rivalShip.render(gc, true);
+        rivalShip.render(gc);
         for( GameObject bullet : rivalBullets)
-            bullet.render(gc, true);
+            bullet.render(gc);
     }
 
     @Override

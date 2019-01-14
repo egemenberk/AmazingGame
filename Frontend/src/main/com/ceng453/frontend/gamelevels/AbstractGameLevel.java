@@ -34,7 +34,6 @@ abstract class AbstractGameLevel{
     // Constructor of the abstract class.
     // Note that alien construction does not done in this class
     AbstractGameLevel() {
-        System.out.println("Abstract constructor called");
         alienShips = new ArrayList<>();
         userBullets = new ArrayList<>();
         effects = new ArrayList<>();
@@ -64,7 +63,6 @@ abstract class AbstractGameLevel{
     // High level game pipeline. GameService class will be calling this method for each frame.
     public void gameLoop(GameStateInfo gameStateInfo, GraphicsContext gc){
         // UPDATE OPERATIONS
-        System.out.println("On update ");
         update(gameStateInfo); // Update the state of the game
         collision_detection(); // Collision detection and related updates( e.g EnemyShip gets damage from user bullet in case of collision )
         // Draw OPERATIONS

@@ -20,7 +20,6 @@ public class ClientCommunicationHandler{
         this.delegatorClass = delegatorClass;
         try {
             this.serverSocket = new Socket(ApplicationConstants.GameServerIP, ApplicationConstants.GameServerPort);
-            System.out.println(serverSocket.hashCode());
             this.out = new PrintWriter(serverSocket.getOutputStream());
             this.in = new BufferedReader(new InputStreamReader(serverSocket.getInputStream()));
         } catch (IOException e) {
@@ -40,8 +39,6 @@ public class ClientCommunicationHandler{
         {
             try {
                 JSONObject receivedJson = new JSONObject(in.readLine());
-                //System.out.println(receivedJson.toString());
-                System.out.println(delegatorClass.rivalShip.getHitPointsLeft());
                 if(receivedJson.isNull("tick"))
                     delegatorClass.updateRivalShip(receivedJson);
                 else

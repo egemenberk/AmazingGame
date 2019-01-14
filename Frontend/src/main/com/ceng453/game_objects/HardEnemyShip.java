@@ -16,14 +16,12 @@ public class HardEnemyShip extends GameObject implements Serializable {
 
     public HardEnemyShip(Image sprite, int width, int height) {
         super(sprite, width, height);
-        System.out.println("HardEnemy constructor called");
         setBounty(ApplicationConstants.HardAlienShipBounty);
     }
 
     @Override
     public GameObject update(double elapsedTime, long currentCycleNumber) {
         // Move in cycles
-        System.out.println(elapsedTime+"  -  "+currentCycleNumber);
         double rad = (currentCycleNumber% circleCompilationCycle) * 2 * Math.PI / circleCompilationCycle;
 
         setVelocityY( -Math.cos( rad )*cyclicMovementElipsX );

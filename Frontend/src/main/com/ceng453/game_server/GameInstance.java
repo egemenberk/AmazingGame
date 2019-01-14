@@ -10,7 +10,6 @@ public class GameInstance extends Thread{
     List<GameClient> clientsInThatGame;
 
     public GameInstance(GameClient c1, GameClient c2) {
-        System.out.println("Created a game instance");
         clientsInThatGame = new ArrayList<>();
         clientsInThatGame.add(c1);
         clientsInThatGame.add(c2);
@@ -43,7 +42,6 @@ public class GameInstance extends Thread{
 
         public synchronized void send_data(JSONObject data, int to_id)
         {
-            System.out.println("Sending data to "+to_id + " : "+data);
             clientsInThatGame.get(to_id).out.println(data);
             clientsInThatGame.get(to_id).out.flush();
         }

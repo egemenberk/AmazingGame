@@ -28,7 +28,6 @@ public abstract class GameObject implements Serializable {
     private final transient Image sprite;
 
     protected GameObject(Image sprite, int width, int height) {
-        System.out.println("GameObject constructor called");
         this.sprite = sprite;
         this.pos_x = 0;
         this.pos_y = 0;
@@ -66,10 +65,6 @@ public abstract class GameObject implements Serializable {
         this.pos_y = y;
     }
 
-    public void render(GraphicsContext context) {
-        render(context,false);
-    }
-
     // Rotate the canvas centering the given X and Y
     private void rotateContext( GraphicsContext context, double middleX, double middleY, double angle )
     {
@@ -80,7 +75,7 @@ public abstract class GameObject implements Serializable {
 
     // This is the lowest level render function in game
     // Game object will draw its image to the canvas passed from GameService
-    public void render(GraphicsContext context, boolean isMirrored) {
+    public void render(GraphicsContext context) {
         // We will rotate images of GameObjects in their movement direction
         context.save();
 
