@@ -27,9 +27,18 @@ public class UserShip extends GameObject {
     }
 
     // This will be called on mouse click
-    public GameObject shoot( boolean isInMultiplayer ){
+    public GameObject shoot(){
         Bullet bullet = BulletFactory.create(Bullet.RegularUserBullet, getDamage());
         bullet.setPosition(getPositionX() + getWidth() / 2.0, getPositionY());
+        return bullet;
+    }
+
+    public GameObject shoot( int bulletType ){
+        Bullet bullet = BulletFactory.create(bulletType, getDamage());
+        if( bulletType == Bullet.ServerTickDrivenUserBullet )
+            bullet.setPosition(getPositionX() + getWidth() / 2.0, getPositionY() - ApplicationConstants.UserBulletHeight);
+        else
+            bullet.setPosition(getPositionX() + getWidth() / 2.0, getPositionY() + getHeight());
         return bullet;
     }
 
@@ -48,15 +57,15 @@ public class UserShip extends GameObject {
         if ( ApplicationConstants.UserShipHealth > getHitPointsLeft() ) // Draw health bar
         {
             double health_ratio = getHitPointsLeft() / (double)ApplicationConstants.UserShipHealth; // Calculate health percentage
-            double offsetX = ((1 - ApplicationConstants.HealtBarWidthCoefficent) * getWidth())/2; // Offset of rectangle to centralize
+            double offsetX = ((1 - ApplicationConstants.HealthBarWidthCoefficient) * getWidth())/2; // Offset of rectangle to centralize
             // Draw Bounding Box
             context.strokeRect( getPositionX() + offsetX, getPositionY() + getHeight(),
-                    ApplicationConstants.HealtBarWidthCoefficent * getWidth(), ApplicationConstants.HealtBarHeight );
+                    ApplicationConstants.HealthBarWidthCoefficient * getWidth(), ApplicationConstants.HealthBarHeight);
             context.save(); // Save the context, we will change fill color
             context.setFill(Color.DARKOLIVEGREEN );
             // Fill the Bounding box with health_ratio percentage
             context.fillRect(getPositionX() + offsetX + 1, getPositionY() + getHeight() + 1,
-                    ApplicationConstants.HealtBarWidthCoefficent * getWidth() * health_ratio, ApplicationConstants.HealtBarHeight - 1 );
+                    ApplicationConstants.HealthBarWidthCoefficient * getWidth() * health_ratio, ApplicationConstants.HealthBarHeight - 1 );
             context.restore(); // Restore it back
         }
     }

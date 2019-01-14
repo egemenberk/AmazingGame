@@ -231,7 +231,7 @@ abstract class AbstractGameLevel{
 
     // Mouse click handle, user ship shoots whenever mouse clicks
     protected void MouseClickedEventHandle(MouseEvent mouseEvent){
-        userBullets.add(userShip.shoot(false));
+        userBullets.add(userShip.shoot());
     }
 
     boolean isOver() {
@@ -247,8 +247,6 @@ abstract class AbstractGameLevel{
     MouseClickEventHandler getCustomizedMouseClickEventHandler() {
         return customizedMouseClickEventHandler;
     }
-
-
 
 
     // todo check if anything nicer can be done

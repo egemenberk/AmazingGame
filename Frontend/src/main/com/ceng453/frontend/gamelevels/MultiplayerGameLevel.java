@@ -152,22 +152,18 @@ public class MultiplayerGameLevel extends AbstractGameLevel{
         }
     }
 
-    public UserShip getRivalShip() {
-        return rivalShip;
-    }
-
-    public void setRivalShip(UserShip rivalShip) {
-        this.rivalShip = rivalShip;
-    }
-
     public void updateRivalShip(JSONObject receivedVersion )
     {
-        rivalShip.setPosition(receivedVersion.getDouble("x"), receivedVersion.getDouble("y"));
-        rivalShip.setFlyingPositionX(receivedVersion.getDouble("x"));
-        rivalShip.setFlyingPositionY(receivedVersion.getDouble("y"));
+        double rivalShipX = receivedVersion.getDouble("x");
+        double rivalShipY = receivedVersion.getDouble("y");
+        double mirroredRivalShipX = ApplicationConstants.ScreenWidth - rivalShipX - rivalShip.getWidth();
+        double mirroredRivalShipY = ApplicationConstants.ScreenHeight - rivalShipY - rivalShip.getHeight();
+        rivalShip.setPosition( mirroredRivalShipX , mirroredRivalShipY );
+        rivalShip.setFlyingPositionX(mirroredRivalShipX + rivalShip.getWidth()/2.0);
+        rivalShip.setFlyingPositionY(mirroredRivalShipY + rivalShip.getHeight()/2.0);
         rivalShip.setHitPointsLeft( receivedVersion.getInt(("hp")) );
         if(receivedVersion.getBoolean("has_shot")) {
-            rivalBullets.add(rivalShip.shoot(true));
+            rivalBullets.add(rivalShip.shoot(Bullet.ServerTickDrivenRivalBullet));
         }
     }
 
@@ -179,7 +175,7 @@ public class MultiplayerGameLevel extends AbstractGameLevel{
     @Override
     protected void MouseClickedEventHandle(MouseEvent mouseEvent){
         multiplayerCommunucationHander.send_data(true);
-        userBullets.add(userShip.shoot(true));
+        userBullets.add(userShip.shoot(Bullet.ServerTickDrivenUserBullet));
     }
 }
 

@@ -43,10 +43,11 @@ public final class ApplicationConstants {
     public static final int UserShipHealth = 6;
     public static final int UserShipDamage = 2;
 
-    public static final double UserBulletVelocity = -270;
+    public static final double UserBulletVelocity = 270;
     public static final double AlienBulletVelocity = 100;
-    public static final double HealtBarHeight = 10;
-    public static final double HealtBarWidthCoefficent = 0.7;
+    public static final double HealthBarHeight = 10;
+    public static final double HealthBarWidthCoefficient = 0.7;
+    public static final double TickMS = 15.0;
 
     public static final String BossAlienShipImagename = "alien_boss.png";
     private static final String UserBulletImagename = "user_bullet.png";

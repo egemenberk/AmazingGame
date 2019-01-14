@@ -5,7 +5,6 @@ import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.transform.Rotate;
 import main.com.ceng453.ApplicationConstants;
-import org.json.JSONObject;
 
 import java.io.Serializable;
 
@@ -34,7 +33,7 @@ public abstract class GameObject implements Serializable {
         this.pos_x = 0;
         this.pos_y = 0;
         this.velocity_x = 0;
-        this.velocity_y = 0;
+        this.velocity_y = -1;
         this.hitPointsLeft = 0;
         this.damage = 0;
         this.width = width;
@@ -91,15 +90,6 @@ public abstract class GameObject implements Serializable {
 
         rotateContext(context, middleX, middleY, angle);
 
-        if( isMirrored )
-        {
-            middleX = ApplicationConstants.ScreenWidth/2.0;
-            middleY = ApplicationConstants.ScreenHeight/2.0;
-            angle = Math.PI;
-
-            rotateContext(context, middleX, middleY, angle);
-        }
-
         context.drawImage(sprite, pos_x, pos_y, width, height); // Drawing self image
 
         context.restore(); // back to original state (before rotation)
@@ -107,23 +97,14 @@ public abstract class GameObject implements Serializable {
         if (hitPointsLeft < originalHitPoints && originalHitPoints > ApplicationConstants.UserShipDamage ) // Draw health bar
         {
             double health_ratio = hitPointsLeft / (double)originalHitPoints; // Calculate health percentage
-            double offsetX = ((1 - ApplicationConstants.HealtBarWidthCoefficent) * getWidth())/2; // Offset of rectangle to centralize
+            double offsetX = ((1 - ApplicationConstants.HealthBarWidthCoefficient) * getWidth())/2; // Offset of rectangle to centralize
             // Draw Bounding Box
-            context.strokeRect( pos_x + offsetX, pos_y + height, ApplicationConstants.HealtBarWidthCoefficent * width, ApplicationConstants.HealtBarHeight );
+            context.strokeRect( pos_x + offsetX, pos_y + height, ApplicationConstants.HealthBarWidthCoefficient * width, ApplicationConstants.HealthBarHeight);
             context.save(); // Save the context, we will change fill color
-
-            if( isMirrored )
-            {
-                middleX = ApplicationConstants.ScreenWidth/2.0;
-                middleY = ApplicationConstants.ScreenHeight/2.0;
-                angle = Math.PI;
-
-                rotateContext(context, middleX, middleY, angle);
-            }
 
             context.setFill(Color.RED );
             // Fill the Bounding box with health_ratio percentage
-            context.fillRect(pos_x + offsetX + 1, pos_y + height + 1, ApplicationConstants.HealtBarWidthCoefficent * width * health_ratio, ApplicationConstants.HealtBarHeight -1);
+            context.fillRect(pos_x + offsetX + 1, pos_y + height + 1, ApplicationConstants.HealthBarWidthCoefficient * width * health_ratio, ApplicationConstants.HealthBarHeight -1);
 
             context.restore(); // Restore it back
         }

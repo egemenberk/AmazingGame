@@ -9,8 +9,6 @@ public class ServerTickDrivenUserBullet extends Bullet {
 
     public ServerTickDrivenUserBullet(Image image, int width, int height) {
         super(image, width, height);
-        setVelocityX(0);
-        setVelocityY(-1);
     }
 
     @Override
@@ -19,7 +17,7 @@ public class ServerTickDrivenUserBullet extends Bullet {
             lastUpdatedCycle = currentCycleNumber;
 
         long missingUpdates = currentCycleNumber - lastUpdatedCycle;
-        setPositionY( getPositionY() + missingUpdates*(ApplicationConstants.UserBulletVelocity/1000.0*15.0) ); // TODO change to a variable
+        setPositionY( getPositionY() + missingUpdates*(getVelocityY()/1000.0*ApplicationConstants.TickMS) ); // TODO change to a variable
 
         lastUpdatedCycle = currentCycleNumber;
         return null;

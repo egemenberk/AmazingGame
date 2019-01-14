@@ -34,6 +34,12 @@ public class BulletFactory {
                 break;
             case Bullet.ServerTickDrivenUserBullet:
                 bullet = new ServerTickDrivenUserBullet(ApplicationConstants.UserBulletImage, ApplicationConstants.UserBulletWidth, ApplicationConstants.UserBulletHeight);
+                bullet.setVelocityY( -ApplicationConstants.UserBulletVelocity );
+                bullet.setHitpointsAndDamage( 1, damage);
+                Sound.play(Sound.UserBulletSound);
+                break;
+            case Bullet.ServerTickDrivenRivalBullet:
+                bullet = new ServerTickDrivenUserBullet(ApplicationConstants.UserBulletImage, ApplicationConstants.UserBulletWidth, ApplicationConstants.UserBulletHeight);
                 bullet.setVelocityY( ApplicationConstants.UserBulletVelocity );
                 bullet.setHitpointsAndDamage( 1, damage);
                 Sound.play(Sound.UserBulletSound);
