@@ -18,11 +18,11 @@ public class MultiplayerGameLevel extends AbstractGameLevel{
     private ClientCommunicationHandler multiplayerCommunucationHander;
 
 
-    public MultiplayerGameLevel(ClientCommunicationHandler communicationHandler) {
+    public MultiplayerGameLevel() {
         rivalBullets = new ArrayList<>();
         generateAliens();
         generateRivalShip();
-        multiplayerCommunucationHander = communicationHandler;
+        multiplayerCommunucationHander = new ClientCommunicationHandler();
         multiplayerCommunucationHander.initiate(this);
         customizedMouseClickEventHandler = new MouseClickEventHandler( this );
     }
@@ -35,12 +35,7 @@ public class MultiplayerGameLevel extends AbstractGameLevel{
         rivalShip.setHitpointsAndDamage(ApplicationConstants.UserShipHealth, ApplicationConstants.UserShipDamage); // Set its health and damage
         rivalShip.setPosition(ApplicationConstants.ScreenWidth/2.0-userShipWidth/2,
                 2*ApplicationConstants.ScreenHeight/3.0+userShipHeight ); // Initial positioning of the user ship
-
-        // User ship calculates its velocity depending on the mouse position
-        // For initial values, we need to set the mouse position to the current
-        // position of the user ship, since there is no read mouse positions yet
-        rivalShip.setFlyingPositionX(rivalShip.getPositionX());
-        rivalShip.setFlyingPositionY(rivalShip.getPositionY());
+        rivalShip.setMirrored();
     }
 
     public void generateAliens() {
@@ -77,16 +72,9 @@ public class MultiplayerGameLevel extends AbstractGameLevel{
 
     @Override
     protected void update(GameStateInfo gameStateInfo) {
-        if(rivalShip.getHitPointsLeft() <= 0) // In this case, user loses. Mark the state variable
-        {
-            isOver = true;
-            return;
-        }
-        if( rivalShip.isCleared() || alienShips.size() == 0) { // In this case, user completes the current level
-            levelPassed = true; // Mark the state variable accordingly
-            return;
-        }
         super.update(gameStateInfo);
+        isOver = false; // TODO Hacky solution
+        levelPassed = false;
 
         double elapsedTime = gameStateInfo.getElapsedTime();
         long cycleCount = gameStateInfo.getCurrentCycleCounter();
@@ -166,15 +154,31 @@ public class MultiplayerGameLevel extends AbstractGameLevel{
         }
     }
 
-    public void updateGameTick( JSONObject recievedVersion )
+    public void updateGameTick( JSONObject receivedVersion )
     {
-        serverDrivenGameTicks = recievedVersion.getLong("tick");
+        serverDrivenGameTicks = receivedVersion.getLong("tick");
     }
 
     @Override
     protected void MouseClickedEventHandle(MouseEvent mouseEvent){
-        multiplayerCommunucationHander.send_data(true);
-        userBullets.add(userShip.shoot(Bullet.ServerTickDrivenUserBullet));
+        if(serverDrivenGameTicks != -1) { // If game has started
+            multiplayerCommunucationHander.send_data(true);
+            userBullets.add(userShip.shoot(Bullet.ServerTickDrivenUserBullet));
+        }
+    }
+
+    public void announceWinner( JSONObject receivedVersion )
+    {
+        // TODO show or trigger winner or loser screen
+        isOver = true;
+        levelPassed = true;
+
+        System.out.println(receivedVersion);
+    }
+
+    public GameObject getBoss()
+    {
+        return alienShips.get(0);
     }
 }
 

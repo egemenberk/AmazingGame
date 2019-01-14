@@ -50,7 +50,7 @@ public class GameService {
         levels.push(new GameLevel3());
         levels.push(new GameLevel2());
         levels.push(new GameLevel1());
-        levels.push(new MultiplayerGameLevel(new ClientCommunicationHandler()));
+        levels.push(new MultiplayerGameLevel());
 
         this.userAuthToken = userAuthToken;
     }

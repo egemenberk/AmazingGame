@@ -3,6 +3,9 @@ package main.com.ceng453.game_objects;
 import javafx.scene.image.Image;
 import main.com.ceng453.ApplicationConstants;
 
+import java.util.LinkedList;
+import java.util.List;
+
 public class HardBullet extends Bullet {
 
     private static final int bulletGenerationInterval = 10;
@@ -13,7 +16,7 @@ public class HardBullet extends Bullet {
     }
 
     @Override
-    public GameObject update(double elapsedTime, long currentCycleNumber) {
+    public List<GameObject> update(double elapsedTime, long currentCycleNumber) {
 
         // This bullet will be swinging while approaching to the user
         // This calculation allows this animation
@@ -34,7 +37,9 @@ public class HardBullet extends Bullet {
                     -generatedBulletXVelocity:
                     generatedBulletXVelocity);
             newBullet.setPosition( getPositionX()+getWidth()/2.0, getPositionY()+getHeight()-10 );
-            return newBullet;
+            List<GameObject> new_bullets = new LinkedList<>();
+            new_bullets.add(newBullet);
+            return new_bullets;
         }
         return null;
     }

@@ -3,6 +3,9 @@ package main.com.ceng453.game_objects;
 import javafx.scene.image.Image;
 import main.com.ceng453.ApplicationConstants;
 
+import java.util.LinkedList;
+import java.util.List;
+
 public class MediumEnemyShip extends GameObject {
 
     private static final int circleCompilationCycle = 70;
@@ -15,7 +18,7 @@ public class MediumEnemyShip extends GameObject {
     }
 
     @Override
-    public GameObject update(double elapsedTime, long currentCycleNumber) {
+    public List<GameObject> update(double elapsedTime, long currentCycleNumber) {
         // Move in elipses
         double rad = (currentCycleNumber%circleCompilationCycle) * 2 * Math.PI / circleCompilationCycle;
 
@@ -33,9 +36,11 @@ public class MediumEnemyShip extends GameObject {
         return null;
     }
 
-    private GameObject shoot(){
+    private List<GameObject> shoot(){
+        List<GameObject> bullets = new LinkedList<>();
         Bullet bullet = BulletFactory.create(Bullet.AlienBullet, getDamage());
         bullet.setPosition( getPositionX()+getWidth()/2.0, getPositionY() + getHeight() );
-        return bullet;
+        bullets.add(bullet);
+        return bullets;
     }
 }

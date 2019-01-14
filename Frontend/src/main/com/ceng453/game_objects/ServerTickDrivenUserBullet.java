@@ -3,6 +3,8 @@ package main.com.ceng453.game_objects;
 import javafx.scene.image.Image;
 import main.com.ceng453.ApplicationConstants;
 
+import java.util.List;
+
 public class ServerTickDrivenUserBullet extends Bullet {
 
     private long lastUpdatedCycle = -1;
@@ -12,7 +14,7 @@ public class ServerTickDrivenUserBullet extends Bullet {
     }
 
     @Override
-    public GameObject update(double elapsedTime, long currentCycleNumber) {
+    public List<GameObject> update(double elapsedTime, long currentCycleNumber) {
         if( lastUpdatedCycle == -1 )
             lastUpdatedCycle = currentCycleNumber;
 

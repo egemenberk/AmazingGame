@@ -7,6 +7,7 @@ import javafx.scene.transform.Rotate;
 import main.com.ceng453.ApplicationConstants;
 
 import java.io.Serializable;
+import java.util.List;
 
 /*
  * Every Object that is drawn and interractable is a GameObject
@@ -113,7 +114,7 @@ public abstract class GameObject implements Serializable {
         return height;
     }
 
-    public abstract GameObject update(double elapsedTime, long currentCycleNumber);
+    public abstract List<GameObject> update(double elapsedTime, long currentCycleNumber);
 
     public double getPositionX() {
         return pos_x;

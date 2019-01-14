@@ -3,6 +3,9 @@ package main.com.ceng453.game_objects;
 import main.com.ceng453.ApplicationConstants;
 import main.com.ceng453.frontend.main.Sound;
 
+import java.util.LinkedList;
+import java.util.List;
+
 
 /*
  * Bullet factory class. That class will be used while creating bullets
@@ -11,7 +14,7 @@ public class BulletFactory {
 
     private BulletFactory(){} // Factory pattern
 
-    public static Bullet create( int bulletType, int damage ){
+    public static Bullet create(int bulletType, int damage ){
         Bullet bullet = null;
         switch (bulletType) {
             case Bullet.RegularUserBullet:

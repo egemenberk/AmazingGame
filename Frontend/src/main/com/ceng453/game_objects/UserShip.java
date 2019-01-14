@@ -3,19 +3,23 @@ package main.com.ceng453.game_objects;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
+import javafx.scene.transform.Rotate;
 import main.com.ceng453.ApplicationConstants;
+
+import java.util.List;
 
 public class UserShip extends GameObject {
 
     private static final double speedConstantOfUserShip = 4;
     private double flyingPositionX, flyingPositionY;
+    private boolean mirrored_draw_mode = false;
 
     public UserShip(Image sprite, int width, int height) {
         super(sprite, width, height);
     }
 
     @Override
-    public GameObject update(double elapsedTime, long currentCycleNumber) {
+    public List<GameObject> update(double elapsedTime, long currentCycleNumber) {
         // Set velocity using differance between mouse x,y and pos_x,pos_y
         setVelocityX( -speedConstantOfUserShip*(getPositionX() - flyingPositionX+getWidth()/2.0 ) );
         setVelocityY( -speedConstantOfUserShip*(getPositionY() - flyingPositionY+getHeight()/2.0 ) );
@@ -36,9 +40,13 @@ public class UserShip extends GameObject {
     public GameObject shoot( int bulletType ){
         Bullet bullet = BulletFactory.create(bulletType, getDamage());
         if( bulletType == Bullet.ServerTickDrivenUserBullet )
-            bullet.setPosition(getPositionX() + getWidth() / 2.0, getPositionY() - ApplicationConstants.UserBulletHeight);
+            bullet.setPosition(
+                    getPositionX() + getWidth() / 2.0 - ApplicationConstants.UserBulletWidth/2.0,
+                    getPositionY() - ApplicationConstants.UserBulletHeight);
         else
-            bullet.setPosition(getPositionX() + getWidth() / 2.0, getPositionY() + getHeight());
+            bullet.setPosition(
+                    getPositionX() + getWidth() / 2.0 - ApplicationConstants.UserBulletWidth/2.0,
+                    getPositionY() + getHeight());
         return bullet;
     }
 
@@ -53,7 +61,19 @@ public class UserShip extends GameObject {
     // Overriding GameObject's render method since usership will not be rotated by its velocity.
     @Override
     public void render(GraphicsContext context) {
-        context.drawImage( getSprite(), getPositionX(), getPositionY(), getWidth(), getHeight() );
+        context.save();
+
+        double middleX = getPositionX() + getWidth() / 2.0;
+        double middleY = getPositionY() + getHeight() / 2.0;
+        double angle = mirrored_draw_mode ? Math.PI : 0;
+
+        Rotate r = new Rotate(Math.toDegrees(angle), middleX, middleY);
+        context.setTransform(r.getMxx(), r.getMyx(), r.getMxy(), r.getMyy(), r.getTx(), r.getTy());
+
+        context.drawImage(getSprite(), getPositionX(), getPositionY(), getWidth(), getHeight()); // Drawing self image
+
+        context.restore(); // back to original state (before rotation)
+
         if ( ApplicationConstants.UserShipHealth > getHitPointsLeft() ) // Draw health bar
         {
             double health_ratio = getHitPointsLeft() / (double)ApplicationConstants.UserShipHealth; // Calculate health percentage
@@ -69,4 +89,6 @@ public class UserShip extends GameObject {
             context.restore(); // Restore it back
         }
     }
+
+    public void setMirrored() { mirrored_draw_mode = true; }
 }

@@ -10,6 +10,7 @@ import main.com.ceng453.game_objects.UserShip;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 /*
  *  Abstract game level class.
@@ -135,11 +136,9 @@ abstract class AbstractGameLevel{
         if(userShip.getHitPointsLeft() <= 0) // In this case, user loses. Mark the state variable
         {
             isOver = true;
-            return;
         }
         if( userShip.isCleared() || alienShips.size() == 0) { // In this case, user completes the current level
             levelPassed = true; // Mark the state variable accordingly
-            return;
         }
 
         // Calling individual update methods of GameObjects
@@ -168,9 +167,9 @@ abstract class AbstractGameLevel{
                 gameStateInfo.incrementScoreBy(object.getBounty()); // And add its score to user
             }
             else { // Call update method of the object, and catch possible newBullet
-                GameObject possibleNewBullet = object.update(elapsedTime, cycleCount);
+                List<GameObject> possibleNewBullet = object.update(elapsedTime, cycleCount);
                 if (possibleNewBullet != null) {
-                    alienBullets.add(possibleNewBullet);
+                    alienBullets.addAll(possibleNewBullet);
                 }
             }
         }

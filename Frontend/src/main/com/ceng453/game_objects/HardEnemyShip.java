@@ -4,6 +4,8 @@ import javafx.scene.image.Image;
 import main.com.ceng453.ApplicationConstants;
 
 import java.io.Serializable;
+import java.util.LinkedList;
+import java.util.List;
 
 // This is the boss of our game
 public class HardEnemyShip extends GameObject implements Serializable {
@@ -20,7 +22,7 @@ public class HardEnemyShip extends GameObject implements Serializable {
     }
 
     @Override
-    public GameObject update(double elapsedTime, long currentCycleNumber) {
+    public List<GameObject> update(double elapsedTime, long currentCycleNumber) {
         // Move in cycles
         double rad = (currentCycleNumber% circleCompilationCycle) * 2 * Math.PI / circleCompilationCycle;
 
@@ -44,9 +46,11 @@ public class HardEnemyShip extends GameObject implements Serializable {
         return null;
     }
 
-    private GameObject shoot(){
+    private List<GameObject> shoot(){
+        List<GameObject> bullets = new LinkedList<>();
         Bullet bullet = BulletFactory.create(Bullet.HardAlienBullet, getDamage());
         bullet.setPosition( getPositionX()+getWidth()/2.0, getPositionY() + getHeight()-70 );
-        return bullet;
+        bullets.add(bullet);
+        return bullets;
     }
 }

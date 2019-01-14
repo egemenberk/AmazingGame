@@ -3,6 +3,8 @@ package main.com.ceng453.game_objects;
 import javafx.scene.image.Image;
 import main.com.ceng453.ApplicationConstants;
 
+import java.util.List;
+
 
 /*
  * Bullet class, extending GameObject
@@ -23,7 +25,7 @@ public class Bullet extends GameObject {
 
     // Just change positions using x = v * t
     // If we quit the screen, remove the bullet
-    public GameObject update(double elapsedTime, long currentCycleNumber) {
+    public List<GameObject> update(double elapsedTime, long currentCycleNumber) {
         setPositionY( getPositionY() + getVelocityY()*elapsedTime );
         setPositionX( getPositionX() + getVelocityX()*elapsedTime );
         if( getPositionY()+getHeight() < 0 || getPositionY() > ApplicationConstants.ScreenHeight )

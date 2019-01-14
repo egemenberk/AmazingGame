@@ -2,6 +2,9 @@ package main.com.ceng453.game_objects;
 
 import main.com.ceng453.ApplicationConstants;
 
+import java.util.LinkedList;
+import java.util.List;
+
 public class EffectFactory {
 
     // Constants for explosion effects
@@ -16,7 +19,7 @@ public class EffectFactory {
         This method created an effect object depending on the given effectType
         Those effect types are defined in Effect object.
      */
-    public static Effect create( int effectType, double posX, double posY ){
+    public static Effect create(int effectType, double posX, double posY ){
         Effect effect = null;
         switch (effectType) {
             case Effect.ShipExplosion:

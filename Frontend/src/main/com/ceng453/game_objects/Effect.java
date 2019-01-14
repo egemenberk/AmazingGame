@@ -2,6 +2,8 @@ package main.com.ceng453.game_objects;
 
 import javafx.scene.image.Image;
 
+import java.util.List;
+
 
 /*
 An effect class, extending GameObject. Purpose is to create effects like explosions etc
@@ -19,7 +21,7 @@ public class Effect extends GameObject {
     }
 
     @Override
-    public GameObject update(double elapsedTime, long currentCycleNumber) {
+    public List<GameObject> update(double elapsedTime, long currentCycleNumber) {
         if(creationCycle == -1)
             creationCycle = currentCycleNumber; // When first created, update creation time to count
                                                 // EffectDuration cycles until cleared

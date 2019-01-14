@@ -3,6 +3,9 @@ package main.com.ceng453.game_objects;
 import javafx.scene.image.Image;
 import main.com.ceng453.ApplicationConstants;
 
+import java.util.LinkedList;
+import java.util.List;
+
 public class EasyEnemyShip extends GameObject {
 
     private static final int directionChangeCycle = 50;
@@ -14,7 +17,7 @@ public class EasyEnemyShip extends GameObject {
     }
 
 
-    public GameObject update(double elapsedTime, long currentCycleNumber) {
+    public List<GameObject> update(double elapsedTime, long currentCycleNumber) {
         // In each directionChangeCycle, ship will change its direction
         if( currentCycleNumber%(directionChangeCycle*2) >= directionChangeCycle )
             setVelocityX(SpeedX);
@@ -33,9 +36,11 @@ public class EasyEnemyShip extends GameObject {
     }
 
     // Shoot method, create a bullet from ship's position, than return it to the game level
-    private GameObject shoot(){
+    private List<GameObject> shoot(){
+        List<GameObject> bullets = new LinkedList<>();
         Bullet bullet = BulletFactory.create(Bullet.AlienBullet, getDamage());
         bullet.setPosition( getPositionX()+getWidth()/2.0, getPositionY() + getHeight() );
-        return bullet;
+        bullets.add(bullet);
+        return bullets;
     }
 }

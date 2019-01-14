@@ -15,6 +15,8 @@ public class ClientCommunicationHandler{
     private BufferedReader in;
     private Thread receiveDataFromServerThread;
 
+    private boolean is_terminated = false;
+
 
     public void initiate( MultiplayerGameLevel delegatorClass ) {
         this.delegatorClass = delegatorClass;
@@ -35,15 +37,22 @@ public class ClientCommunicationHandler{
     }
 
     public void receiveDataFromServer() {
-        while (true)
+        while (!is_terminated)
         {
             try {
                 JSONObject receivedJson = new JSONObject(in.readLine());
-                if(receivedJson.isNull("tick"))
-                    delegatorClass.updateRivalShip(receivedJson);
-                else
+
+                if(!receivedJson.isNull("winner"))
+                    delegatorClass.announceWinner(receivedJson);
+                else if(!receivedJson.isNull("tick"))
                     delegatorClass.updateGameTick(receivedJson);
+                else if(!receivedJson.isNull("has_shot"))
+                    delegatorClass.updateRivalShip(receivedJson);
+                else // Just in case, no condition will lead that else
+                    is_terminated = true;
+
             } catch (IOException e) {
+                is_terminated = true;
                 e.printStackTrace();
             }
         }
@@ -54,6 +63,7 @@ public class ClientCommunicationHandler{
         userShip.put("x", delegatorClass.getUserShip().getPositionX());
         userShip.put("y", delegatorClass.getUserShip().getPositionY());
         userShip.put("hp",delegatorClass.getUserShip().getHitPointsLeft());
+        userShip.put("alien_hp",delegatorClass.getBoss().getHitPointsLeft());
         userShip.put("has_shot", has_shot);
         out.println(userShip.toString());
         out.flush();
