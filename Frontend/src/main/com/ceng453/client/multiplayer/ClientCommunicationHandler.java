@@ -41,11 +41,11 @@ public class ClientCommunicationHandler{
             try {
                 JSONObject receivedJson = new JSONObject(in.readLine());
                 System.out.println(receivedJson);
-                if(!receivedJson.isNull("winner"))
+                if(!receivedJson.isNull(ApplicationConstants.JSON_KEY_WINNER_FLAG))
                     delegatorClass.announceWinner(receivedJson);
-                else if(!receivedJson.isNull("tick"))
+                else if(!receivedJson.isNull(ApplicationConstants.JSON_KEY_TICK))
                     delegatorClass.updateGameTick(receivedJson);
-                else if(!receivedJson.isNull("has_shot"))
+                else if(!receivedJson.isNull(ApplicationConstants.JSON_KEY_HAS_SHOT_THIS_TURN))
                     delegatorClass.updateRivalShip(receivedJson);
                 else // Just in case, no condition will lead that else
                     is_terminated = true;
@@ -60,16 +60,16 @@ public class ClientCommunicationHandler{
 
     public void send_data( boolean has_shot ) {
         JSONObject report = new JSONObject();
-        report.put("x", delegatorClass.getUserShip().getPositionX());
-        report.put("y", delegatorClass.getUserShip().getPositionY());
-        report.put("hp", delegatorClass.getUserShip().getHitPointsLeft());
+        report.put(ApplicationConstants.JSON_KEY_X, delegatorClass.getUserShip().getPositionX());
+        report.put(ApplicationConstants.JSON_KEY_Y, delegatorClass.getUserShip().getPositionY());
+        report.put(ApplicationConstants.JSON_KEY_USER_HP, delegatorClass.getUserShip().getHitPointsLeft());
         try {
-            report.put("alien_hp", delegatorClass.getBoss().getHitPointsLeft());
+            report.put(ApplicationConstants.JSON_KEY_ALIEN_HP, delegatorClass.getBoss().getHitPointsLeft());
         } catch (IndexOutOfBoundsException e){
-            report.put("alien_hp", 0);
+            report.put(ApplicationConstants.JSON_KEY_ALIEN_HP, 0);
         }
-        report.put("has_rival_destroyed_boss", delegatorClass.has_rival_destroyed_boss);
-        report.put("has_shot", has_shot);
+        report.put(ApplicationConstants.JSON_KEY_HAS_RIVAL_WON, delegatorClass.has_rival_destroyed_boss);
+        report.put(ApplicationConstants.JSON_KEY_HAS_SHOT_THIS_TURN, has_shot);
         out.println(report.toString());
         out.flush();
     }

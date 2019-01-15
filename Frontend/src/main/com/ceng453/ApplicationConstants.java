@@ -84,4 +84,13 @@ public final class ApplicationConstants {
 
     public static final Random NUMBER_GENERATOR = new Random();
 
+    public static final String JSON_KEY_X = "x";
+    public static final String JSON_KEY_Y = "y";
+    public static final String JSON_KEY_USER_HP = "hp";
+    public static final String JSON_KEY_TICK = "tick";
+    public static final String JSON_KEY_ALIEN_HP = "alien_hp";
+    public static final String JSON_KEY_WINNER_FLAG = "winner";
+    public static final String JSON_KEY_HAS_RIVAL_WON = "has_rival_destroyed_boss";
+    public static final String JSON_KEY_HAS_SHOT_THIS_TURN = "has_shot";
+
 }
