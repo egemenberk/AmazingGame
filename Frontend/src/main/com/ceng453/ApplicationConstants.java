@@ -1,7 +1,7 @@
 package main.com.ceng453;
 
 import javafx.scene.image.Image;
-import main.com.ceng453.frontend.main.StaticHelpers;
+import main.com.ceng453.client.main.StaticHelpers;
 
 import java.util.Objects;
 import java.util.Random;
@@ -18,7 +18,7 @@ public final class ApplicationConstants {
 
     public static final double EASY_ALIEN_SHOOT_PERCENTAGE = 0.002;
     public static final double MEDIUM_ALIEN_SHOOT_PERCENTAGE = 0.005;
-    public static final double HARD_ALIEN_SHOOT_PERCENTAGE = 0.00000008;
+    public static final double HARD_ALIEN_SHOOT_PERCENTAGE = 0.008;
 
     public static final int SCREEN_WIDTH = 600;
     public static final int SCREEN_HEIGHT = 768;
@@ -38,18 +38,18 @@ public final class ApplicationConstants {
     public static final int MEDIUM_ALIEN_SHIP_DMG = 2;
     public static final int HARD_ALIEN_SHIP_HP = 16;
     public static final int HARD_ALIEN_SHIP_DMG = 3;
-    public static final int BOSS_ALIEN_SHIP_HP = 5;
+    public static final int BOSS_ALIEN_SHIP_HP = 78;
 
     public static final int USER_SHIP_HEALTH = 6;
     public static final int USER_SHIP_DAMAGE = 2;
 
-    public static final double USER_BULLET_VELOCITY = 270;
+    public static final double USER_BULLET_VELOCITY = -270;
     public static final double ALIEN_BULLET_VELOCITY = 100;
     public static final double HEALTH_BAR_HEIGHT = 10;
     public static final double HEALTH_BAR_WIDTH_COEFFICIENT = 0.7;
-    public static final double TICK_MS = 15.0;
+    public static final long TICK_MS = 15;
 
-    public static final String WAIT_IMAGENAME = "wait.jpg";
+    public static final String WAIT_JPG = "wait.jpg";
     public static final String ALIEN_BOSS_PNG = "alien_boss.png";
     private static final String USER_BULLET_PNG = "user_bullet.png";
     private static final String ALIEN_BULLET_PNG = "alien_bullet.png";
@@ -80,7 +80,7 @@ public final class ApplicationConstants {
     public static final Image GAME_OVER_IMAGE = new Image(Objects.requireNonNull(StaticHelpers.getResourceFromAssets(GAME_OVER_PNG)));
     public static final Image JUST_WOW_IMAGE = new Image(Objects.requireNonNull(StaticHelpers.getResourceFromAssets(JUST_WOW_JPG)));
     public static final Image BOSS_ALIEN_SHIP_IMAGE = new Image(Objects.requireNonNull(StaticHelpers.getResourceFromAssets(ALIEN_BOSS_PNG)));
-    public static final Image WAIT_IMAGE = new Image(Objects.requireNonNull(StaticHelpers.getResourceFromAssets(WAIT_IMAGENAME)));
+    public static final Image WAIT_IMAGE = new Image(Objects.requireNonNull(StaticHelpers.getResourceFromAssets(WAIT_JPG)));
 
     public static final Random NUMBER_GENERATOR = new Random();
 

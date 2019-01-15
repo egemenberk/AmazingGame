@@ -1,7 +1,7 @@
 package main.com.ceng453.game.objects;
 
 import main.com.ceng453.ApplicationConstants;
-import main.com.ceng453.frontend.main.Sound;
+import main.com.ceng453.client.main.Sound;
 
 
 /*
@@ -34,13 +34,13 @@ public class BulletFactory {
                 break;
             case Bullet.ServerTickDrivenUserBullet:
                 bullet = new ServerTickDrivenUserBullet(ApplicationConstants.USER_BULLET_IMAGE, ApplicationConstants.USER_BULLET_WIDTH, ApplicationConstants.USER_BULLET_HEIGHT);
-                bullet.setVelocityY( -ApplicationConstants.USER_BULLET_VELOCITY);
+                bullet.setVelocityY( ApplicationConstants.USER_BULLET_VELOCITY);
                 bullet.setHitpointsAndDamage( 1, damage);
                 Sound.play(Sound.UserBulletSound);
                 break;
             case Bullet.ServerTickDrivenRivalBullet:
                 bullet = new ServerTickDrivenUserBullet(ApplicationConstants.USER_BULLET_IMAGE, ApplicationConstants.USER_BULLET_WIDTH, ApplicationConstants.USER_BULLET_HEIGHT);
-                bullet.setVelocityY( ApplicationConstants.USER_BULLET_VELOCITY);
+                bullet.setVelocityY( -ApplicationConstants.USER_BULLET_VELOCITY);
                 bullet.setHitpointsAndDamage( 1, damage);
                 Sound.play(Sound.UserBulletSound);
                 break;
