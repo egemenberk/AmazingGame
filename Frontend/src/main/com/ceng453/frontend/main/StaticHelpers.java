@@ -1,7 +1,7 @@
 package main.com.ceng453.frontend.main;
 
 import javafx.scene.shape.Rectangle;
-import main.com.ceng453.game_objects.GameObject;
+import main.com.ceng453.game.objects.GameObject;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

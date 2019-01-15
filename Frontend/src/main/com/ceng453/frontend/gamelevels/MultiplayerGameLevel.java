@@ -5,7 +5,7 @@ import javafx.scene.input.MouseEvent;
 import main.com.ceng453.ApplicationConstants;
 import main.com.ceng453.frontend.main.ClientCommunicationHandler;
 import main.com.ceng453.frontend.main.StaticHelpers;
-import main.com.ceng453.game_objects.*;
+import main.com.ceng453.game.objects.*;
 import org.json.JSONObject;
 
 import java.util.ArrayList;

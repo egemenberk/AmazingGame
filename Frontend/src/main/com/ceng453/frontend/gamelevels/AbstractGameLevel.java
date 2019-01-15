@@ -4,9 +4,9 @@ import javafx.event.EventHandler;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.MouseEvent;
 import main.com.ceng453.ApplicationConstants;
-import main.com.ceng453.game_objects.GameObject;
+import main.com.ceng453.game.objects.GameObject;
 import main.com.ceng453.frontend.main.StaticHelpers;
-import main.com.ceng453.game_objects.UserShip;
+import main.com.ceng453.game.objects.UserShip;
 
 import java.util.ArrayList;
 import java.util.List;

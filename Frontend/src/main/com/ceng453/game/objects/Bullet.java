@@ -1,4 +1,4 @@
-package main.com.ceng453.game_objects;
+package main.com.ceng453.game.objects;
 
 import javafx.scene.image.Image;
 import main.com.ceng453.ApplicationConstants;

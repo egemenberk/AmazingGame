@@ -1,4 +1,4 @@
-package main.com.ceng453.game_objects;
+package main.com.ceng453.game.objects;
 
 import main.com.ceng453.ApplicationConstants;
 import main.com.ceng453.frontend.main.Sound;

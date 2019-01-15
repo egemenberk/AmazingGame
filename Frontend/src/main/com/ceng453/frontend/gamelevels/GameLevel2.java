@@ -1,8 +1,6 @@
 package main.com.ceng453.frontend.gamelevels;
 
-import javafx.scene.canvas.GraphicsContext;
-import main.com.ceng453.game_objects.AlienShipFactory;
-import main.com.ceng453.ApplicationConstants;
+import main.com.ceng453.game.objects.AlienShipFactory;
 
 public class GameLevel2 extends AbstractGameLevel {
 

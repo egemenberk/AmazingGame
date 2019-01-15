@@ -1,4 +1,4 @@
-package main.com.ceng453.game_server;
+package main.com.ceng453.game.server;
 
 import main.com.ceng453.ApplicationConstants;
 
