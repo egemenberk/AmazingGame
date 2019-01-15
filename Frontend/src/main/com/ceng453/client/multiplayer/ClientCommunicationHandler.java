@@ -59,14 +59,18 @@ public class ClientCommunicationHandler{
     }
 
     public void send_data( boolean has_shot ) {
-        JSONObject userShip = new JSONObject();
-        userShip.put("x", delegatorClass.getUserShip().getPositionX());
-        userShip.put("y", delegatorClass.getUserShip().getPositionY());
-        userShip.put("hp",delegatorClass.getUserShip().getHitPointsLeft());
-        userShip.put("alien_hp",delegatorClass.getBoss().getHitPointsLeft());
-        userShip.put("has_rival_destroyed_boss", delegatorClass.has_rival_destroyed_boss);
-        userShip.put("has_shot", has_shot);
-        out.println(userShip.toString());
+        JSONObject report = new JSONObject();
+        report.put("x", delegatorClass.getUserShip().getPositionX());
+        report.put("y", delegatorClass.getUserShip().getPositionY());
+        report.put("hp", delegatorClass.getUserShip().getHitPointsLeft());
+        try {
+            report.put("alien_hp", delegatorClass.getBoss().getHitPointsLeft());
+        } catch (IndexOutOfBoundsException e){
+            report.put("alien_hp", 0);
+        }
+        report.put("has_rival_destroyed_boss", delegatorClass.has_rival_destroyed_boss);
+        report.put("has_shot", has_shot);
+        out.println(report.toString());
         out.flush();
     }
 

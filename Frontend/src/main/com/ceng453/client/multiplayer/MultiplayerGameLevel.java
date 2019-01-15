@@ -104,10 +104,12 @@ public class MultiplayerGameLevel extends AbstractGameLevel {
         for (GameObject bullet : rivalBullets) {
             if (!bullet.isCleared()) {
                 for (GameObject alienShip : alienShips)
-                    if (StaticHelpers.intersects(alienShip, bullet)) { // If there is an intersection
+                    if (!alienShip.isCleared() && StaticHelpers.intersects(alienShip, bullet)) { // If there is an intersection
                         GameObject effect = alienShip.hitBy(bullet); // Apply the hit effects
                         if (effect != null) // If an Game Effect is returned( Explosion effect etc. )
                             effects.add(effect); // Track that Effect object
+                        if( alienShip.isCleared() ) // Rival bullet hit the boss, then killed it
+                            has_rival_destroyed_boss = true;
                     }
             }
         }
@@ -170,6 +172,8 @@ public class MultiplayerGameLevel extends AbstractGameLevel {
         if(receivedVersion.getBoolean("has_shot")) {
             rivalBullets.add(rivalShip.shoot(Bullet.ServerTickDrivenRivalBullet));
         }
+        if( alienShips.size() > 0 )
+            alienShips.get(0).setHitPointsLeft(receivedVersion.getInt("alien_hp"));
     }
 
     public void updateGameTick( JSONObject receivedVersion )

@@ -48,7 +48,7 @@ public abstract class GameObject implements Serializable {
     }
 
     // This method is called when an intersection is found, by game level
-    public GameObject hitBy(GameObject hitter )
+    public GameObject hitBy(GameObject hitter)
     {
         hitPointsLeft -= hitter.getDamage(); // reduce self's hp
         hitter.setCleared(); // Destroy hitter

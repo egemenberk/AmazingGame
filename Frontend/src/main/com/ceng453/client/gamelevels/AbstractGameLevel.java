@@ -114,12 +114,13 @@ public abstract class AbstractGameLevel{
 
         // Checking if any user bullet collides with any alien bullet
         for( GameObject bullet: userBullets) {
-            for (GameObject alienShip : alienShips)
-                if ( !bullet.isCleared() &&  StaticHelpers.intersects(alienShip, bullet)) { // If there is an intersection
-                    GameObject effect = alienShip.hitBy(bullet); // Apply the hit effects
-                    if( effect != null ) // If an Game Effect is returned( Explosion effect etc. )
-                        effects.add(effect); // Track that Effect object
-                }
+            if( !bullet.isCleared() )
+                for (GameObject alienShip : alienShips)
+                    if ( !alienShip.isCleared() &&  StaticHelpers.intersects(alienShip, bullet)) { // If there is an intersection
+                        GameObject effect = alienShip.hitBy(bullet); // Apply the hit effects
+                        if( effect != null ) // If an Game Effect is returned( Explosion effect etc. )
+                            effects.add(effect); // Track that Effect object
+                    }
         }
         // Checking if user ship collides with any alien bullet
         for( GameObject bullet: alienBullets) {
