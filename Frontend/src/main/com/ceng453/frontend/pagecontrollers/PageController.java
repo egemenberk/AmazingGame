@@ -23,7 +23,7 @@ public abstract class PageController implements Initializable {
     // Helper function to change the page
     // Set The new Scene in the Stage
     public static void changeScene() {
-        Scene scene = new Scene(root, ApplicationConstants.ScreenWidth, ApplicationConstants.ScreenHeight);
+        Scene scene = new Scene(root, ApplicationConstants.SCREEN_WIDTH, ApplicationConstants.SCREEN_HEIGHT);
         Main.primaryStage.setScene(scene);
         Main.primaryStage.show();
     }

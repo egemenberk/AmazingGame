@@ -8,7 +8,6 @@ import main.com.ceng453.game_objects.GameObject;
 import main.com.ceng453.frontend.main.StaticHelpers;
 import main.com.ceng453.game_objects.UserShip;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,10 +49,10 @@ abstract class AbstractGameLevel{
     private void generateUserShip()
     {
         int userShipWidth = 100, userShipHeight = 100;
-        userShip = new UserShip(ApplicationConstants.UserShipImage, userShipWidth,userShipHeight); // Create UserShip obj.
-        userShip.setHitpointsAndDamage(ApplicationConstants.UserShipHealth, ApplicationConstants.UserShipDamage); // Set its health and damage
-        userShip.setPosition(ApplicationConstants.ScreenWidth/2.0-userShipWidth/2,
-                2*ApplicationConstants.ScreenHeight/3.0+userShipHeight ); // Initial positioning of the user ship
+        userShip = new UserShip(ApplicationConstants.USER_SHIP_IMAGE, userShipWidth,userShipHeight); // Create UserShip obj.
+        userShip.setHitpointsAndDamage(ApplicationConstants.USER_SHIP_HEALTH, ApplicationConstants.USER_SHIP_DAMAGE); // Set its health and damage
+        userShip.setPosition(ApplicationConstants.SCREEN_WIDTH /2.0-userShipWidth/2,
+                2*ApplicationConstants.SCREEN_HEIGHT /3.0+userShipHeight ); // Initial positioning of the user ship
 
         // User ship calculates its velocity depending on the mouse position
         // For initial values, we need to set the mouse position to the current
@@ -77,8 +76,8 @@ abstract class AbstractGameLevel{
     private void drawTexts(GraphicsContext gc, int currentScore){
         double ScoreXOffset = 30;
         double HealthStatusXOffset = 300;
-        gc.strokeText(String.format("Current Score : %d", currentScore),ScoreXOffset, ApplicationConstants.TextDrawRectHeight);
-        gc.strokeText(String.format("Health : %d/%d", userShip.getHitPointsLeft(),ApplicationConstants.UserShipHealth),HealthStatusXOffset,ApplicationConstants.TextDrawRectHeight);
+        gc.strokeText(String.format("Current Score : %d", currentScore),ScoreXOffset, ApplicationConstants.TEXT_DRAW_RECT_HEIGHT);
+        gc.strokeText(String.format("Health : %d/%d", userShip.getHitPointsLeft(),ApplicationConstants.USER_SHIP_HEALTH),HealthStatusXOffset,ApplicationConstants.TEXT_DRAW_RECT_HEIGHT);
     }
 
     // Drawing of the Background image will be implemented by the child methods
@@ -222,7 +221,7 @@ abstract class AbstractGameLevel{
     // As well as not permitting the user ship to pass above the screen's top 2/5 part
     private void MouseMoveEventHandle(MouseEvent mouseEvent){
         double lastMousePositionX = mouseEvent.getX();
-        double lastMousePositionY = mouseEvent.getY() > 3*ApplicationConstants.ScreenHeight/5.0? mouseEvent.getY() : 3*ApplicationConstants.ScreenHeight/5.0;
+        double lastMousePositionY = mouseEvent.getY() > 3*ApplicationConstants.SCREEN_HEIGHT /5.0? mouseEvent.getY() : 3*ApplicationConstants.SCREEN_HEIGHT /5.0;
         userShip.setFlyingPositionX(lastMousePositionX);
         userShip.setFlyingPositionY(lastMousePositionY);
     }

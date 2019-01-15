@@ -27,11 +27,11 @@ public class HardBullet extends Bullet {
         setPositionY( getPositionY() + getVelocityY()*elapsedTime );
 
         //If bullet leaves screen, destroy it
-        if( getPositionY()+getHeight() < 0 || getPositionY() > ApplicationConstants.ScreenHeight )
+        if( getPositionY()+getHeight() < 0 || getPositionY() > ApplicationConstants.SCREEN_HEIGHT)
             setCleared();
         if( currentCycleNumber%bulletGenerationInterval == 0 )
         {
-            Bullet newBullet = BulletFactory.create( Bullet.AlienBullet, ApplicationConstants.EasyAlienShipDMG );
+            Bullet newBullet = BulletFactory.create( Bullet.AlienBullet, ApplicationConstants.EASY_ALIEN_SHIP_DMG);
             newBullet.setVelocityX(( // Make the new bullet to move in X too
                     currentCycleNumber%(2*bulletGenerationInterval))>=bulletGenerationInterval?
                     -generatedBulletXVelocity:

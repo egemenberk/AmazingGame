@@ -90,17 +90,17 @@ public abstract class GameObject implements Serializable {
 
         context.restore(); // back to original state (before rotation)
 
-        if (hitPointsLeft < originalHitPoints && originalHitPoints > ApplicationConstants.UserShipDamage ) // Draw health bar
+        if (hitPointsLeft < originalHitPoints && originalHitPoints > ApplicationConstants.USER_SHIP_DAMAGE) // Draw health bar
         {
             double health_ratio = hitPointsLeft / (double)originalHitPoints; // Calculate health percentage
-            double offsetX = ((1 - ApplicationConstants.HealthBarWidthCoefficient) * getWidth())/2; // Offset of rectangle to centralize
+            double offsetX = ((1 - ApplicationConstants.HEALTH_BAR_WIDTH_COEFFICIENT) * getWidth())/2; // Offset of rectangle to centralize
             // Draw Bounding Box
-            context.strokeRect( pos_x + offsetX, pos_y + height, ApplicationConstants.HealthBarWidthCoefficient * width, ApplicationConstants.HealthBarHeight);
+            context.strokeRect( pos_x + offsetX, pos_y + height, ApplicationConstants.HEALTH_BAR_WIDTH_COEFFICIENT * width, ApplicationConstants.HEALTH_BAR_HEIGHT);
             context.save(); // Save the context, we will change fill color
 
             context.setFill(Color.RED );
             // Fill the Bounding box with health_ratio percentage
-            context.fillRect(pos_x + offsetX + 1, pos_y + height + 1, ApplicationConstants.HealthBarWidthCoefficient * width * health_ratio, ApplicationConstants.HealthBarHeight -1);
+            context.fillRect(pos_x + offsetX + 1, pos_y + height + 1, ApplicationConstants.HEALTH_BAR_WIDTH_COEFFICIENT * width * health_ratio, ApplicationConstants.HEALTH_BAR_HEIGHT -1);
 
             context.restore(); // Restore it back
         }

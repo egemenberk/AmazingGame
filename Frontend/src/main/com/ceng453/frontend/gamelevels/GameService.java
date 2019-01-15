@@ -17,7 +17,6 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import main.com.ceng453.ApplicationConstants;
 import main.com.ceng453.frontend.pagecontrollers.PageController;
-import main.com.ceng453.frontend.main.ClientCommunicationHandler;
 import org.json.JSONObject;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -59,7 +58,7 @@ public class GameService {
         stage.setTitle("Amazing Game");
 
         // Setting Background Music
-        String musicFile = ApplicationConstants.GameMusicFilename;     // For example
+        String musicFile = ApplicationConstants.GAME_MUSIC_FILENAME;     // For example
         Media sound = new Media(new File(System.getProperty("user.dir") + "/assets/" + musicFile).toURI().toString());
         MediaPlayer mediaPlayer = new MediaPlayer(sound);
         mediaPlayer.setVolume(0.45);
@@ -68,8 +67,8 @@ public class GameService {
 
         // Creating group, scene and game's canvas. That canvas will be passed to all GameObjects to rendering
         Group root = new Group();
-        Scene scene = new Scene(root, ApplicationConstants.ScreenWidth, ApplicationConstants.ScreenHeight);
-        Canvas canvas = new Canvas( ApplicationConstants.ScreenWidth, ApplicationConstants.ScreenHeight);
+        Scene scene = new Scene(root, ApplicationConstants.SCREEN_WIDTH, ApplicationConstants.SCREEN_HEIGHT);
+        Canvas canvas = new Canvas( ApplicationConstants.SCREEN_WIDTH, ApplicationConstants.SCREEN_HEIGHT);
         gc = canvas.getGraphicsContext2D();
 
         // Adding canvas and mediaView to the root
@@ -109,11 +108,11 @@ public class GameService {
             // Draw game over text
             System.out.println("Game lost");
             gameLoop.stop(); // Stop the game loop
-            gc.drawImage(ApplicationConstants.GameOverImage, 0,0, ApplicationConstants.ScreenWidth, ApplicationConstants.ScreenHeight);
+            gc.drawImage(ApplicationConstants.GAME_OVER_IMAGE, 0,0, ApplicationConstants.SCREEN_WIDTH, ApplicationConstants.SCREEN_HEIGHT);
 
             // Setting mediaView's player to play Dattiridat song
             mediaView.getMediaPlayer().stop();
-            Media sound = new Media(new File(System.getProperty("user.dir") + "/assets/" + ApplicationConstants.Dattiridatdat).toURI().toString());
+            Media sound = new Media(new File(System.getProperty("user.dir") + "/assets/" + ApplicationConstants.DATDIRIDAT_WAV).toURI().toString());
             mediaView.setMediaPlayer(new MediaPlayer(sound));
             mediaView.getMediaPlayer().setVolume(0.3);
             mediaView.getMediaPlayer().setCycleCount(1);
@@ -132,7 +131,7 @@ public class GameService {
         {
             System.out.println("Game won");
             // Drawing the 'Amazing!' image
-            gc.drawImage(ApplicationConstants.JustWowImage, 0,0, ApplicationConstants.ScreenWidth, ApplicationConstants.ScreenHeight);
+            gc.drawImage(ApplicationConstants.JUST_WOW_IMAGE, 0,0, ApplicationConstants.SCREEN_WIDTH, ApplicationConstants.SCREEN_HEIGHT);
             gameLoop.stop(); // Stop the game loop
             waitAtTheEnd(3);
         }
@@ -146,7 +145,7 @@ public class GameService {
         pause = new PauseTransition( Duration.seconds(seconds) );
         pause.setOnFinished(event -> {
             try {
-                //sendCurrentScoreLog(); // And send score to server
+                sendCurrentScoreLog(); // And send score to server
                 PageController.root = FXMLLoader.load(getClass().getResource("../pagecontrollers/LeaderBoard.fxml"));
             } catch (IOException e) {
                 e.printStackTrace();
@@ -170,7 +169,7 @@ public class GameService {
         HttpEntity<String> request = new HttpEntity<>(params.toString(), headers);
         try {
             // Make http call with headers & params
-            new RestTemplate().postForEntity(ApplicationConstants.RestServerBaseAddress +"/score", request, String.class);
+            new RestTemplate().postForEntity(ApplicationConstants.REST_SERVER_ADDRESS +"/score", request, String.class);
 
         } catch (HttpClientErrorException e) { // There, we catch non 200 response types
             Alert alert = new Alert(Alert.AlertType.ERROR);

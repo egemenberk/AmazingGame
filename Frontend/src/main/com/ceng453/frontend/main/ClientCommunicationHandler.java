@@ -21,7 +21,7 @@ public class ClientCommunicationHandler{
     public void initiate( MultiplayerGameLevel delegatorClass ) {
         this.delegatorClass = delegatorClass;
         try {
-            this.serverSocket = new Socket(ApplicationConstants.GameServerIP, ApplicationConstants.GameServerPort);
+            this.serverSocket = new Socket(ApplicationConstants.GAME_SERVER_IP, ApplicationConstants.GAME_SERVER_PORT);
             this.out = new PrintWriter(serverSocket.getOutputStream());
             this.in = new BufferedReader(new InputStreamReader(serverSocket.getInputStream()));
         } catch (IOException e) {

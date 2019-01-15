@@ -31,20 +31,20 @@ public class AlienShipFactory {
             GameObject alienShip = null;
             switch(shipType) {
                 case AlienShipFactory.EasyEnemyShip:
-                    alienShip = new EasyEnemyShip(ApplicationConstants.EasyAlienShipImage, 45, 70);
-                    alienShip.setHitpointsAndDamage(ApplicationConstants.EasyAlienShipHP,ApplicationConstants.EasyAlienShipDMG);
+                    alienShip = new EasyEnemyShip(ApplicationConstants.EASY_ALIEN_SHIP_IMAGE, 45, 70);
+                    alienShip.setHitpointsAndDamage(ApplicationConstants.EASY_ALIEN_SHIP_HP,ApplicationConstants.EASY_ALIEN_SHIP_DMG);
                     break;
                 case AlienShipFactory.MediumEnemyShip:
-                    alienShip = new MediumEnemyShip(ApplicationConstants.MediumAlienShipImage, 55,85);
-                    alienShip.setHitpointsAndDamage(ApplicationConstants.MediumAlienShipHP,ApplicationConstants.MediumAlienShipDMG);
+                    alienShip = new MediumEnemyShip(ApplicationConstants.MEDIUM_ALIEN_SHIP_IMAGE, 55,85);
+                    alienShip.setHitpointsAndDamage(ApplicationConstants.MEDIUM_ALIEN_SHIP_HP,ApplicationConstants.MEDIUM_ALIEN_SHIP_DMG);
                     break;
                 case AlienShipFactory.HardEnemyShip:
-                    alienShip = new HardEnemyShip(ApplicationConstants.HardAlienShipImage, 90,115);
-                    alienShip.setHitpointsAndDamage(ApplicationConstants.HardAlienShipHP,ApplicationConstants.HardAlienShipDMG);
+                    alienShip = new HardEnemyShip(ApplicationConstants.HARD_ALIEN_SHIP_IMAGE, 90,115);
+                    alienShip.setHitpointsAndDamage(ApplicationConstants.HARD_ALIEN_SHIP_HP,ApplicationConstants.HARD_ALIEN_SHIP_DMG);
                     break;
                 case AlienShipFactory.BossEnemyShip:
-                    alienShip = new BossAlien(ApplicationConstants.BossAlienShipImage, ApplicationConstants.BossAlienShipWidth,ApplicationConstants.BossAlienShipHeight);
-                    alienShip.setHitpointsAndDamage(ApplicationConstants.BossAlienShipHP,ApplicationConstants.HardAlienShipDMG);
+                    alienShip = new BossAlien(ApplicationConstants.BOSS_ALIEN_SHIP_IMAGE, ApplicationConstants.BOSS_ALIEN_SHIP_WIDTH,ApplicationConstants.BOSS_ALIEN_SHIP_HEIGHT);
+                    alienShip.setHitpointsAndDamage(ApplicationConstants.BOSS_ALIEN_SHIP_HP,ApplicationConstants.HARD_ALIEN_SHIP_DMG);
 
             }
 

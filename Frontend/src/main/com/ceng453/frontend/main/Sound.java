@@ -26,19 +26,19 @@ public class Sound {
         String musicFile = null;
         switch (type){
             case Sound.EasyEnemyBulletSound:
-                musicFile = ApplicationConstants.ViyuwSound;
+                musicFile = ApplicationConstants.CIYUW_WAV;
                 break;
             case Sound.MediumEnemyBulletSound:
-                musicFile = ApplicationConstants.ViyuwSound;
+                musicFile = ApplicationConstants.CIYUW_WAV;
                 break;
             case Sound.HardEnemyBulletSound:
-                musicFile = ApplicationConstants.Kapiska;
+                musicFile = ApplicationConstants.KAPUSKA_WAV;
                 break;
             case Sound.UserBulletSound:
-                musicFile = ApplicationConstants.PitSound;
+                musicFile = ApplicationConstants.PIT_WAV;
                 break;
             case Sound.ExplosionSound:
-                musicFile = ApplicationConstants.ViyuwSound;
+                musicFile = ApplicationConstants.CIYUW_WAV;
                 break;
         }
 

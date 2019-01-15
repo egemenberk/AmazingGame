@@ -18,7 +18,7 @@ public class HardEnemyShip extends GameObject implements Serializable {
 
     public HardEnemyShip(Image sprite, int width, int height) {
         super(sprite, width, height);
-        setBounty(ApplicationConstants.HardAlienShipBounty);
+        setBounty(ApplicationConstants.HARD_ALIEN_SHIP_BOUNTY);
     }
 
     @Override
@@ -40,7 +40,7 @@ public class HardEnemyShip extends GameObject implements Serializable {
         setPositionY( getVelocityY() * elapsedTime + getPositionY());
 
         // Randomly shoot
-        if( ApplicationConstants.numberGenerator.nextDouble() > (1.0 -  ApplicationConstants.HardAlienShootPercentage) )
+        if( ApplicationConstants.NUMBER_GENERATOR.nextDouble() > (1.0 -  ApplicationConstants.HARD_ALIEN_SHOOT_PERCENTAGE) )
             return shoot();
 
         return null;

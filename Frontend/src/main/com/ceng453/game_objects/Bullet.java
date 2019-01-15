@@ -28,7 +28,7 @@ public class Bullet extends GameObject {
     public List<GameObject> update(double elapsedTime, long currentCycleNumber) {
         setPositionY( getPositionY() + getVelocityY()*elapsedTime );
         setPositionX( getPositionX() + getVelocityX()*elapsedTime );
-        if( getPositionY()+getHeight() < 0 || getPositionY() > ApplicationConstants.ScreenHeight )
+        if( getPositionY()+getHeight() < 0 || getPositionY() > ApplicationConstants.SCREEN_HEIGHT)
             setCleared();
         return null;
     }

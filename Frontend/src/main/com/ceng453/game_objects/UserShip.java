@@ -41,11 +41,11 @@ public class UserShip extends GameObject {
         Bullet bullet = BulletFactory.create(bulletType, getDamage());
         if( bulletType == Bullet.ServerTickDrivenUserBullet )
             bullet.setPosition(
-                    getPositionX() + getWidth() / 2.0 - ApplicationConstants.UserBulletWidth/2.0,
-                    getPositionY() - ApplicationConstants.UserBulletHeight);
+                    getPositionX() + getWidth() / 2.0 - ApplicationConstants.USER_BULLET_WIDTH /2.0,
+                    getPositionY() - ApplicationConstants.USER_BULLET_HEIGHT);
         else
             bullet.setPosition(
-                    getPositionX() + getWidth() / 2.0 - ApplicationConstants.UserBulletWidth/2.0,
+                    getPositionX() + getWidth() / 2.0 - ApplicationConstants.USER_BULLET_WIDTH /2.0,
                     getPositionY() + getHeight());
         return bullet;
     }
@@ -74,18 +74,18 @@ public class UserShip extends GameObject {
 
         context.restore(); // back to original state (before rotation)
 
-        if ( ApplicationConstants.UserShipHealth > getHitPointsLeft() ) // Draw health bar
+        if ( ApplicationConstants.USER_SHIP_HEALTH > getHitPointsLeft() ) // Draw health bar
         {
-            double health_ratio = getHitPointsLeft() / (double)ApplicationConstants.UserShipHealth; // Calculate health percentage
-            double offsetX = ((1 - ApplicationConstants.HealthBarWidthCoefficient) * getWidth())/2; // Offset of rectangle to centralize
+            double health_ratio = getHitPointsLeft() / (double)ApplicationConstants.USER_SHIP_HEALTH; // Calculate health percentage
+            double offsetX = ((1 - ApplicationConstants.HEALTH_BAR_WIDTH_COEFFICIENT) * getWidth())/2; // Offset of rectangle to centralize
             // Draw Bounding Box
             context.strokeRect( getPositionX() + offsetX, getPositionY() + getHeight(),
-                    ApplicationConstants.HealthBarWidthCoefficient * getWidth(), ApplicationConstants.HealthBarHeight);
+                    ApplicationConstants.HEALTH_BAR_WIDTH_COEFFICIENT * getWidth(), ApplicationConstants.HEALTH_BAR_HEIGHT);
             context.save(); // Save the context, we will change fill color
             context.setFill(Color.DARKOLIVEGREEN );
             // Fill the Bounding box with health_ratio percentage
             context.fillRect(getPositionX() + offsetX + 1, getPositionY() + getHeight() + 1,
-                    ApplicationConstants.HealthBarWidthCoefficient * getWidth() * health_ratio, ApplicationConstants.HealthBarHeight - 1 );
+                    ApplicationConstants.HEALTH_BAR_WIDTH_COEFFICIENT * getWidth() * health_ratio, ApplicationConstants.HEALTH_BAR_HEIGHT - 1 );
             context.restore(); // Restore it back
         }
     }

@@ -18,7 +18,7 @@ public class NewConnectionHandler extends Thread {
     public NewConnectionHandler()
     {
         try {
-            connectionHandlerSocket = new ServerSocket(ApplicationConstants.GameServerPort); // TODO no binding ok?
+            connectionHandlerSocket = new ServerSocket(ApplicationConstants.GAME_SERVER_PORT); // TODO no binding ok?
             activeGames = new LinkedList<>();
             matchmakingQueue = new LinkedBlockingQueue<>();
         } catch (IOException e) {

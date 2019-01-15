@@ -32,7 +32,7 @@ public class GameLevel3 extends AbstractGameLevel {
                 alienCountInRow, rowCount, OffsetX, StepX, OffsetY, StepY));
 
 
-        OffsetX = ApplicationConstants.ScreenWidth/2 + 250;
+        OffsetX = ApplicationConstants.SCREEN_WIDTH /2 + 250;
         OffsetY = 50;
         rowCount = 1;
         alienCountInRow = 1;
@@ -44,6 +44,6 @@ public class GameLevel3 extends AbstractGameLevel {
 
     @Override
     protected void drawBackground(GraphicsContext gc) {
-        gc.drawImage(ApplicationConstants.BackGroundImage, 0,0, ApplicationConstants.ScreenWidth, ApplicationConstants.ScreenHeight);
+        gc.drawImage(ApplicationConstants.BACK_GROUND_IMAGE, 0,0, ApplicationConstants.SCREEN_WIDTH, ApplicationConstants.SCREEN_HEIGHT);
     }
 }

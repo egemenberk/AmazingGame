@@ -3,9 +3,6 @@ package main.com.ceng453.game_objects;
 import main.com.ceng453.ApplicationConstants;
 import main.com.ceng453.frontend.main.Sound;
 
-import java.util.LinkedList;
-import java.util.List;
-
 
 /*
  * Bullet factory class. That class will be used while creating bullets
@@ -18,32 +15,32 @@ public class BulletFactory {
         Bullet bullet = null;
         switch (bulletType) {
             case Bullet.RegularUserBullet:
-                bullet = new Bullet(ApplicationConstants.UserBulletImage, ApplicationConstants.UserBulletWidth, ApplicationConstants.UserBulletHeight);
-                bullet.setVelocityY( ApplicationConstants.UserBulletVelocity );
+                bullet = new Bullet(ApplicationConstants.USER_BULLET_IMAGE, ApplicationConstants.USER_BULLET_WIDTH, ApplicationConstants.USER_BULLET_HEIGHT);
+                bullet.setVelocityY( ApplicationConstants.USER_BULLET_VELOCITY);
                 bullet.setHitpointsAndDamage( 1, damage);
                 Sound.play(Sound.UserBulletSound);
                 break;
             case Bullet.AlienBullet:
-                bullet = new Bullet(ApplicationConstants.AlienBulletImage, ApplicationConstants.AlienBulletWidth*damage, ApplicationConstants.AlienBulletHeight*damage);
-                bullet.setVelocityY( ApplicationConstants.AlienBulletVelocity );
+                bullet = new Bullet(ApplicationConstants.ALIEN_BULLET_IMAGE, ApplicationConstants.ALIEN_BULLET_WIDTH *damage, ApplicationConstants.ALIEN_BULLET_HEIGHT *damage);
+                bullet.setVelocityY( ApplicationConstants.ALIEN_BULLET_VELOCITY);
                 bullet.setHitpointsAndDamage( 1, damage );
                 Sound.play(Sound.EasyEnemyBulletSound);
                 break;
             case Bullet.HardAlienBullet:
-                bullet = new HardBullet(ApplicationConstants.AlienBulletImage, ApplicationConstants.AlienBulletWidth*damage, ApplicationConstants.AlienBulletHeight*damage);
-                bullet.setVelocityY( ApplicationConstants.AlienBulletVelocity );
+                bullet = new HardBullet(ApplicationConstants.ALIEN_BULLET_IMAGE, ApplicationConstants.ALIEN_BULLET_WIDTH *damage, ApplicationConstants.ALIEN_BULLET_HEIGHT *damage);
+                bullet.setVelocityY( ApplicationConstants.ALIEN_BULLET_VELOCITY);
                 bullet.setHitpointsAndDamage( 4, damage );
                 Sound.play(Sound.HardEnemyBulletSound);
                 break;
             case Bullet.ServerTickDrivenUserBullet:
-                bullet = new ServerTickDrivenUserBullet(ApplicationConstants.UserBulletImage, ApplicationConstants.UserBulletWidth, ApplicationConstants.UserBulletHeight);
-                bullet.setVelocityY( -ApplicationConstants.UserBulletVelocity );
+                bullet = new ServerTickDrivenUserBullet(ApplicationConstants.USER_BULLET_IMAGE, ApplicationConstants.USER_BULLET_WIDTH, ApplicationConstants.USER_BULLET_HEIGHT);
+                bullet.setVelocityY( -ApplicationConstants.USER_BULLET_VELOCITY);
                 bullet.setHitpointsAndDamage( 1, damage);
                 Sound.play(Sound.UserBulletSound);
                 break;
             case Bullet.ServerTickDrivenRivalBullet:
-                bullet = new ServerTickDrivenUserBullet(ApplicationConstants.UserBulletImage, ApplicationConstants.UserBulletWidth, ApplicationConstants.UserBulletHeight);
-                bullet.setVelocityY( ApplicationConstants.UserBulletVelocity );
+                bullet = new ServerTickDrivenUserBullet(ApplicationConstants.USER_BULLET_IMAGE, ApplicationConstants.USER_BULLET_WIDTH, ApplicationConstants.USER_BULLET_HEIGHT);
+                bullet.setVelocityY( ApplicationConstants.USER_BULLET_VELOCITY);
                 bullet.setHitpointsAndDamage( 1, damage);
                 Sound.play(Sound.UserBulletSound);
                 break;

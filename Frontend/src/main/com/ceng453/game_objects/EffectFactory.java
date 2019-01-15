@@ -2,9 +2,6 @@ package main.com.ceng453.game_objects;
 
 import main.com.ceng453.ApplicationConstants;
 
-import java.util.LinkedList;
-import java.util.List;
-
 public class EffectFactory {
 
     // Constants for explosion effects
@@ -23,11 +20,11 @@ public class EffectFactory {
         Effect effect = null;
         switch (effectType) {
             case Effect.ShipExplosion:
-                effect = new Effect(ApplicationConstants.ExplosionImage, ShipExplosionWidth, ShipExplosionHeight);
+                effect = new Effect(ApplicationConstants.EXPLOSION_IMAGE, ShipExplosionWidth, ShipExplosionHeight);
                 effect.setPosition(posX-ShipExplosionWidth/2.0, posY-ShipExplosionHeight/2.0);
                 break;
             case Effect.BulletExplosion:
-                effect = new Effect(ApplicationConstants.ExplosionImage, BulletExplosionWidth, BulletExplosionHeight);
+                effect = new Effect(ApplicationConstants.EXPLOSION_IMAGE, BulletExplosionWidth, BulletExplosionHeight);
                 effect.setPosition(posX-BulletExplosionWidth/2.0, posY-BulletExplosionHeight/2.0);
                 break;
         }

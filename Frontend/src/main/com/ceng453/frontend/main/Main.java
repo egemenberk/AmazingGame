@@ -24,7 +24,7 @@ public class Main extends Application {
     // Loads Main Menu to the screen
     private void startMainPage(Stage stage) throws java.io.IOException {
         Parent root = FXMLLoader.load(getClass().getResource("../pagecontrollers/Index.fxml"));
-        Scene scene = new Scene(root, ApplicationConstants.ScreenWidth, ApplicationConstants.ScreenHeight);
+        Scene scene = new Scene(root, ApplicationConstants.SCREEN_WIDTH, ApplicationConstants.SCREEN_HEIGHT);
         stage.setScene(scene);
         stage.show();
     }

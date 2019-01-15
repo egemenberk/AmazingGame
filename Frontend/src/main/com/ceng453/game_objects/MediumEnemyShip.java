@@ -14,7 +14,7 @@ public class MediumEnemyShip extends GameObject {
 
     public MediumEnemyShip(Image sprite, int width, int height) {
         super(sprite, width, height);
-        setBounty(ApplicationConstants.MediumAlienShipBounty);
+        setBounty(ApplicationConstants.MEDIUM_ALIEN_SHIP_BOUNTY);
     }
 
     @Override
@@ -30,7 +30,7 @@ public class MediumEnemyShip extends GameObject {
         setPositionY( getVelocityY() * elapsedTime + getPositionY());
 
         // Randomly shoot
-        if( ApplicationConstants.numberGenerator.nextDouble() > 1.0 -  ApplicationConstants.MediumAlienShootPercentage )
+        if( ApplicationConstants.NUMBER_GENERATOR.nextDouble() > 1.0 -  ApplicationConstants.MEDIUM_ALIEN_SHOOT_PERCENTAGE)
             return shoot();
 
         return null;

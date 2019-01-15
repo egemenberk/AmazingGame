@@ -9,7 +9,6 @@ import main.com.ceng453.game_objects.*;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -35,16 +34,16 @@ public class MultiplayerGameLevel extends AbstractGameLevel{
     private void generateRivalShip()
     {
         int userShipWidth = 100, userShipHeight = 100;
-        rivalShip = new UserShip(ApplicationConstants.UserShipImage, userShipWidth,userShipHeight); // Create UserShip obj.
-        rivalShip.setHitpointsAndDamage(ApplicationConstants.UserShipHealth, ApplicationConstants.UserShipDamage); // Set its health and damage
-        rivalShip.setPosition(ApplicationConstants.ScreenWidth/2.0-userShipWidth/2,
-                2*ApplicationConstants.ScreenHeight/3.0+userShipHeight ); // Initial positioning of the user ship
+        rivalShip = new UserShip(ApplicationConstants.USER_SHIP_IMAGE, userShipWidth,userShipHeight); // Create UserShip obj.
+        rivalShip.setHitpointsAndDamage(ApplicationConstants.USER_SHIP_HEALTH, ApplicationConstants.USER_SHIP_DAMAGE); // Set its health and damage
+        rivalShip.setPosition(ApplicationConstants.SCREEN_WIDTH /2.0-userShipWidth/2,
+                2*ApplicationConstants.SCREEN_HEIGHT /3.0+userShipHeight ); // Initial positioning of the user ship
         rivalShip.setMirrored();
     }
 
     public void generateAliens() {
         //Creating an image
-        int OffsetX = ApplicationConstants.ScreenWidth/2 + 500, OffsetY = ApplicationConstants.ScreenHeight/2 + 350;
+        int OffsetX = ApplicationConstants.SCREEN_WIDTH /2 + 500, OffsetY = ApplicationConstants.SCREEN_HEIGHT /2 + 350;
         int StepX = 240, StepY = 100;
         int alienCountInRow = 1;
         int rowCount = 1;
@@ -57,7 +56,7 @@ public class MultiplayerGameLevel extends AbstractGameLevel{
     @Override
     public void gameLoop(GameStateInfo gameStateInfo, GraphicsContext gc) {
         if(isStarted() == false)
-            gc.drawImage(ApplicationConstants.WaitImage, 0,0, ApplicationConstants.ScreenWidth, ApplicationConstants.ScreenHeight);
+            gc.drawImage(ApplicationConstants.WAIT_IMAGE, 0,0, ApplicationConstants.SCREEN_WIDTH, ApplicationConstants.SCREEN_HEIGHT);
         else {
             gameStateInfo.setCurrentCycleCounter(serverDrivenGameTicks);
             super.gameLoop(gameStateInfo, gc);
@@ -68,7 +67,7 @@ public class MultiplayerGameLevel extends AbstractGameLevel{
 
     @Override
     protected void drawBackground(GraphicsContext gc) {
-        gc.drawImage(ApplicationConstants.BackGroundImage, 0,0, ApplicationConstants.ScreenWidth, ApplicationConstants.ScreenHeight);
+        gc.drawImage(ApplicationConstants.BACK_GROUND_IMAGE, 0,0, ApplicationConstants.SCREEN_WIDTH, ApplicationConstants.SCREEN_HEIGHT);
     }
 
     @Override
@@ -163,8 +162,8 @@ public class MultiplayerGameLevel extends AbstractGameLevel{
     {
         double rivalShipX = receivedVersion.getDouble("x");
         double rivalShipY = receivedVersion.getDouble("y");
-        double mirroredRivalShipX = ApplicationConstants.ScreenWidth - rivalShipX - rivalShip.getWidth();
-        double mirroredRivalShipY = ApplicationConstants.ScreenHeight - rivalShipY - rivalShip.getHeight();
+        double mirroredRivalShipX = ApplicationConstants.SCREEN_WIDTH - rivalShipX - rivalShip.getWidth();
+        double mirroredRivalShipY = ApplicationConstants.SCREEN_HEIGHT - rivalShipY - rivalShip.getHeight();
         rivalShip.setPosition( mirroredRivalShipX , mirroredRivalShipY );
         rivalShip.setFlyingPositionX(mirroredRivalShipX + rivalShip.getWidth()/2.0);
         rivalShip.setFlyingPositionY(mirroredRivalShipY + rivalShip.getHeight()/2.0);

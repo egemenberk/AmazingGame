@@ -13,7 +13,7 @@ public class EasyEnemyShip extends GameObject {
 
     public EasyEnemyShip(Image sprite, int width, int height) {
         super(sprite, width, height);
-        setBounty(ApplicationConstants.EasyAlienShipBounty);
+        setBounty(ApplicationConstants.EASY_ALIEN_SHIP_BOUNTY);
     }
 
 
@@ -29,7 +29,7 @@ public class EasyEnemyShip extends GameObject {
         setPositionY( getVelocityY() * elapsedTime + getPositionY());
 
         // Randomly shoot
-        if( ApplicationConstants.numberGenerator.nextDouble() > 1.0 -  ApplicationConstants.EasyAlienShootPercentage )
+        if( ApplicationConstants.NUMBER_GENERATOR.nextDouble() > 1.0 -  ApplicationConstants.EASY_ALIEN_SHOOT_PERCENTAGE)
             return shoot();
 
         return null;
