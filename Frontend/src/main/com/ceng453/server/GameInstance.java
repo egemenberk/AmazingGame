@@ -27,7 +27,7 @@ public class GameInstance extends Thread{
         long serverGeneratedTicks = 0;
         while(!is_terminated) {
             try {
-                JSONObject tickInformation = new JSONObject().put(ApplicationConstants.JSON_KEY_TICK,serverGeneratedTicks);
+                JSONObject tickInformation = new JSONObject().put(ApplicationConstants.JSON_KEY_TICK, serverGeneratedTicks);
                 send_data(tickInformation, 0);
                 send_data(tickInformation, 1);
                 sleep(ApplicationConstants.TICK_MS);
@@ -73,9 +73,9 @@ public class GameInstance extends Thread{
                 System.out.println("From "+id+" -> "+receivedInfo.toString());
 
                 if( receivedInfo.getBoolean(ApplicationConstants.JSON_KEY_HAS_RIVAL_WON) ) // We have a winner here
-                    announceWinner( negeteId(id) );
+                    announceWinner( negateId(id) );
                 else if( receivedInfo.getInt(ApplicationConstants.JSON_KEY_USER_HP) <= 0 ) // This user has died
-                    announceWinner( negeteId(id) );
+                    announceWinner( negateId(id) );
                 else {
                     if (id == 0) // Notify other main with taken info
                         send_data(receivedInfo, 1);
@@ -85,14 +85,14 @@ public class GameInstance extends Thread{
             }
         }
 
-        private int negeteId( int id ) { return id == 0 ? 1 : 0; }
+        private int negateId(int id ) { return id == 0 ? 1 : 0; }
     }
 
     private synchronized void announceWinner(int id) {
         if( !is_terminated ){
             is_terminated = true;
-            send_data(new JSONObject().put("winner", 1), id);
-            send_data(new JSONObject().put("winner", 0), id==0?1:0);
+            send_data(new JSONObject().put(ApplicationConstants.JSON_KEY_WINNER_FLAG, 1), id);
+            send_data(new JSONObject().put(ApplicationConstants.JSON_KEY_WINNER_FLAG, 0), id==0?1:0);
         }
     }
 

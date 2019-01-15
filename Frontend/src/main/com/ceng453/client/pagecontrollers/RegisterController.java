@@ -5,7 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import main.com.ceng453.client.gamelevels.GameService;
+import main.com.ceng453.game.levels.GameService;
 import main.com.ceng453.ApplicationConstants;
 import main.com.ceng453.client.main.Main;
 import org.json.JSONObject;

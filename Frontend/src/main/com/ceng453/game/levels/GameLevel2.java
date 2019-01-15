@@ -1,4 +1,4 @@
-package main.com.ceng453.client.gamelevels;
+package main.com.ceng453.game.levels;
 
 import main.com.ceng453.game.objects.AlienShipFactory;
 

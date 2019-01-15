@@ -1,4 +1,4 @@
-package main.com.ceng453.client.gamelevels;
+package main.com.ceng453.game.levels;
 
 /*
  * A state class for keeping time, cycle, score between different calls of the gamelevels
