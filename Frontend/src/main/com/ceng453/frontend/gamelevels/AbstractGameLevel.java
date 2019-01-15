@@ -27,6 +27,7 @@ abstract class AbstractGameLevel{
     public ArrayList<GameObject> userBullets;
     public boolean isOver; // Indicator for GameOver state
     public boolean levelPassed; // Indicator for successful level end state
+    public int won=0; // Indicator for result of winner at multiPlayer mode
 
     // Event handler classes to capture user input
     private final MouseMoveEventHandler customizedMouseMoveEventHandler;

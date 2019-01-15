@@ -53,6 +53,10 @@ public class NewConnectionHandler extends Thread {
 
             GameInstance newGame = new GameInstance(c1, c2);
             activeGames.add(newGame);
+            c1.out.println("start");
+            c1.out.flush();
+            c2.out.println("start");
+            c2.out.flush();
             newGame.start();
 
         }
