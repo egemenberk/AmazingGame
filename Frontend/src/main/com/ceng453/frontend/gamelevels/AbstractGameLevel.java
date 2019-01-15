@@ -81,7 +81,9 @@ abstract class AbstractGameLevel{
     }
 
     // Drawing of the Background image will be implemented by the child methods
-    protected abstract void drawBackground(GraphicsContext gc);
+    protected void drawBackground(GraphicsContext gc) {
+        gc.drawImage(ApplicationConstants.BACK_GROUND_IMAGE, 0, 0, ApplicationConstants.SCREEN_WIDTH, ApplicationConstants.SCREEN_HEIGHT);
+    }
 
     // Drawing game objects
     protected void drawObjects(GraphicsContext gc) {
