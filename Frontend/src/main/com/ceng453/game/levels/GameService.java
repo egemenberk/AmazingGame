@@ -18,6 +18,7 @@ import javafx.scene.media.MediaView;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import main.com.ceng453.ApplicationConstants;
+import main.com.ceng453.client.main.Main;
 import main.com.ceng453.client.multiplayer.MultiplayerGameLevel;
 import main.com.ceng453.client.pagecontrollers.PageController;
 import org.json.JSONObject;
@@ -62,11 +63,11 @@ public class GameService {
 
         // Setting Background Music
         String musicFile = ApplicationConstants.GAME_MUSIC_FILENAME;     // For example
-        Media sound = new Media(new File(System.getProperty("user.dir") + "/assets/" + musicFile).toURI().toString());
+        Media sound = new Media(getClass().getResource("/assets/" + ApplicationConstants.GAME_MUSIC_FILENAME).toString());
         MediaPlayer mediaPlayer = new MediaPlayer(sound);
         mediaPlayer.setVolume(0.45);
         mediaView = new MediaView(mediaPlayer);
-        //mediaPlayer.play();
+        mediaPlayer.play();
 
         // Creating group, scene and game's canvas. That canvas will be passed to all GameObjects to rendering
         Group root = new Group();
@@ -123,11 +124,11 @@ public class GameService {
 
             // Setting mediaView's player to play Dattiridat song
             mediaView.getMediaPlayer().stop();
-            Media sound = new Media(new File(System.getProperty("user.dir") + "/assets/" + ApplicationConstants.DATDIRIDAT_WAV).toURI().toString());
+            Media sound = new Media(getClass().getResource("/assets/"+ApplicationConstants.DATDIRIDAT_WAV).toString());
             mediaView.setMediaPlayer(new MediaPlayer(sound));
             mediaView.getMediaPlayer().setVolume(0.3);
             mediaView.getMediaPlayer().setCycleCount(1);
-            //mediaView.getMediaPlayer().play();
+            mediaView.getMediaPlayer().play();
             //pause = new PauseTransition( Duration.seconds(5) );
             waitAtTheEnd(4);
         }
@@ -158,7 +159,7 @@ public class GameService {
         pause.setOnFinished(event -> {
             try {
                 sendCurrentScoreLog(); // And send score to server
-                PageController.root = FXMLLoader.load(getClass().getResource("../pagecontrollers/LeaderBoard.fxml"));
+                PageController.root = FXMLLoader.load(getClass().getResource("/fxml/LeaderBoard.fxml"));
             } catch (IOException e) {
                 e.printStackTrace();
             }

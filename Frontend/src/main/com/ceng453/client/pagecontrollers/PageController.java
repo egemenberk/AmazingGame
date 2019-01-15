@@ -33,7 +33,7 @@ public abstract class PageController implements Initializable {
     // This handler is used by every Controller except the IndexController
     void backHandler(javafx.event.ActionEvent actionEvent) {
         try {
-            root = FXMLLoader.load(getClass().getResource("Index.fxml"));
+            root = FXMLLoader.load(getClass().getResource("/fxml/Index.fxml"));
         } catch (IOException e) {
             e.printStackTrace();
         }

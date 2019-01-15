@@ -4,8 +4,14 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.media.Media;
 import javafx.stage.Stage;
 import main.com.ceng453.ApplicationConstants;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.util.Objects;
 
 public class Main extends Application {
 
@@ -23,7 +29,10 @@ public class Main extends Application {
 
     // Loads Main Menu to the screen
     private void startMainPage(Stage stage) throws java.io.IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("../pagecontrollers/Index.fxml"));
+        System.out.println(getClass().toString());
+        Parent root = FXMLLoader.load(getClass().getResource("/fxml/Index.fxml"));
+        //Working ->
+        //new Media(getClass().getResource("/assets/" + ApplicationConstants.GAME_MUSIC_FILENAME).toString());
         Scene scene = new Scene(root, ApplicationConstants.SCREEN_WIDTH, ApplicationConstants.SCREEN_HEIGHT);
         stage.setScene(scene);
         stage.show();

@@ -3,7 +3,6 @@ package main.com.ceng453;
 import javafx.scene.image.Image;
 import main.com.ceng453.client.main.StaticHelpers;
 
-import java.util.Objects;
 import java.util.Random;
 
 public final class ApplicationConstants {
@@ -21,7 +20,7 @@ public final class ApplicationConstants {
     public static final double HARD_ALIEN_SHOOT_PERCENTAGE = 0.008;
 
     public static final int SCREEN_WIDTH = 600;
-    public static final int SCREEN_HEIGHT = 768;
+    public static final int SCREEN_HEIGHT = 800;
     public static final double TEXT_DRAW_RECT_HEIGHT = 22;
 
     public static final int BOSS_ALIEN_SHIP_WIDTH = 200;
@@ -51,6 +50,7 @@ public final class ApplicationConstants {
 
     public static final String WAIT_JPG = "wait.jpg";
     public static final String ALIEN_BOSS_PNG = "alien_boss.png";
+    public static String ASSETS_BASE_PATH = "";
     private static final String USER_BULLET_PNG = "user_bullet.png";
     private static final String ALIEN_BULLET_PNG = "alien_bullet.png";
     private static final String BACKGROUND_JPG = "background.jpg";
@@ -60,27 +60,26 @@ public final class ApplicationConstants {
     private static final String ALIEN_3_PNG = "alien3.png";
     private static final String EXPLOSION_PNG = "explosion.png";
     private static final String GAME_OVER_PNG = "game_over.png";
+    public static final String JUST_WOW_JPG = "just_wow.jpg";
 
     public static final String CIYUW_WAV = "ciyuw.wav";
     public static final String PIT_WAV = "pit.wav";
     public static final String DATDIRIDAT_WAV = "datdiridat.wav";
-    private static final String JUST_WOW_JPG = "just_wow.jpg";
     public static final String KAPUSKA_WAV = "kapuska.wav";
-
     public static final String GAME_MUSIC_FILENAME = "NecroDancer_OST_Portabellohead.mp3";
 
-    public static final Image USER_BULLET_IMAGE = new Image(Objects.requireNonNull(StaticHelpers.getResourceFromAssets(USER_BULLET_PNG)));
-    public static final Image BACK_GROUND_IMAGE = new Image(Objects.requireNonNull(StaticHelpers.getResourceFromAssets(BACKGROUND_JPG)));
-    public static final Image USER_SHIP_IMAGE = new Image(Objects.requireNonNull(StaticHelpers.getResourceFromAssets(USER_SHIP_PNG)));
-    public static final Image EASY_ALIEN_SHIP_IMAGE = new Image(Objects.requireNonNull(StaticHelpers.getResourceFromAssets(ALIEN_SHIP_PNG)));
-    public static final Image EXPLOSION_IMAGE = new Image(Objects.requireNonNull(StaticHelpers.getResourceFromAssets(EXPLOSION_PNG)));
-    public static final Image ALIEN_BULLET_IMAGE = new Image(Objects.requireNonNull(StaticHelpers.getResourceFromAssets(ALIEN_BULLET_PNG)));
-    public static final Image MEDIUM_ALIEN_SHIP_IMAGE = new Image(Objects.requireNonNull(StaticHelpers.getResourceFromAssets(ALIEN_2_PNG)));
-    public static final Image HARD_ALIEN_SHIP_IMAGE = new Image(Objects.requireNonNull(StaticHelpers.getResourceFromAssets(ALIEN_3_PNG)));
-    public static final Image GAME_OVER_IMAGE = new Image(Objects.requireNonNull(StaticHelpers.getResourceFromAssets(GAME_OVER_PNG)));
-    public static final Image JUST_WOW_IMAGE = new Image(Objects.requireNonNull(StaticHelpers.getResourceFromAssets(JUST_WOW_JPG)));
-    public static final Image BOSS_ALIEN_SHIP_IMAGE = new Image(Objects.requireNonNull(StaticHelpers.getResourceFromAssets(ALIEN_BOSS_PNG)));
-    public static final Image WAIT_IMAGE = new Image(Objects.requireNonNull(StaticHelpers.getResourceFromAssets(WAIT_JPG)));
+    public static final Image USER_BULLET_IMAGE = StaticHelpers.getImageFromAssets(USER_BULLET_PNG);
+    public static final Image BACK_GROUND_IMAGE = StaticHelpers.getImageFromAssets(BACKGROUND_JPG);
+    public static final Image USER_SHIP_IMAGE = StaticHelpers.getImageFromAssets(USER_SHIP_PNG);
+    public static final Image EASY_ALIEN_SHIP_IMAGE = StaticHelpers.getImageFromAssets(ALIEN_SHIP_PNG);
+    public static final Image EXPLOSION_IMAGE = StaticHelpers.getImageFromAssets(EXPLOSION_PNG);
+    public static final Image ALIEN_BULLET_IMAGE = StaticHelpers.getImageFromAssets(ALIEN_BULLET_PNG);
+    public static final Image MEDIUM_ALIEN_SHIP_IMAGE = StaticHelpers.getImageFromAssets(ALIEN_2_PNG);
+    public static final Image HARD_ALIEN_SHIP_IMAGE = StaticHelpers.getImageFromAssets(ALIEN_3_PNG);
+    public static final Image GAME_OVER_IMAGE = StaticHelpers.getImageFromAssets(GAME_OVER_PNG);
+    public static final Image JUST_WOW_IMAGE = StaticHelpers.getImageFromAssets(JUST_WOW_JPG);
+    public static final Image BOSS_ALIEN_SHIP_IMAGE = StaticHelpers.getImageFromAssets(ALIEN_BOSS_PNG);
+    public static final Image WAIT_IMAGE = StaticHelpers.getImageFromAssets(WAIT_JPG);
 
     public static final Random NUMBER_GENERATOR = new Random();
 

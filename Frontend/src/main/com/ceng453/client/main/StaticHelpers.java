@@ -1,5 +1,6 @@
 package main.com.ceng453.client.main;
 
+import javafx.scene.image.Image;
 import javafx.scene.shape.Rectangle;
 import main.com.ceng453.game.objects.GameObject;
 
@@ -9,13 +10,8 @@ import java.io.FileNotFoundException;
 public class StaticHelpers {
 
     // Helper function to read the images from a file
-    public static FileInputStream getResourceFromAssets(String filename) {
-        try {
-            return new FileInputStream(System.getProperty("user.dir") + "/assets/" + filename);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        return null;
+    public static Image getImageFromAssets(String filename) {
+        return new Image(Main.class.getResourceAsStream("/assets/"+filename));
     }
 
     // Helper function that checks if two objects collide into each other

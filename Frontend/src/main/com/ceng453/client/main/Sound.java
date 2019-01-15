@@ -1,6 +1,7 @@
 package main.com.ceng453.client.main;
 
 import javafx.scene.media.AudioClip;
+import javafx.scene.media.Media;
 import main.com.ceng453.ApplicationConstants;
 
 import java.io.File;
@@ -43,8 +44,8 @@ public class Sound {
         }
 
         // Create a clip & play that clip
-        AudioClip clip = new AudioClip(new File(System.getProperty("user.dir") + "/assets/" + musicFile).toURI().toString());
+        AudioClip clip = new AudioClip(Main.class.getResource("/assets/"+musicFile).toString());
         clip.setCycleCount(1);
-        //clip.play();
+        clip.play();
     }
 }

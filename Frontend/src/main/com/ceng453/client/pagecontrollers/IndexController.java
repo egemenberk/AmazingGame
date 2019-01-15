@@ -19,7 +19,7 @@ public class IndexController extends PageController{
 
     private void loginHandler(ActionEvent actionEvent){
         try {
-            root = FXMLLoader.load(getClass().getResource("Login.fxml"));
+            root = FXMLLoader.load(getClass().getResource("/fxml/Login.fxml"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -28,7 +28,7 @@ public class IndexController extends PageController{
 
     private void registerHandler(ActionEvent actionEvent){
         try {
-            root = FXMLLoader.load(getClass().getResource("Register.fxml"));
+            root = FXMLLoader.load(getClass().getResource("/fxml/Register.fxml"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -37,7 +37,7 @@ public class IndexController extends PageController{
 
     private void leaderBoardHandler(ActionEvent actionEvent) {
         try {
-            root = FXMLLoader.load(getClass().getResource("LeaderBoard.fxml"));
+            root = FXMLLoader.load(getClass().getResource("/fxml/LeaderBoard.fxml"));
         } catch (IOException e) {
             e.printStackTrace();
         }
