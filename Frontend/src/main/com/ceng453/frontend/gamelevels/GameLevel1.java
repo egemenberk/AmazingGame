@@ -20,8 +20,4 @@ public class GameLevel1 extends AbstractGameLevel {
         alienShips.addAll(AlienShipFactory.populateEnemyShips(AlienShipFactory.EasyEnemyShip,
                 alienCountInRow, rowCount, OffsetX, StepX, OffsetY, StepY));
     }
-
-    protected void drawBackground(GraphicsContext gc) {
-        gc.drawImage(ApplicationConstants.BACK_GROUND_IMAGE, 0,0, ApplicationConstants.SCREEN_WIDTH, ApplicationConstants.SCREEN_HEIGHT);
-    }
 }

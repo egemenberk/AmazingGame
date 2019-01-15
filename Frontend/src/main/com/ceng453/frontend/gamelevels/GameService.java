@@ -94,7 +94,6 @@ public class GameService {
                     updateCurrentLevel(canvas, currentLevel.isOver(), currentLevel.won); // Get new level from levels list
                     gameStateInfo.restartCycleCounter(); // Restaring cycle counter to make the new level to start from cycle=0
                 }
-                gameStateInfo.incrementCurrentCycleCount(); // increase cycle counter
             }
         };
 

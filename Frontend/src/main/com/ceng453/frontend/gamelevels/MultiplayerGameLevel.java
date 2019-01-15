@@ -66,11 +66,6 @@ public class MultiplayerGameLevel extends AbstractGameLevel{
     }
 
     @Override
-    protected void drawBackground(GraphicsContext gc) {
-        gc.drawImage(ApplicationConstants.BACK_GROUND_IMAGE, 0,0, ApplicationConstants.SCREEN_WIDTH, ApplicationConstants.SCREEN_HEIGHT);
-    }
-
-    @Override
     protected void drawObjects(GraphicsContext gc){
         super.drawObjects(gc);
         rivalShip.render(gc);
