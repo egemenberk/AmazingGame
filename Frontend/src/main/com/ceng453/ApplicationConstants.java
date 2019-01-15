@@ -38,7 +38,7 @@ public final class ApplicationConstants {
     public static final int MediumAlienShipDMG = 2;
     public static final int HardAlienShipHP = 16;
     public static final int HardAlienShipDMG = 3;
-    public static final int BossAlienShipHP = 225;
+    public static final int BossAlienShipHP = 5;
 
     public static final int UserShipHealth = 6;
     public static final int UserShipDamage = 2;
@@ -49,6 +49,7 @@ public final class ApplicationConstants {
     public static final double HealthBarWidthCoefficient = 0.7;
     public static final double TickMS = 15.0;
 
+    public static final String WaitImagename = "wait.jpg";
     public static final String BossAlienShipImagename = "alien_boss.png";
     private static final String UserBulletImagename = "user_bullet.png";
     private static final String AlienBulletImagename = "alien_bullet.png";
@@ -79,6 +80,7 @@ public final class ApplicationConstants {
     public static final Image GameOverImage = new Image(Objects.requireNonNull(StaticHelpers.getResourceFromAssets(GameOverImagename)));
     public static final Image JustWowImage = new Image(Objects.requireNonNull(StaticHelpers.getResourceFromAssets(JustWowImagename)));
     public static final Image BossAlienShipImage = new Image(Objects.requireNonNull(StaticHelpers.getResourceFromAssets(BossAlienShipImagename)));
+    public static final Image WaitImage = new Image(Objects.requireNonNull(StaticHelpers.getResourceFromAssets(WaitImagename)));
 
     public static final Random numberGenerator = new Random();
 

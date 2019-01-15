@@ -9,6 +9,9 @@ import main.com.ceng453.game_objects.*;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class MultiplayerGameLevel extends AbstractGameLevel{
 
@@ -16,7 +19,8 @@ public class MultiplayerGameLevel extends AbstractGameLevel{
     public ArrayList<GameObject> rivalBullets;
     private long serverDrivenGameTicks = -1;
     private ClientCommunicationHandler multiplayerCommunucationHander;
-
+    public final Lock lock = new ReentrantLock();
+    private boolean isStarted=false;
 
     public MultiplayerGameLevel() {
         rivalBullets = new ArrayList<>();
@@ -52,9 +56,14 @@ public class MultiplayerGameLevel extends AbstractGameLevel{
 
     @Override
     public void gameLoop(GameStateInfo gameStateInfo, GraphicsContext gc) {
-        gameStateInfo.setCurrentCycleCounter(serverDrivenGameTicks);
-        super.gameLoop(gameStateInfo, gc);
-        multiplayerCommunucationHander.send_data(false);
+        if(isStarted() == false)
+            gc.drawImage(ApplicationConstants.WaitImage, 0,0, ApplicationConstants.ScreenWidth, ApplicationConstants.ScreenHeight);
+        else {
+            gameStateInfo.setCurrentCycleCounter(serverDrivenGameTicks);
+            super.gameLoop(gameStateInfo, gc);
+            if(won == 0)
+                multiplayerCommunucationHander.send_data(false);
+        }
     }
 
     @Override
@@ -172,7 +181,7 @@ public class MultiplayerGameLevel extends AbstractGameLevel{
 
     @Override
     protected void MouseClickedEventHandle(MouseEvent mouseEvent){
-        if(serverDrivenGameTicks != -1) { // If game has started
+        if(serverDrivenGameTicks != -1 && won == 0) { // If game has started
             multiplayerCommunucationHander.send_data(true);
             userBullets.add(userShip.shoot(Bullet.ServerTickDrivenUserBullet));
         }
@@ -180,10 +189,11 @@ public class MultiplayerGameLevel extends AbstractGameLevel{
 
     public void announceWinner( JSONObject receivedVersion )
     {
-        // TODO show or trigger winner or loser screen
         isOver = true;
-        levelPassed = true;
-
+        if(receivedVersion.getInt("winner") == 1)
+            won = 1;
+        else
+            won = -1;
         System.out.println(receivedVersion);
     }
 
@@ -191,6 +201,16 @@ public class MultiplayerGameLevel extends AbstractGameLevel{
     {
         return alienShips.get(0);
     }
+
+    public boolean isStarted() {
+        return isStarted;
+    }
+
+    public void setStarted(boolean started) {
+        isStarted = started;
+    }
+
+
 }
 
 

@@ -47,9 +47,9 @@ public class GameService {
         levels = new LinkedList<>();
 
         // Adding levels to our list to pop, when current level is completed
-        levels.push(new GameLevel3());
-        levels.push(new GameLevel2());
-        levels.push(new GameLevel1());
+        //levels.push(new GameLevel3());
+        //levels.push(new GameLevel2());
+        //levels.push(new GameLevel1());
         levels.push(new MultiplayerGameLevel());
 
         this.userAuthToken = userAuthToken;
@@ -78,7 +78,7 @@ public class GameService {
         stage.setScene(scene); // Stage is setting its scene
         stage.show();
 
-        updateCurrentLevel(canvas, false); // Getting first level from levels
+        updateCurrentLevel(canvas, false, 0); // Getting first level from levels
         gameStateInfo.setPreviousLoopTime(System.nanoTime()); // Calibrate initial game start time
 
         gameLoop = new AnimationTimer() {
@@ -91,24 +91,25 @@ public class GameService {
                     gameStateInfo.setPreviousLoopTime(currentNanoTime); // GameObjects will calculate their displacements
                     currentLevel.gameLoop(gameStateInfo, gc); // This call will generate a new frame of the game
                 }
-                if( currentLevel.levelPassed() || currentLevel.isOver()) {
-                    updateCurrentLevel(canvas, currentLevel.isOver()); // Get new level from levels list
+                if( currentLevel.levelPassed() || currentLevel.isOver() || currentLevel.won != 0) {
+                    updateCurrentLevel(canvas, currentLevel.isOver(), currentLevel.won); // Get new level from levels list
                     gameStateInfo.restartCycleCounter(); // Restaring cycle counter to make the new level to start from cycle=0
                 }
-
                 gameStateInfo.incrementCurrentCycleCount(); // increase cycle counter
             }
         };
+
         gameLoop.start(); // Starting animation timer
 
     }
 
-    private void updateCurrentLevel(Canvas canvas, boolean isOver) {
+    private void updateCurrentLevel(Canvas canvas, boolean isOver, int won) {
 
-        if(isOver){ // Game is lost
+        if ( (isOver && won == 0 ) || won == -1) { // Game is lost
             // Draw game over text
-            gc.drawImage(ApplicationConstants.GameOverImage, 0,0, ApplicationConstants.ScreenWidth, ApplicationConstants.ScreenHeight);
+            System.out.println("Game lost");
             gameLoop.stop(); // Stop the game loop
+            gc.drawImage(ApplicationConstants.GameOverImage, 0,0, ApplicationConstants.ScreenWidth, ApplicationConstants.ScreenHeight);
 
             // Setting mediaView's player to play Dattiridat song
             mediaView.getMediaPlayer().stop();
@@ -117,14 +118,11 @@ public class GameService {
             mediaView.getMediaPlayer().setVolume(0.3);
             mediaView.getMediaPlayer().setCycleCount(1);
             mediaView.getMediaPlayer().play();
-
-            pause = new PauseTransition( Duration.seconds(5) );
-
+            //pause = new PauseTransition( Duration.seconds(5) );
             waitAtTheEnd(4);
-
         }
 
-        else if( !levels.isEmpty() ) { // Meaning there is still levels exists
+        else if( !levels.isEmpty() && won <= 0) { // Meaning there is still levels exists
             currentLevel = levels.pop(); // Get the next level
             // And set mouse handlers of the canvas
             canvas.setOnMouseMoved(currentLevel.getCustomizedMouseMoveEventHandler());
@@ -132,10 +130,10 @@ public class GameService {
         }
         else // In this case, we have completed the game
         {
+            System.out.println("Game won");
             // Drawing the 'Amazing!' image
             gc.drawImage(ApplicationConstants.JustWowImage, 0,0, ApplicationConstants.ScreenWidth, ApplicationConstants.ScreenHeight);
             gameLoop.stop(); // Stop the game loop
-
             waitAtTheEnd(3);
         }
 
@@ -148,7 +146,7 @@ public class GameService {
         pause = new PauseTransition( Duration.seconds(seconds) );
         pause.setOnFinished(event -> {
             try {
-                sendCurrentScoreLog(); // And send score to server
+                //sendCurrentScoreLog(); // And send score to server
                 PageController.root = FXMLLoader.load(getClass().getResource("../pagecontrollers/LeaderBoard.fxml"));
             } catch (IOException e) {
                 e.printStackTrace();

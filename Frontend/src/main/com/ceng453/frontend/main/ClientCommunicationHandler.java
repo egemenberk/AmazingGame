@@ -37,6 +37,13 @@ public class ClientCommunicationHandler{
     }
 
     public void receiveDataFromServer() {
+        try {
+            String input = in.readLine();
+            System.out.println(input);
+            delegatorClass.setStarted(true);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         while (!is_terminated)
         {
             try {
@@ -52,8 +59,9 @@ public class ClientCommunicationHandler{
                     is_terminated = true;
 
             } catch (IOException e) {
-                is_terminated = true;
                 e.printStackTrace();
+            } catch (NullPointerException e) {
+                is_terminated = true;
             }
         }
     }
