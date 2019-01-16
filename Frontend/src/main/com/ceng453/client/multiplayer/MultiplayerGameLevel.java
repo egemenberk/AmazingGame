@@ -195,7 +195,7 @@ public class MultiplayerGameLevel extends AbstractGameLevel {
             levelPassed = true;
         else
             isOver = true;
-        System.out.println(receivedVersion);
+        //System.out.println(receivedVersion);
     }
 
     public GameObject getBoss()

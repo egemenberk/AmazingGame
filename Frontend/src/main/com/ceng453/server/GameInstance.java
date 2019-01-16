@@ -70,7 +70,7 @@ public class GameInstance extends Thread{
                 }
                 JSONObject receivedInfo = new JSONObject(input);
 
-                System.out.println("From "+id+" -> "+receivedInfo.toString());
+                //System.out.println("From "+id+" -> "+receivedInfo.toString());
 
                 if( receivedInfo.getBoolean(ApplicationConstants.JSON_KEY_HAS_RIVAL_WON) ) // We have a winner here
                     announceWinner( negateId(id) );

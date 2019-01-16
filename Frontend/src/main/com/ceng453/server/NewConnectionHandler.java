@@ -56,7 +56,7 @@ public class NewConnectionHandler extends Thread {
     private void handleMatchMaking() {
         while( matchmakingQueue.size() > 1 )
         {
-            System.out.println("Making match xd");
+            System.out.println("Making match...");
             GameClient c1 = matchmakingQueue.poll();
             GameClient c2 = matchmakingQueue.poll();
 

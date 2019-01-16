@@ -40,7 +40,7 @@ public class ClientCommunicationHandler{
         {
             try {
                 JSONObject receivedJson = new JSONObject(in.readLine());
-                System.out.println(receivedJson);
+                //System.out.println(receivedJson);
                 if(!receivedJson.isNull(ApplicationConstants.JSON_KEY_WINNER_FLAG))
                     delegatorClass.announceWinner(receivedJson);
                 else if(!receivedJson.isNull(ApplicationConstants.JSON_KEY_TICK))
