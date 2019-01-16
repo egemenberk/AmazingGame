@@ -5,6 +5,10 @@
 This repository will include the files of an interactive multiplayer video game as a term project. The game that is a simple two-dimensional shooter game. Player controls an auto-shooting spaceship by moving it freely (with mouse) in two dimensions to shoot aliens. There will be at least two types of aliens with different attacking capabilities and at least one type of aliens will require to be hit at least two times to be destroyed.
 
 ___
+### Important Note:
+
+Our game is written to be run with Java 11. You must use Java 11 to run any java executables that is explained in this document, otherwise you will face with problems.
+
 
 ### Game Server (/Frontend/src/main/com/ceng453/server/Main.java)
 
@@ -32,7 +36,7 @@ Game client, written in Java 11 with FX, serves the end user with the whole semi
 * Game Client .jar file can be found at executables/amazingGame.jar
 * You need to open this jar file using : `java --module-path {JavaFX 11 lib folder path} --add-modules=javafx.controls,javafx.fxml,javafx.media -jar {path to downloaded .jar file} `
   * We have `java 11.0.1 2018-10-16 LTS`, `Java(TM) SE Runtime Environment 18.9 (build 11.0.1+13-LTS)` and `JavaFX SDK 11.0.1` in our environment.
-
+* JavaFX lib for MAC systems is located under http://144.122.71.144:8083/mert.tunc/ceng453_term_project/src/master/Frontend/lib. For other operating systems, you can visit https://gluonhq.com/products/javafx/ to download.
 #### Test Cases Document
 
 https://docs.google.com/document/d/1lbez5QFCndMBGf3pxmxmC3l9Er7d0J8kT7CP-xUXoBA/edit
