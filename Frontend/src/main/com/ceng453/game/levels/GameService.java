@@ -18,7 +18,6 @@ import javafx.scene.media.MediaView;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import main.com.ceng453.ApplicationConstants;
-import main.com.ceng453.client.main.Main;
 import main.com.ceng453.client.multiplayer.MultiplayerGameLevel;
 import main.com.ceng453.client.pagecontrollers.PageController;
 import org.json.JSONObject;
@@ -58,11 +57,10 @@ public class GameService {
         this.userAuthToken = userAuthToken;
     }
 
-    public void startGame(Stage stage) throws IOException {
+    public void startGame(Stage stage) {
         stage.setTitle("Amazing Game");
 
         // Setting Background Music
-        String musicFile = ApplicationConstants.GAME_MUSIC_FILENAME;     // For example
         Media sound = new Media(getClass().getResource("/assets/" + ApplicationConstants.GAME_MUSIC_FILENAME).toString());
         MediaPlayer mediaPlayer = new MediaPlayer(sound);
         mediaPlayer.setVolume(0.45);
@@ -100,9 +98,9 @@ public class GameService {
                 // From the elapsed time
                 if( currentLevel.levelPassed() || currentLevel.isOver()) {
                     updateCurrentLevel(canvas, currentLevel.isOver()); // Get new level from levels list
-                    gameStateInfo.restartCycleCounter(); // Restaring cycle counter to make the new level to start from cycle=0
+                    gameStateInfo.restartCycleCounter(); // Restarting cycle counter to make the new level to start from cycle=0
                 }
-                else if(elapsedTime > 15/1000.0) { // TODO is it correct?
+                else if(elapsedTime >= ApplicationConstants.TICK_MS/1000.0) {
                     gameStateInfo.setPreviousLoopTime(currentNanoTime); // GameObjects will calculate their displacements
                     currentLevel.gameLoop(gameStateInfo, gc); // This call will generate a new frame of the game
                 }

@@ -1,10 +1,7 @@
 package main.com.ceng453.client.main;
 
 import javafx.scene.media.AudioClip;
-import javafx.scene.media.Media;
 import main.com.ceng453.ApplicationConstants;
-
-import java.io.File;
 
 
 /*

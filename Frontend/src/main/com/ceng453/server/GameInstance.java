@@ -7,8 +7,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GameInstance extends Thread{
-    private List<GameClient> clientsInThatGame;
+class GameInstance extends Thread{
+    private final List<GameClient> clientsInThatGame;
     private boolean is_terminated = false;
 
     GameInstance(GameClient c1, GameClient c2) {
@@ -48,8 +48,8 @@ public class GameInstance extends Thread{
 
     private class ServeClient extends Thread {
 
-        private GameClient gc;
-        private int id;
+        private final GameClient gc;
+        private final int id;
 
         ServeClient(GameClient gc, int id) {
             this.gc = gc;

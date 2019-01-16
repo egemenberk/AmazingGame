@@ -46,7 +46,6 @@ public abstract class PageController implements Initializable {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Error Happened");
         alert.setHeaderText("Everything is under(or above) control");
-        System.out.println(e.getRawStatusCode());
         System.out.println(e.getStatusCode().toString());
         if(e.getRawStatusCode()==400) {
             alert.setContentText("Please Fill in the Blanks!");

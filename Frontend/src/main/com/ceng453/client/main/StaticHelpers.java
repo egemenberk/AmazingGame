@@ -4,9 +4,6 @@ import javafx.scene.image.Image;
 import javafx.scene.shape.Rectangle;
 import main.com.ceng453.game.objects.GameObject;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-
 public class StaticHelpers {
 
     // Helper function to read the images from a file

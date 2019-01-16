@@ -6,13 +6,11 @@ import org.json.JSONObject;
 import java.io.*;
 import java.net.Socket;
 
-public class ClientCommunicationHandler{
+class ClientCommunicationHandler{
 
     private MultiplayerGameLevel delegatorClass;
-    private Socket serverSocket;
     private PrintWriter out;
     private BufferedReader in;
-    private Thread receiveDataFromServerThread;
 
     private boolean is_terminated = false;
 
@@ -20,27 +18,20 @@ public class ClientCommunicationHandler{
     public void initiate( MultiplayerGameLevel delegatorClass ) {
         this.delegatorClass = delegatorClass;
         try {
-            this.serverSocket = new Socket(ApplicationConstants.GAME_SERVER_IP, ApplicationConstants.GAME_SERVER_PORT);
+            Socket serverSocket = new Socket(ApplicationConstants.GAME_SERVER_IP, ApplicationConstants.GAME_SERVER_PORT);
             this.out = new PrintWriter(serverSocket.getOutputStream());
             this.in = new BufferedReader(new InputStreamReader(serverSocket.getInputStream()));
         } catch (IOException e) {
             e.printStackTrace();
         }
-        receiveDataFromServerThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                receiveDataFromServer();
-            }
-        });
-        receiveDataFromServerThread.start();
+        new Thread(() -> receiveDataFromServer()).start();
     }
 
-    public void receiveDataFromServer() {
+    private void receiveDataFromServer() {
         while (!is_terminated)
         {
             try {
                 JSONObject receivedJson = new JSONObject(in.readLine());
-                //System.out.println(receivedJson);
                 if(!receivedJson.isNull(ApplicationConstants.JSON_KEY_WINNER_FLAG))
                     delegatorClass.announceWinner(receivedJson);
                 else if(!receivedJson.isNull(ApplicationConstants.JSON_KEY_TICK))

@@ -19,7 +19,7 @@ public class ServerTickDrivenUserBullet extends Bullet {
             lastUpdatedCycle = currentCycleNumber;
 
         long missingUpdates = currentCycleNumber - lastUpdatedCycle;
-        setPositionY( getPositionY() + missingUpdates*(getVelocityY()/1000.0*ApplicationConstants.TICK_MS) ); // TODO change to a variable
+        setPositionY( getPositionY() + missingUpdates*(getVelocityY()/1000.0*ApplicationConstants.TICK_MS) );
 
         lastUpdatedCycle = currentCycleNumber;
         return null;

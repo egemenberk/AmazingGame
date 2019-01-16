@@ -19,13 +19,13 @@ import java.util.List;
  */
 public abstract class AbstractGameLevel{
     // Current GameObjects in the game level
-    public ArrayList<GameObject> effects;
-    public ArrayList<GameObject> alienShips;
-    public ArrayList<GameObject> alienBullets;
-    public UserShip userShip;
-    public ArrayList<GameObject> userBullets;
-    public boolean isOver; // Indicator for GameOver state
-    public boolean levelPassed; // Indicator for successful level end state
+    protected final ArrayList<GameObject> effects;
+    protected final ArrayList<GameObject> alienShips;
+    protected final ArrayList<GameObject> alienBullets;
+    protected UserShip userShip;
+    protected final ArrayList<GameObject> userBullets;
+    protected boolean isOver; // Indicator for GameOver state
+    protected boolean levelPassed; // Indicator for successful level end state
 
     // Event handler classes to capture user input
     protected MouseMoveEventHandler customizedMouseMoveEventHandler;
@@ -53,7 +53,7 @@ public abstract class AbstractGameLevel{
         int userShipWidth = 100, userShipHeight = 100;
         userShip = new UserShip(ApplicationConstants.USER_SHIP_IMAGE, userShipWidth,userShipHeight); // Create UserShip obj.
         userShip.setHitpointsAndDamage(ApplicationConstants.USER_SHIP_HEALTH, ApplicationConstants.USER_SHIP_DAMAGE); // Set its health and damage
-        userShip.setPosition(ApplicationConstants.SCREEN_WIDTH /2.0-userShipWidth/2,
+        userShip.setPosition(ApplicationConstants.SCREEN_WIDTH /2.0-userShipWidth/2.0,
                 2*ApplicationConstants.SCREEN_HEIGHT /3.0+userShipHeight ); // Initial positioning of the user ship
 
         // User ship calculates its velocity depending on the mouse position
@@ -83,7 +83,7 @@ public abstract class AbstractGameLevel{
     }
 
     // Drawing of the Background image will be implemented by the child methods
-    protected void drawBackground(GraphicsContext gc) {
+    private void drawBackground(GraphicsContext gc) {
         gc.drawImage(ApplicationConstants.BACK_GROUND_IMAGE, 0, 0, ApplicationConstants.SCREEN_WIDTH, ApplicationConstants.SCREEN_HEIGHT);
     }
 

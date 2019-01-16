@@ -20,7 +20,7 @@ public class UserShip extends GameObject {
 
     @Override
     public List<GameObject> update(double elapsedTime, long currentCycleNumber) {
-        // Set velocity using differance between mouse x,y and pos_x,pos_y
+        // Set velocity using difference between mouse x,y and pos_x,pos_y
         setVelocityX( -speedConstantOfUserShip*(getPositionX() - flyingPositionX+getWidth()/2.0 ) );
         setVelocityY( -speedConstantOfUserShip*(getPositionY() - flyingPositionY+getHeight()/2.0 ) );
 

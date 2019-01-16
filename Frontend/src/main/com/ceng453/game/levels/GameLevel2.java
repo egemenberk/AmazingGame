@@ -2,13 +2,13 @@ package main.com.ceng453.game.levels;
 
 import main.com.ceng453.game.objects.AlienShipFactory;
 
-public class GameLevel2 extends AbstractGameLevel {
+class GameLevel2 extends AbstractGameLevel {
 
-    public GameLevel2() {
+    GameLevel2() {
         generateAliens();
     }
 
-    public void generateAliens() {
+    private void generateAliens() {
         //Creating an image
         int OffsetX = 50, OffsetY = 200;
         int StepX = 60, StepY = 100;

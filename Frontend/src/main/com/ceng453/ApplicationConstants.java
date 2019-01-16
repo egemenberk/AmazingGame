@@ -46,11 +46,10 @@ public final class ApplicationConstants {
     public static final double ALIEN_BULLET_VELOCITY = 100;
     public static final double HEALTH_BAR_HEIGHT = 10;
     public static final double HEALTH_BAR_WIDTH_COEFFICIENT = 0.7;
-    public static final long TICK_MS = 15;
+    public static final long TICK_MS = 22;
 
-    public static final String WAIT_JPG = "wait.jpg";
-    public static final String ALIEN_BOSS_PNG = "alien_boss.png";
-    public static String ASSETS_BASE_PATH = "";
+    private static final String WAIT_JPG = "wait.jpg";
+    private static final String ALIEN_BOSS_PNG = "alien_boss.png";
     private static final String USER_BULLET_PNG = "user_bullet.png";
     private static final String ALIEN_BULLET_PNG = "alien_bullet.png";
     private static final String BACKGROUND_JPG = "background.jpg";
@@ -60,7 +59,7 @@ public final class ApplicationConstants {
     private static final String ALIEN_3_PNG = "alien3.png";
     private static final String EXPLOSION_PNG = "explosion.png";
     private static final String GAME_OVER_PNG = "game_over.png";
-    public static final String JUST_WOW_JPG = "just_wow.jpg";
+    private static final String JUST_WOW_JPG = "just_wow.jpg";
 
     public static final String CIYUW_WAV = "ciyuw.wav";
     public static final String PIT_WAV = "pit.wav";

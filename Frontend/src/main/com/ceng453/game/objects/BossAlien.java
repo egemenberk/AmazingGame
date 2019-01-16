@@ -15,9 +15,7 @@ public class BossAlien extends GameObject {
     private static final int OffsetX = ApplicationConstants.SCREEN_WIDTH /2 - ApplicationConstants.BOSS_ALIEN_SHIP_WIDTH /2;
     private static final int OffsetY = ApplicationConstants.SCREEN_HEIGHT /2 - ApplicationConstants.BOSS_ALIEN_SHIP_HEIGHT /2;
 
-    private boolean has_shot_this_interval = true;
-
-    protected BossAlien(Image sprite, int width, int height) {
+    BossAlien(Image sprite, int width, int height) {
         super(sprite, width, height);
         setBounty(ApplicationConstants.BOSS_ALIEN_SHIP_BOUNTY);
     }

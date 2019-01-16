@@ -2,7 +2,7 @@ package main.com.ceng453.game.objects;
 
 import main.com.ceng453.ApplicationConstants;
 
-public class EffectFactory {
+class EffectFactory {
 
     // Constants for explosion effects
     private static final int ShipExplosionHeight = 50;

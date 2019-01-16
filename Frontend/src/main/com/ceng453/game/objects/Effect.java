@@ -28,7 +28,7 @@ public class Effect extends GameObject {
 
         if( currentCycleNumber - creationCycle > EffectDuration ) // After EffectDuration cycles, clear
             setCleared();
-        else if( currentCycleNumber - creationCycle > 5 ){ // Calling scale method to shring the explosion effect
+        else if( currentCycleNumber - creationCycle > 5 ){ // Calling scale method to shrink the explosion effect
             scale(0.95);
         }
         return null; // Effects does not create any new GameObjects

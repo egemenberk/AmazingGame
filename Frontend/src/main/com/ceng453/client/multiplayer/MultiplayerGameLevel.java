@@ -13,10 +13,10 @@ import java.util.ArrayList;
 
 public class MultiplayerGameLevel extends AbstractGameLevel {
 
-    public UserShip rivalShip;
-    public ArrayList<GameObject> rivalBullets;
+    private UserShip rivalShip;
+    private final ArrayList<GameObject> rivalBullets;
     private long serverDrivenGameTicks = -1;
-    private ClientCommunicationHandler multiplayerCommunucationHander;
+    private ClientCommunicationHandler multiplayerCommunicationHandler;
     public boolean has_rival_destroyed_boss = false;
 
     public MultiplayerGameLevel() {
@@ -29,8 +29,8 @@ public class MultiplayerGameLevel extends AbstractGameLevel {
     public void triggerInitiation() {
         super.triggerInitiation();
         generateRivalShip();
-        multiplayerCommunucationHander = new ClientCommunicationHandler();
-        multiplayerCommunucationHander.initiate(this);
+        multiplayerCommunicationHandler = new ClientCommunicationHandler();
+        multiplayerCommunicationHandler.initiate(this);
         customizedMouseClickEventHandler = new MouseClickEventHandler( this );
     }
 
@@ -64,7 +64,7 @@ public class MultiplayerGameLevel extends AbstractGameLevel {
         else {
             gameStateInfo.setCurrentCycleCounter(serverDrivenGameTicks);
             super.gameLoop(gameStateInfo, gc);
-            multiplayerCommunucationHander.send_data(false);
+            multiplayerCommunicationHandler.send_data(false);
         }
     }
 
@@ -79,7 +79,7 @@ public class MultiplayerGameLevel extends AbstractGameLevel {
     @Override
     protected void update(GameStateInfo gameStateInfo) {
         super.update(gameStateInfo);
-        isOver = false; // TODO Hacky solution
+        isOver = false;
         levelPassed = false;
 
         double elapsedTime = gameStateInfo.getElapsedTime();
@@ -151,7 +151,6 @@ public class MultiplayerGameLevel extends AbstractGameLevel {
     private void checkIntersectionForTwoPlayers(ArrayList<GameObject> userBullets, UserShip rivalShip) {
         for (GameObject bullet : userBullets) {
             if (!bullet.isCleared() && StaticHelpers.intersects(rivalShip, bullet)) {
-                int b = 0; // TODO delete and resolve duplicate
                 GameObject effect = rivalShip.hitBy(bullet); // Apply the hit effects
                 if (effect != null) // If an Game Effect is returned( Explosion effect etc. )
                     effects.add(effect); // Track that Effect object
@@ -184,7 +183,7 @@ public class MultiplayerGameLevel extends AbstractGameLevel {
     @Override
     protected void MouseClickedEventHandle(MouseEvent mouseEvent){
         if(serverDrivenGameTicks != -1) { // If game has started
-            multiplayerCommunucationHander.send_data(true);
+            multiplayerCommunicationHandler.send_data(true);
             userBullets.add(userShip.shoot(Bullet.ServerTickDrivenUserBullet));
         }
     }
@@ -195,7 +194,6 @@ public class MultiplayerGameLevel extends AbstractGameLevel {
             levelPassed = true;
         else
             isOver = true;
-        //System.out.println(receivedVersion);
     }
 
     public GameObject getBoss()
@@ -203,7 +201,7 @@ public class MultiplayerGameLevel extends AbstractGameLevel {
         return alienShips.get(0);
     }
 
-    public boolean hasGameStarted() {
+    private boolean hasGameStarted() {
         return serverDrivenGameTicks != -1;
     }
 

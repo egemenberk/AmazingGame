@@ -5,21 +5,20 @@ import main.com.ceng453.ApplicationConstants;
 import java.io.*;
 import java.net.ServerSocket;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
 
-public class NewConnectionHandler extends Thread {
+class NewConnectionHandler extends Thread {
 
     private ServerSocket connectionHandlerSocket;
     private List<GameInstance> activeGames;
     private Queue<GameClient> matchmakingQueue;
 
-    public NewConnectionHandler()
+    NewConnectionHandler()
     {
         try {
-            connectionHandlerSocket = new ServerSocket(ApplicationConstants.GAME_SERVER_PORT); // TODO no binding ok?
+            connectionHandlerSocket = new ServerSocket(ApplicationConstants.GAME_SERVER_PORT);
             activeGames = new ArrayList<>();
             matchmakingQueue = new LinkedBlockingQueue<>();
         } catch (IOException e) {
