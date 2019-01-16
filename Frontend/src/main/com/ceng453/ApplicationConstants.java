@@ -6,7 +6,7 @@ import main.com.ceng453.client.main.StaticHelpers;
 import java.util.Random;
 
 public final class ApplicationConstants {
-    public static final String REST_SERVER_ADDRESS = "http://localhost:8080";
+    public static final String REST_SERVER_ADDRESS = "http://localhost:8080/Server";
     public static final String GAME_SERVER_IP ="127.0.0.1";
     public static final int GAME_SERVER_PORT = 9999;
 
