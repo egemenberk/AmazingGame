@@ -4,6 +4,8 @@
 
 This repository will include the files of an interactive multiplayer video game as a term project. The game that is a simple two-dimensional shooter game. Player controls an auto-shooting spaceship by moving it freely (with mouse) in two dimensions to shoot aliens. There will be at least two types of aliens with different attacking capabilities and at least one type of aliens will require to be hit at least two times to be destroyed.
 
+___
+
 ### Game Server (/Frontend/src/main/com/ceng453/server/Main.java)
 
 Game Server provides functionalities that is required for multiplayer gaming experience.
@@ -17,6 +19,8 @@ https://docs.google.com/document/d/1tYyyYIOC2_8sbwv5sWxir12NWoXRUdOZrRJEqWeQ-dg/
 * Game Server can be opened before or after REST Server, they do not depend on each other.
 * Game Server .jar file can be found at executables/Server.jar
 * You need to open this jar file using command `java -jar {path to downloaded server jar}`
+
+___
 
 ### Game Client (/Frontend/src/main/com/ceng453/client/main/Main.java)
 
@@ -33,13 +37,17 @@ Game client, written in Java 11 with FX, serves the end user with the whole semi
 
 https://docs.google.com/document/d/1lbez5QFCndMBGf3pxmxmC3l9Er7d0J8kT7CP-xUXoBA/edit
 
-### REST Server (/Server/src/main/java/com/ceng453/Server/ServerApplication.java)
+___
+
+#### REST Server (/Server/src/main/java/com/ceng453/Server/ServerApplication.java)
 
 #### Executing the provided .war file
 
 * REST Server does not depend on Game Server, order of execution is not important.
 * REST Server .war file can be found at executables/Server.war
 * Use Tomcat deploy interface to deploy the war file to your system. Endpoints should be reachable from <BASE_ADDRES>/Server/ path. 
+
+
 
 #### Functionality Document & Example Usage
 
